@@ -1,0 +1,28 @@
+Time :2017-06-14T17:45:39+01:00
+--
+Time :2017-06-14T18:08:14+01:00
+osv_minor : 0
+osv_platform : 0
+vlc_minor : 0
+osv_major : 0
+vlc_extra : 0
+os : Linux
+osv_build : 0
+vlc_major : 3
+vlc_revision : 0
+--
+Time :2017-06-14T18:08:41+01:00
+--
+Time :2017-06-14T18:08:49+01:00
+os : Linux
+osv_build : 0
+vlc_extra : 0
+vlc_minor : 0
+vlc_revision : 0
+osv_major : 0
+osv_minor : 0
+osv_platform : 0
+vlc_major : 3
+--
+Time :2017-06-14T18:08:50+01:00
+--
