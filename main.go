@@ -1,8 +1,6 @@
 package main
 
 import (
-
-    //"fmt"
     "net/http"
     "strings"
     "log"
@@ -11,23 +9,24 @@ import (
     "time"
     "html/template"
 
+    "updater/util"
 )
 type Page struct{
     Body []string
 }
 func homepage(w http.ResponseWriter, r *http.Request) {
-    data, _ := readLines("in.txt") 
+    data, _ := util.ReadLines("in.txt") 
     t, _ := template.ParseFiles("templates/home.html")
     p := Page{Body : data}
     t.Execute(w , p)
     
 }
 func statusHandler(w http.ResponseWriter, r *http.Request) {
-    http.ServeFile(w, r, "static/status")
+    http.ServeFile(w, r, "client/static/status")
     log.Println("status")
 }
 func status_ascHandler(w http.ResponseWriter, r *http.Request) {
-    http.ServeFile(w, r, "static/status.asc")
+    http.ServeFile(w, r, "client/static/status.asc")
     log.Println("status.asc")
 }
 
@@ -52,17 +51,17 @@ func home(w http.ResponseWriter, r *http.Request) {
         }
 
     }
-    sdata, _ := readLines("in.txt")
+    sdata, _ := util.ReadLines("in.txt")
     for _ , line := range data{
         sdata = append(sdata , line)
     }
     sdata = append(sdata , "--")
-    _ = writeLines(sdata, "in.txt")
+    _ = util.WriteLines(sdata, "in.txt")
  
 }
 
 func main() {
-    // You shouldn't use the root URL this way
+
     http.HandleFunc("/", home) 
     http.HandleFunc("/home", homepage) 
     http.HandleFunc("/vlc/status", statusHandler)

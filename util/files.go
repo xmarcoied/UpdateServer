@@ -1,13 +1,12 @@
-package main 
+package util 
 import (
     "os"
     "bufio"
     "bytes"
     "io"
     "strings"
-//    "fmt"
 )
-func readLines(path string) (lines []string, err error) {
+func ReadLines(path string) (lines []string, err error) {
     var (
         file *os.File
         part []byte
@@ -36,7 +35,7 @@ func readLines(path string) (lines []string, err error) {
     return
 }
 
-func writeLines(lines []string, path string) (err error) {
+func WriteLines(lines []string, path string) (err error) {
     var (
         file *os.File
     )
