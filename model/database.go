@@ -1,7 +1,5 @@
 package model
 import(
-	"log"
-
 	"github.com/jinzhu/gorm"
        _"github.com/lib/pq"
 )
@@ -19,16 +17,16 @@ type Impl struct {
 }
 func (i *Impl) ConnectDB(){
 	// TODO : Move the psqlinfo to config & handle config/yml
-	psqlInfo := "host=localhost dbname=updater user=postgres password=postgres sslmode=disable"
+	psqlInfo := "host=localhost dbname=marcoied user=postgres password=postgres sslmode=disable"
 	i.DB , _ = gorm.Open("postgres" , psqlInfo)
+	i.DB.LogMode(true)
   	i.DB.AutoMigrate(&Update_Request{})
-  	i.DB.SingularTable(true)
-  	i.DB.LogMode(true)
-  	defer i.DB.Close()
-  	log.Println("Done with db")
 }
 
 func (i *Impl) NewRequest(r Update_Request){
 	i.DB.Create(r)
-	log.Println(r)	
+}
+
+func (i *Impl) CloseDB(){
+	i.DB.Close()
 }

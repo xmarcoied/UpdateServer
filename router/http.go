@@ -30,7 +30,8 @@ func update(w http.ResponseWriter, r *http.Request) {
         // TODO : DB Model API
         db := model.Impl{}
         db.ConnectDB()
-        db.NewRequest(request)        
+        db.NewRequest(request)
+        db.CloseDB()
 }
 
 func StartServer() {
