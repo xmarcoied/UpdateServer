@@ -1,5 +1,6 @@
 package model
 import(
+//	"log"
 	"github.com/jinzhu/gorm"
        _"github.com/lib/pq"
 )
@@ -25,6 +26,11 @@ func (i *Impl) ConnectDB(){
 
 func (i *Impl) NewRequest(r Update_Request){
 	i.DB.Create(r)
+}
+
+func (i *Impl) AllRequests(r []Update_Request) ([]Update_Request){
+	i.DB.Find(&r)
+	return r
 }
 
 func (i *Impl) CloseDB(){
