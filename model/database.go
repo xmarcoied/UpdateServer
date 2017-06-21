@@ -8,10 +8,10 @@ import(
 type Update_Request struct{
 	//gorm.Model
 	//ID          uint   `gorm:"primary_key"`
-	OS 	 		string	`json:os` 	   
-	OS_VER 		string	`json:os_ver`
-	OS_ARCH 	string 	`js:os_arch`
-	VLC_VER 	string	`json:vlc_ver`
+	OS 	 		string	`form:"os"` 	   
+	OS_VER 		string	`form:"os_ver"`
+	OS_ARCH 	string 	`form:"os_arch"`
+	VLC_VER 	string	`form:"vlc_ver"`
 }
 type Impl struct {
     	DB *gorm.DB
