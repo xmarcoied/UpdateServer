@@ -13,8 +13,8 @@ func main(){
 		defer db.CloseDB()
         router := gin.Default();
 
-        // TODO : Create a controller for the status managment
-        vlc_router := router.Group("/vlc")
+        // TODO : status generation
+        vlc_router := router.Group("/vlc/:channel")
         {
         	vlc_router.StaticFile("status" , "./client/static/status")
         	vlc_router.StaticFile("status.asc" , "./client/static/status.asc")
