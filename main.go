@@ -14,12 +14,12 @@ func main(){
         router := gin.Default();
 
         // TODO : status generation
-        vlc_router := router.Group("/vlc/:channel")
+        vlcRouter := router.Group("/vlc/:channel")
         {
-        	vlc_router.StaticFile("status" , "./client/static/status")
-        	vlc_router.StaticFile("status.asc" , "./client/static/status.asc")
-	    	vlc_router.GET("/showoff" , showoff)
-        	vlc_router.GET("/update", update)
+        	vlcRouter.StaticFile("status" , "./client/static/status")
+        	vlcRouter.StaticFile("status.asc" , "./client/static/status.asc")
+	    	vlcRouter.GET("/showoff" , showoff)
+        	vlcRouter.GET("/update", update)
     	}
         router.Run(":80")
 }
