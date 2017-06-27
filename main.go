@@ -1,25 +1,26 @@
-package main 
-import (
+package main
 
-     	"github.com/gin-gonic/gin"
-    	"updater/model"
+import (
+	"github.com/gin-gonic/gin"
+	"updater/model"
 )
-// In Process : Use Gin package 
-// Global variables are bad 
+
+// In Process : Use Gin package
+// Global variables are bad
 var db model.Impl
 
-func main(){
-		db.ConnectDB()
-		defer db.CloseDB()
-        router := gin.Default();
+func main() {
+	db.ConnectDB()
+	defer db.CloseDB()
+	router := gin.Default()
 
-        // TODO : status generation
-        vlcRouter := router.Group("/vlc/:channel")
-        {
-        	vlcRouter.StaticFile("status" , "./client/static/status")
-        	vlcRouter.StaticFile("status.asc" , "./client/static/status.asc")
-	    	vlcRouter.GET("/showoff" , showoff)
-        	vlcRouter.GET("/update", update)
-    	}
-        router.Run(":80")
+	// TODO : status generation
+	vlcRouter := router.Group("/vlc/:channel")
+	{
+		vlcRouter.StaticFile("status", "./client/static/status")
+		vlcRouter.StaticFile("status.asc", "./client/static/status.asc")
+		vlcRouter.GET("/showoff", showoff)
+		vlcRouter.GET("/update", update)
+	}
+	router.Run(":80")
 }
