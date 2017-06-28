@@ -1,0 +1,30 @@
+<html>
+    <body>
+            <h1>Update Requests</h1>
+            <table style="margin: auto;">
+                <tr>
+                    <th>ID</th>
+                    <th>Channel</th>
+                    <th>Created At</th>
+                    <th>OS</th>
+                    <th>OS VER</th>
+                    <th>OS ARCH</th>
+                    <th>VLC VER</th>
+                    <th>IP</th>
+                </tr>
+                {{ range $key, $value := . }}
+                <tr>
+                    <th>{{$value.ID}}</th>
+                    <th>{{$value.Channel}}</th>
+                    <th>{{$value.CreatedAt}}</th>
+                    <th>{{$value.OS}}</th>
+                    <th>{{$value.OsVer}}</th>
+                    <th>{{$value.OsArch}}</th>
+                    <th>{{$value.VlcVer}}</th>
+                    <th>{{$value.IP}}</th>
+                </tr>
+                {{ end }}
+            </table>
+        <hr>
+    </body>
+</html>

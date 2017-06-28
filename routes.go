@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/xmarcoied/go-updater/model"
 	"html/template"
@@ -13,17 +12,17 @@ import (
 func showoff(c *gin.Context) {
 	var requests []model.UpdateRequest
 	requests = db.AllRequests(requests, c.Param("channel"))
+	t, _ := template.ParseFiles("view/requests.html")
+	t.Execute(c.Writer, requests)
 
-	for _, request := range requests {
-		fmt.Fprint(c.Writer, "ID :", request.ID)
-		fmt.Fprint(c.Writer, " , created_at :", request.CreatedAt)
-		fmt.Fprint(c.Writer, " , OS :", request.OS)
-		fmt.Fprint(c.Writer, " , OS_VER :", request.OsVer)
-		fmt.Fprint(c.Writer, " , OS_ARCH :", request.OsArch)
-		fmt.Fprint(c.Writer, " , VLC_VER :", request.VlcVer)
-		fmt.Fprintln(c.Writer, " , IP :", request.IP)
-	}
+}
 
+// Showoff all releases
+func adminshowoff(c *gin.Context) {
+	var requests []model.Release
+	requests = db.AllReleases(requests)
+	t, _ := template.ParseFiles("view/releases.html")
+	t.Execute(c.Writer, requests)
 }
 
 // New release
@@ -33,7 +32,7 @@ func newRelease(c *gin.Context) {
 	log.Println(release)
 
 	db.NewRelease(release)
-	redirectRoute := "http://update.videolan.org/dashboard"
+	redirectRoute := "http://update.videolan.org/dashboard/showoff"
 	c.Redirect(http.StatusMovedPermanently, redirectRoute)
 }
 
