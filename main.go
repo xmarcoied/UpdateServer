@@ -14,6 +14,8 @@ func main() {
 	defer db.CloseDB()
 	router := gin.Default()
 
+	router.GET("/dashboard", admin)
+	router.POST("/dashboard/new_release", newRelease)
 	// TODO : status generation
 	vlcRouter := router.Group("/vlc/:channel")
 	{

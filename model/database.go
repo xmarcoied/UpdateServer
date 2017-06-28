@@ -17,6 +17,22 @@ type UpdateRequest struct {
 	OsArch    string    `form:"os_arch"`
 	VlcVer    string    `form:"vlc_ver"`
 	IP        string    `form:"ip"`
+	Status    string
+}
+
+// Release database model
+type Release struct {
+	ID          uint      `gorm:"primary_key"`
+	CreatedAt   time.Time `gorm:column:createdAt`
+	Channel     string    `form:"channel"`
+	OS          string    `form:"os"`
+	OsVer       string    `form:"os_ver"`
+	OsArch      string    `form:"os_arch"`
+	VlcVer      string    `form:"vlc_ver"`
+	URL         string    `form:"url"`
+	Title       string    `form:"title"`
+	Description string    `form:"desc"`
+	Signature   string    `form:"sig"`
 }
 
 // Impl is handling gorm
@@ -30,7 +46,12 @@ func (i *Impl) ConnectDB() {
 	psqlInfo := "host=localhost dbname=marcoied user=postgres password=postgres sslmode=disable"
 	i.DB, _ = gorm.Open("postgres", psqlInfo)
 	i.DB.LogMode(true)
-	i.DB.AutoMigrate(&UpdateRequest{})
+	i.DB.AutoMigrate(&UpdateRequest{}, &Release{})
+}
+
+// NewRelease add/create new update release
+func (i *Impl) NewRelease(r Release) {
+	i.DB.Create(&r)
 }
 
 // NewRequest add/create new update request

@@ -1,0 +1,58 @@
+<html>
+    <head>
+    <title>Admin Dashboard</title>
+    <style>
+        .content {
+            max-width: 500px;
+            margin: auto;
+         }
+    </style>
+    </head>
+    
+    <body class="content">
+            <h1>Admin Dashboard</h1>    
+            <form action="/dashboard/new_release" method="post">
+            <table style="margin: auto;">
+                <tr>
+                    <th>Channel </th>
+                    <th> <textarea name="channel"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>OS : </th>
+                    <th> <textarea name="os"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>OS Version : </th>
+                    <th> <textarea name="os_ver"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>OS Architecture : </th>
+                    <th> <textarea name="os_arch"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>VLC Version : </th>
+                    <th> <textarea name="vlc_ver"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>URL : </th>
+                    <th> <textarea name="url"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>Title : </th>
+                    <th> <textarea name="title"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>Description : </th>
+                    <th> <textarea name="desc"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>Signature : </th>
+                    <th> <textarea name="sig"></textarea> </th>
+                </tr>
+
+            </table>
+            <input type="submit" value="Save">
+        </form>
+        <hr>
+    </body>
+</html>

@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/xmarcoied/go-updater/model"
+	"html/template"
 	"log"
 	"net/http"
 )
 
+// Showoff all requests
 func showoff(c *gin.Context) {
 	var requests []model.UpdateRequest
 	requests = db.AllRequests(requests, c.Param("channel"))
@@ -22,6 +24,23 @@ func showoff(c *gin.Context) {
 		fmt.Fprintln(c.Writer, " , IP :", request.IP)
 	}
 
+}
+
+// New release
+func newRelease(c *gin.Context) {
+	var release model.Release
+	c.Bind(&release)
+	log.Println(release)
+
+	db.NewRelease(release)
+	redirectRoute := "http://update.videolan.org/dashboard"
+	c.Redirect(http.StatusMovedPermanently, redirectRoute)
+}
+
+// Admin dashboard (new releases)
+func admin(c *gin.Context) {
+	t, _ := template.ParseFiles("view/dashboard.html")
+	t.Execute(c.Writer, nil)
 }
 
 func update(c *gin.Context) {
