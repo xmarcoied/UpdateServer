@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/xmarcoied/go-updater/model"
 	"log"
 	"net/http"
-	"updater/model"
 )
 
 func showoff(c *gin.Context) {

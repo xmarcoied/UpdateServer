@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"updater/model"
+	"github.com/xmarcoied/go-updater/model"
 )
 
 // In Process : Use Gin package
