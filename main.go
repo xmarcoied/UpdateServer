@@ -20,11 +20,9 @@ func main() {
 	// TODO : status generation
 	vlcRouter := router.Group("/vlc/:channel")
 	{
-		vlcRouter.StaticFile("status", "./client/static/status")
-		vlcRouter.StaticFile("status.asc", "./client/static/status.asc")
+		vlcRouter.GET("/status", updatesig)
 		vlcRouter.GET("/showoff", showoff)
 		vlcRouter.GET("/update", update)
-
 	}
 	router.Run(":80")
 }

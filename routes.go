@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/xmarcoied/go-updater/model"
 	"html/template"
@@ -49,10 +50,18 @@ func update(c *gin.Context) {
 	log.Println(request)
 	request.Channel = c.Param("channel")
 
-	_, retStatus := ReleaseMap(request)
+	matchedRelease, retStatus := ReleaseMap(request)
 	if retStatus {
 		log.Println("There's a release matched")
 		request.Status = true
+		// First Line : version number
+		fmt.Fprintln(c.Writer, matchedRelease.VlcVer)
+		// Second Line : URL
+		fmt.Fprintln(c.Writer, matchedRelease.URL)
+		// Third Line : Desc.
+		fmt.Fprintln(c.Writer, matchedRelease.Title)
+		fmt.Fprint(c.Writer, matchedRelease.Description)
+
 	} else {
 		log.Println("No release matched")
 		request.Status = false
@@ -60,7 +69,21 @@ func update(c *gin.Context) {
 	// TODO : DB Model API
 	// FIXME : initiate the DB once and pass it everywhere
 	db.NewRequest(request)
-	statusRoute := "http://update.videolan.org/vlc/" + c.Param("channel") + "/status"
-	c.Redirect(http.StatusMovedPermanently, statusRoute)
 
+}
+
+func updatesig(c *gin.Context) {
+	var request model.UpdateRequest
+	c.Bind(&request)
+	log.Println(request)
+	request.Channel = c.Param("channel")
+
+	matchedRelease, retStatus := ReleaseMap(request)
+	if retStatus {
+		log.Println("There's a release matched")
+		fmt.Fprintln(c.Writer, matchedRelease.Signature)
+
+	} else {
+		log.Println("No release matched")
+	}
 }

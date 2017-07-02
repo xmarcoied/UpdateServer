@@ -77,7 +77,7 @@ func (i *Impl) CloseDB() {
 }
 
 func (i *Impl) ReleaseMatch(req UpdateRequest, rel Release) Release {
-	i.DB.Where("channel = ? AND os = ? AND os_arch = ? AND os_ver <= ? AND vlc_ver <= ? ",
-		req.Channel, req.OS, req.OsArch, req.OsVer, req.VlcVer).First(&rel)
+	i.DB.Where("channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
+		req.Channel, req.OS, req.OsArch, req.OsVer).First(&rel)
 	return rel
 }
