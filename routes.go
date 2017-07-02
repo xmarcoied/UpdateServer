@@ -48,6 +48,15 @@ func update(c *gin.Context) {
 	c.Bind(&request)
 	log.Println(request)
 	request.Channel = c.Param("channel")
+
+	_, retStatus := ReleaseMap(request)
+	if retStatus {
+		log.Println("There's a release matched")
+		request.Status = true
+	} else {
+		log.Println("No release matched")
+		request.Status = false
+	}
 	// TODO : DB Model API
 	// FIXME : initiate the DB once and pass it everywhere
 	db.NewRequest(request)

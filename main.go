@@ -10,11 +10,12 @@ import (
 var db model.Impl
 
 func main() {
+	// TODO : Add a middleware to keep the DB info
 	db.ConnectDB()
 	defer db.CloseDB()
 	router := gin.Default()
-
 	router.GET("/dashboard", admin)
+	router.GET("/dashboard/showoff", adminshowoff)
 	router.POST("/dashboard/new_release", newRelease)
 	// TODO : status generation
 	vlcRouter := router.Group("/vlc/:channel")
@@ -23,6 +24,17 @@ func main() {
 		vlcRouter.StaticFile("status.asc", "./client/static/status.asc")
 		vlcRouter.GET("/showoff", showoff)
 		vlcRouter.GET("/update", update)
+
 	}
 	router.Run(":80")
+}
+
+func ReleaseMap(r model.UpdateRequest) (model.Release, bool) {
+	var ret model.Release
+	var booleanRet bool
+	ret = db.ReleaseMatch(r, ret)
+	if booleanRet = true; ret.Channel == "" {
+		booleanRet = false
+	}
+	return ret, booleanRet
 }

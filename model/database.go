@@ -17,7 +17,7 @@ type UpdateRequest struct {
 	OsArch    string    `form:"os_arch"`
 	VlcVer    string    `form:"vlc_ver"`
 	IP        string    `form:"ip"`
-	Status    string
+	Status    bool
 }
 
 // Release database model
@@ -60,6 +60,12 @@ func (i *Impl) NewRequest(r UpdateRequest) {
 }
 
 //AllRequests return all requests under specific channel
+func (i *Impl) AllReleases(r []Release) []Release {
+	i.DB.Find(&r)
+	return r
+}
+
+//AllRequests return all requests under specific channel
 func (i *Impl) AllRequests(r []UpdateRequest, ch string) []UpdateRequest {
 	i.DB.Where("channel = ?", ch).Find(&r)
 	return r
@@ -68,4 +74,10 @@ func (i *Impl) AllRequests(r []UpdateRequest, ch string) []UpdateRequest {
 //CloseDB endup using the database
 func (i *Impl) CloseDB() {
 	i.DB.Close()
+}
+
+func (i *Impl) ReleaseMatch(req UpdateRequest, rel Release) Release {
+	i.DB.Where("channel = ? AND os = ? AND os_arch = ? AND os_ver <= ? AND vlc_ver <= ? ",
+		req.Channel, req.OS, req.OsArch, req.OsVer, req.VlcVer).First(&rel)
+	return rel
 }
