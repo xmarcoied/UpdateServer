@@ -18,6 +18,7 @@ type UpdateRequest struct {
 	VlcVer    string    `form:"vlc_ver"`
 	IP        string    `form:"ip"`
 	Status    bool
+	Product   string
 }
 
 // Release database model
@@ -33,6 +34,7 @@ type Release struct {
 	Title       string    `form:"title"`
 	Description string    `form:"desc"`
 	Signature   string    `form:"sig"`
+	Product     string
 }
 
 // Impl is handling gorm
@@ -66,8 +68,8 @@ func (i *Impl) AllReleases(r []Release) []Release {
 }
 
 //AllRequests return all requests under specific channel
-func (i *Impl) AllRequests(r []UpdateRequest, ch string) []UpdateRequest {
-	i.DB.Where("channel = ?", ch).Find(&r)
+func (i *Impl) AllRequests(r []UpdateRequest, ch string, p string) []UpdateRequest {
+	i.DB.Where("channel = ? AND product = ?", ch, p).Find(&r)
 	return r
 }
 
@@ -77,7 +79,7 @@ func (i *Impl) CloseDB() {
 }
 
 func (i *Impl) ReleaseMatch(req UpdateRequest, rel Release) Release {
-	i.DB.Where("channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
-		req.Channel, req.OS, req.OsArch, req.OsVer).First(&rel)
+	i.DB.Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
+		req.Product, req.Channel, req.OS, req.OsArch, req.OsVer).First(&rel)
 	return rel
 }

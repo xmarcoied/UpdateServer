@@ -5,8 +5,6 @@ import (
 	"github.com/xmarcoied/go-updater/model"
 )
 
-// In Process : Use Gin package
-// Global variables are bad
 var db model.Impl
 
 func main() {
@@ -14,15 +12,19 @@ func main() {
 	db.ConnectDB()
 	defer db.CloseDB()
 	router := gin.Default()
-	router.GET("/dashboard", admin)
-	router.GET("/dashboard/showoff", adminshowoff)
-	router.POST("/dashboard/new_release", newRelease)
-	// TODO : status generation
-	vlcRouter := router.Group("/vlc/:channel")
+
+	adminRouter := router.Group("/admin")
 	{
-		vlcRouter.GET("/status", updatesig)
-		vlcRouter.GET("/showoff", showoff)
-		vlcRouter.GET("/update", update)
+		adminRouter.GET("/dashboard", admin)
+		adminRouter.GET("/dashboard/showoff", adminshowoff)
+		adminRouter.POST("/dashboard/new_release", newRelease)
+	}
+
+	appRouter := router.Group("/u/:product/:channel")
+	{
+		appRouter.GET("/status", updatesig)
+		appRouter.GET("/showoff", showoff)
+		appRouter.GET("/update", update)
 	}
 	router.Run(":80")
 }

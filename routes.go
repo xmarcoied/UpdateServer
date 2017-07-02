@@ -12,7 +12,7 @@ import (
 // Showoff all requests
 func showoff(c *gin.Context) {
 	var requests []model.UpdateRequest
-	requests = db.AllRequests(requests, c.Param("channel"))
+	requests = db.AllRequests(requests, c.Param("channel"), c.Param("product"))
 	t, _ := template.ParseFiles("view/requests.html")
 	t.Execute(c.Writer, requests)
 
@@ -33,7 +33,7 @@ func newRelease(c *gin.Context) {
 	log.Println(release)
 
 	db.NewRelease(release)
-	redirectRoute := "http://update.videolan.org/dashboard/showoff"
+	redirectRoute := "http://update.videolan.org/admin/dashboard/showoff"
 	c.Redirect(http.StatusMovedPermanently, redirectRoute)
 }
 
@@ -47,8 +47,8 @@ func update(c *gin.Context) {
 	// Request params are now getting in GET params
 	var request model.UpdateRequest
 	c.Bind(&request)
-	log.Println(request)
 	request.Channel = c.Param("channel")
+	request.Product = c.Param("product")
 
 	matchedRelease, retStatus := ReleaseMap(request)
 	if retStatus {
@@ -75,8 +75,8 @@ func update(c *gin.Context) {
 func updatesig(c *gin.Context) {
 	var request model.UpdateRequest
 	c.Bind(&request)
-	log.Println(request)
 	request.Channel = c.Param("channel")
+	request.Product = c.Param("product")
 
 	matchedRelease, retStatus := ReleaseMap(request)
 	if retStatus {
