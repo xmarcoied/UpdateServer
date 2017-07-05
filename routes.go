@@ -54,14 +54,7 @@ func update(c *gin.Context) {
 	if retStatus {
 		log.Println("There's a release matched")
 		request.Status = true
-		// First Line : version number
-		fmt.Fprintln(c.Writer, matchedRelease.VlcVer)
-		// Second Line : URL
-		fmt.Fprintln(c.Writer, matchedRelease.URL)
-		// Third Line : Desc.
-		fmt.Fprintln(c.Writer, matchedRelease.Title)
-		fmt.Fprint(c.Writer, matchedRelease.Description)
-
+		c.JSON(200, matchedRelease)
 	} else {
 		log.Println("No release matched")
 		request.Status = false

@@ -25,16 +25,16 @@ type UpdateRequest struct {
 type Release struct {
 	ID          uint      `gorm:"primary_key"`
 	CreatedAt   time.Time `gorm:column:createdAt`
-	Channel     string    `form:"channel"`
-	OS          string    `form:"os"`
-	OsVer       string    `form:"os_ver"`
-	OsArch      string    `form:"os_arch"`
-	VlcVer      string    `form:"vlc_ver"`
-	URL         string    `form:"url"`
-	Title       string    `form:"title"`
-	Description string    `form:"desc"`
-	Signature   string    `form:"sig"`
-	Product     string
+	Channel     string    `form:"channel" json:"channel"`
+	OS          string    `form:"os" json:"os"`
+	OsVer       string    `form:"os_ver" json:"os_ver"`
+	OsArch      string    `form:"os_arch" json:"os_arch"`
+	VlcVer      string    `form:"vlc_ver" json:"vlc_ver"`
+	URL         string    `form:"url" json:"url"`
+	Title       string    `form:"title" json:"title"`
+	Description string    `form:"desc" json:"desc`
+	Signature   string    `form:"sig" json:"sig"`
+	Product     string    `form:"product" json:"product"`
 }
 
 // Impl is handling gorm
