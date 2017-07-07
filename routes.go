@@ -33,8 +33,7 @@ func newRelease(c *gin.Context) {
 	log.Println(release)
 
 	db.NewRelease(release)
-	redirectRoute := "http://update.videolan.org/admin/dashboard/showoff"
-	c.Redirect(http.StatusMovedPermanently, redirectRoute)
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/showoff/")
 }
 
 // Admin dashboard (new releases)
