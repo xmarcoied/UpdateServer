@@ -11,15 +11,15 @@
                     <th>OS ARCH</th>
                     <th>VLC VER</th>
                 </tr>
-                {{ range $key, $value := . }}
+                {{ range .releases }}
                 <tr>
-                    <th>{{$value.ID}}</th>
-                    <th>{{$value.Channel}}</th>
-                    <th>{{$value.CreatedAt}}</th>
-                    <th>{{$value.OS}}</th>
-                    <th>{{$value.OsVer}}</th>
-                    <th>{{$value.OsArch}}</th>
-                    <th>{{$value.VlcVer}}</th>
+                    <th>{{.ID}}</th>
+                    <th>{{.Channel}}</th>
+                    <th>{{.CreatedAt}}</th>
+                    <th>{{.OS}}</th>
+                    <th>{{.OsVer}}</th>
+                    <th>{{.OsArch}}</th>
+                    <th>{{.VlcVer}}</th>
                 </tr>
                 {{ end }}
             </table>

@@ -26,15 +26,17 @@ func main() {
 	adminRouter := router.Group("/admin")
 	{
 		adminRouter.GET("/dashboard", admin)
-		adminRouter.GET("/dashboard/showoff", adminshowoff)
+		adminRouter.GET("/dashboard/get_releases", getReleases)
 		adminRouter.POST("/dashboard/new_release", newRelease)
 	}
 
 	appRouter := router.Group("/u/:product/:channel")
 	{
-		appRouter.GET("/showoff", showoff)
+		appRouter.GET("/get_requests", getRequests)
 		appRouter.GET("/update", update)
 	}
+
+	router.LoadHTMLGlob("view/*.html")
 	router.Run(":" + addr)
 }
 

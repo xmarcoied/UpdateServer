@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -11,20 +10,21 @@ import (
 )
 
 // Showoff all requests
-func showoff(c *gin.Context) {
+func getRequests(c *gin.Context) {
 	var requests []model.UpdateRequest
 	requests = db.AllRequests(requests, c.Param("channel"), c.Param("product"))
-	t, _ := template.ParseFiles("view/requests.html")
-	t.Execute(c.Writer, requests)
-
+	c.HTML(http.StatusOK, "requests.html", gin.H{
+		"requests": requests,
+	})
 }
 
 // Showoff all releases
-func adminshowoff(c *gin.Context) {
-	var requests []model.Release
-	requests = db.AllReleases(requests)
-	t, _ := template.ParseFiles("view/releases.html")
-	t.Execute(c.Writer, requests)
+func getReleases(c *gin.Context) {
+	var releases []model.Release
+	releases = db.AllReleases(releases)
+	c.HTML(http.StatusOK, "releases.html", gin.H{
+		"releases": releases,
+	})
 }
 
 // New release
@@ -34,7 +34,7 @@ func newRelease(c *gin.Context) {
 	log.Println(release)
 
 	db.NewRelease(release)
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/showoff/")
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/get_releases/")
 }
 
 // Admin dashboard (new releases)
