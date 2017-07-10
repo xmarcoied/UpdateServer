@@ -2,17 +2,23 @@ package main
 
 import (
 	"flag"
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/xmarcoied/go-updater/model"
 )
 
-var db model.Impl
+var (
+	db   model.Impl
+	addr string
+)
 
 func main() {
 	// TODO : Add a middleware to keep the DB info
-	var listenport string
-	flag.StringVar(&listenport, "port", "8080", "a port to listen")
+
+	flag.StringVar(&addr, "port", "8080", "a port to listen")
 	flag.Parse()
+	log.SetFlags(0)
 	db.ConnectDB()
 	defer db.CloseDB()
 	router := gin.Default()
@@ -26,12 +32,10 @@ func main() {
 
 	appRouter := router.Group("/u/:product/:channel")
 	{
-		appRouter.GET("/status", updatesig)
-		appRouter.StaticFile("status.asc", "./client/static/status.asc")
 		appRouter.GET("/showoff", showoff)
 		appRouter.GET("/update", update)
 	}
-	router.Run(":" + listenport)
+	router.Run(":" + addr)
 }
 
 func ReleaseMap(r model.UpdateRequest) (model.Release, bool) {

@@ -1,4 +1,0 @@
-2.2.6
-http://get.videolan.org/vlc/2.2.6/vlc-2.2.6.tar.xz
-VideoLAN and the VLC development team present VLC 2.2.6 "Umbrella".
-VLC 2.2.6 is a security update fixing issues with subtitles and other formats, and improving DLL-loading security. VLC media player 2.2.0 was a major upgrade of VLC, introduced accelerated auto-rotation of videos, 0-copy hardware acceleration, support for UHD codecs, playback resume, integrated extensions and more than 1000 bugs and improvements.

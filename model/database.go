@@ -1,9 +1,10 @@
 package model
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq" // for database
-	"time"
 )
 
 // UpdateRequest database model
@@ -61,7 +62,7 @@ func (i *Impl) NewRequest(r UpdateRequest) {
 	i.DB.Create(&r)
 }
 
-//AllRequests return all requests under specific channel
+//AllReleases return all requests under specific channel
 func (i *Impl) AllReleases(r []Release) []Release {
 	i.DB.Find(&r)
 	return r

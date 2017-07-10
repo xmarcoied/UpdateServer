@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/xmarcoied/go-updater/model"
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/xmarcoied/go-updater/model"
 )
 
 // Showoff all requests
@@ -62,20 +63,4 @@ func update(c *gin.Context) {
 	// FIXME : initiate the DB once and pass it everywhere
 	db.NewRequest(request)
 
-}
-
-func updatesig(c *gin.Context) {
-	var request model.UpdateRequest
-	c.Bind(&request)
-	request.Channel = c.Param("channel")
-	request.Product = c.Param("product")
-
-	matchedRelease, retStatus := ReleaseMap(request)
-	if retStatus {
-		log.Println("There's a release matched")
-		fmt.Fprintln(c.Writer, matchedRelease.Signature)
-
-	} else {
-		log.Println("No release matched")
-	}
 }
