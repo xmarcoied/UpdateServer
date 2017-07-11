@@ -44,11 +44,13 @@ type Impl struct {
 }
 
 // ConnectDB initiate the database
-func (i *Impl) ConnectDB() {
+func (i *Impl) ConnectDB(ginMode string) {
 	// TODO : Move the psqlinfo to config & handle config/yml
 	psqlInfo := "host=localhost dbname=marcoied user=postgres password=postgres sslmode=disable"
 	i.DB, _ = gorm.Open("postgres", psqlInfo)
-	i.DB.LogMode(true)
+	if ginMode == "true" {
+		i.DB.LogMode(true)
+	}
 	i.DB.AutoMigrate(&UpdateRequest{}, &Release{})
 }
 

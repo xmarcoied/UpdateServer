@@ -9,18 +9,30 @@ import (
 )
 
 var (
-	db   model.Impl
-	addr string
+	db      model.Impl
+	addr    string
+	ginMode string
+	dbMode  string
 )
 
 func main() {
 	// TODO : Add a middleware to keep the DB info
 
 	flag.StringVar(&addr, "port", "8080", "a port to listen")
+	flag.StringVar(&ginMode, "gin", "debug", "gin mode")
+	flag.StringVar(&dbMode, "db", "false", "gin mode")
+
 	flag.Parse()
 	log.SetFlags(0)
-	db.ConnectDB()
+
+	db.ConnectDB(dbMode)
 	defer db.CloseDB()
+
+	RouterInit().Run(":" + addr)
+}
+
+func RouterInit() *gin.Engine {
+	gin.SetMode(ginMode)
 	router := gin.Default()
 
 	adminRouter := router.Group("/admin")
@@ -35,9 +47,8 @@ func main() {
 		appRouter.GET("/get_requests", getRequests)
 		appRouter.GET("/update", update)
 	}
-
 	router.LoadHTMLGlob("view/*.html")
-	router.Run(":" + addr)
+	return router
 }
 
 func ReleaseMap(r model.UpdateRequest) (model.Release, bool) {
