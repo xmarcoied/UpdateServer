@@ -25,14 +25,14 @@ func main() {
 	flag.Parse()
 	log.SetFlags(0)
 
+	gin.SetMode(ginMode)
 	db.ConnectDB(dbMode)
-	defer db.CloseDB()
 
 	RouterInit().Run(":" + addr)
 }
 
 func RouterInit() *gin.Engine {
-	gin.SetMode(ginMode)
+
 	router := gin.Default()
 
 	adminRouter := router.Group("/admin")
