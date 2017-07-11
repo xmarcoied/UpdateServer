@@ -10,6 +10,7 @@ import (
 
 var (
 	db      model.Impl
+	err     error
 	addr    string
 	ginMode string
 	dbMode  string
@@ -26,7 +27,10 @@ func main() {
 	log.SetFlags(0)
 
 	gin.SetMode(ginMode)
-	db.ConnectDB(dbMode)
+	err := db.ConnectDB(dbMode)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	RouterInit().Run(":" + addr)
 }

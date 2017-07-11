@@ -34,7 +34,7 @@ func newRelease(c *gin.Context) {
 	c.Bind(&release)
 	log.Println(release)
 
-	db.DB.Create(&release)
+	db.DB.Table("releases").Create(&release)
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/get_releases/")
 }
 
@@ -61,6 +61,6 @@ func update(c *gin.Context) {
 	}
 	// TODO : DB Model API
 	// FIXME : initiate the DB once and pass it everywhere
-	db.DB.Create(&request)
+	db.DB.Table("update_requests").Create(&request)
 
 }

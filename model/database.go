@@ -10,32 +10,32 @@ import (
 // UpdateRequest database model
 type UpdateRequest struct {
 	//gorm.Model
-	ID        uint      `gorm:"primary_key"`
-	CreatedAt time.Time `gorm:column:createdAt`
-	Channel   string    `form:"channel"`
-	OS        string    `form:"os"`
-	OsVer     string    `form:"os_ver"`
-	OsArch    string    `form:"os_arch"`
-	VlcVer    string    `form:"vlc_ver"`
-	IP        string    `form:"ip"`
+	CreatedAt time.Time
+	ID        uint   `gorm:"primary_key"`
+	Channel   string `form:"channel"`
+	OS        string `form:"os"`
+	OsVer     string `form:"os_ver"`
+	OsArch    string `form:"os_arch"`
+	VlcVer    string `form:"vlc_ver"`
+	IP        string `form:"ip"`
 	Status    bool
 	Product   string
 }
 
 // Release database model
 type Release struct {
-	ID          uint      `gorm:"primary_key"`
-	CreatedAt   time.Time `gorm:column:createdAt`
-	Channel     string    `form:"channel" json:"channel"`
-	OS          string    `form:"os" json:"os"`
-	OsVer       string    `form:"os_ver" json:"os_ver"`
-	OsArch      string    `form:"os_arch" json:"os_arch"`
-	VlcVer      string    `form:"vlc_ver" json:"vlc_ver"`
-	URL         string    `form:"url" json:"url"`
-	Title       string    `form:"title" json:"title"`
-	Description string    `form:"desc" json:"desc"`
-	Signature   string    `form:"sig" json:"sig"`
-	Product     string    `form:"product" json:"product"`
+	CreatedAt   time.Time
+	ID          uint   `gorm:"primary_key"`
+	Channel     string `form:"channel" json:"channel"`
+	OS          string `form:"os" json:"os"`
+	OsVer       string `form:"os_ver" json:"os_ver"`
+	OsArch      string `form:"os_arch" json:"os_arch"`
+	VlcVer      string `form:"vlc_ver" json:"vlc_ver"`
+	URL         string `form:"url" json:"url"`
+	Title       string `form:"title" json:"title"`
+	Description string `form:"desc" json:"desc"`
+	Signature   string `form:"sig" json:"sig"`
+	Product     string `form:"product" json:"product"`
 }
 
 // Impl is handling gorm
@@ -60,12 +60,14 @@ func (i *Impl) ConnectDB(dbMode string) error {
 
 //AllRequests return all requests under specific channel
 func (i *Impl) AllRequests(r []UpdateRequest, ch string, p string) []UpdateRequest {
-	i.DB.Where("channel = ? AND product = ?", ch, p).Find(&r)
+	i.DB.Table("update_requests").Where("product = ? AND channel = ?", p, ch).Find(&r)
+
 	return r
 }
 
 func (i *Impl) ReleaseMatch(req UpdateRequest, rel Release) Release {
-	i.DB.Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
+	i.DB.Table("releases").Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
 		req.Product, req.Channel, req.OS, req.OsArch, req.OsVer).First(&rel)
+
 	return rel
 }
