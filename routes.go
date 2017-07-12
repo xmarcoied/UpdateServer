@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/xmarcoied/go-updater/model"
@@ -21,12 +22,13 @@ func getRequests(c *gin.Context) {
 // Show all releases
 func getReleases(c *gin.Context) {
 	var releases []model.Release
-	db.DB.Find(&releases)
+	db.DB.Order("id").Find(&releases)
 
 	c.HTML(http.StatusOK, "releases.html", gin.H{
 		"releases": releases,
 	})
 }
+
 func getRelease(c *gin.Context) {
 	var release model.Release
 	db.DB.Where("id = ?", c.Param("id")).First(&release)
@@ -34,6 +36,18 @@ func getRelease(c *gin.Context) {
 	c.HTML(http.StatusOK, "release.html", gin.H{
 		"release": release,
 	})
+}
+
+func editRelease(c *gin.Context) {
+	var release model.Release
+	c.Bind(&release)
+	log.Println(release)
+	id, _ := strconv.Atoi(c.Param("id"))
+	release.ID = uint(id)
+	log.Println("ID : ", uint(id), c.Param("id"))
+	db.DB.Model(&release).Where("id = ?", uint(id)).Updates(release)
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
+
 }
 
 // New release

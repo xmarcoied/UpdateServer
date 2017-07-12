@@ -25,6 +25,7 @@ type UpdateRequest struct {
 // Release database model
 type Release struct {
 	CreatedAt   time.Time
+	UpdatedAt   time.Time
 	ID          uint   `gorm:"primary_key"`
 	Channel     string `form:"channel" json:"channel"`
 	OS          string `form:"os" json:"os"`

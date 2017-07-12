@@ -45,6 +45,7 @@ func RouterInit() *gin.Engine {
 		adminRouter.GET("/dashboard/releases", getReleases)
 		adminRouter.GET("/dashboard/release/:id", getRelease)
 		adminRouter.POST("/dashboard/new_release", newRelease)
+		adminRouter.POST("/dashboard/edit_release/:id", editRelease)
 	}
 
 	appRouter := router.Group("/u/:product/:channel")

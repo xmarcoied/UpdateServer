@@ -15,57 +15,63 @@
     <body>
         <h1>Release </h1>
             {{range .}}
-            <table style="width:100%">
-                <tr>
-                    <th>ID :</th>
-                    <td>{{.ID}}</td>
-                </tr>
-                <tr>
-                    <th>Product :</th>
-                    <td>{{.Product}}</td>
-                </tr>
-                <tr>
-                    <th>Channel :</th>
-                    <td>{{.Channel}}</td>
-                </tr>
-                <tr>
-                    <th>OS : </th>
-                    <td>{{.OS}}</td>
-                </tr>
-                <tr>
-                    <th>OS Version :</th>
-                    <td>{{.OsVer}}</td>
-                </tr>
-                <tr>
-                    <th>OS Architecture :</th>
-                    <td>{{.OsArch}}</td>
-                </tr>
-                <tr>
-                    <th>Product Version :</th>
-                    <td>{{.VlcVer}}</td>
-                </tr>
-                <tr>
-                    <th>URL :</th>
-                    <td>{{.URL}}</td>
-                </tr>
-                <tr>
-                    <th>Title :</th>
-                    <td>{{.Title}}</td>
-                </tr>
-                <tr>
-                    <th>Description</th>
-                    <td>{{.Description}}</td>
-                </tr>
-                <tr>
-                    <th>Signature</th>
-                    <td>{{.Signature}}</td>
-                </tr>
-                <tr>
-                    <th>CreatedAt</th>
-                    <td>{{.CreatedAt}}</td>
-                </tr>
-
-            </table>
+            <form action="/admin/dashboard/edit_release/{{.ID}}" method="post">
+                <table style="width:100%">
+                    <tr>
+                        <th>ID :</th>
+                        <td> {{.ID}}</td>
+                    </tr>
+                    <tr>
+                        <th>Product :</th>
+                        <th> <textarea name="product">{{.Product}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>Channel :</th>
+                        <th> <textarea name="channel">{{.Channel}}</textarea></th>
+                    </tr>   
+                    <tr>
+                        <th>OS : </th>
+                        <th> <textarea name="os">{{.OS}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>OS Version :</th>
+                        <th> <textarea name="os_ver">{{.OsVer}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>OS Architecture :</th>
+                        <th> <textarea name="os_arch">{{.OsArch}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>Product Version :</th>
+                        <th> <textarea name="vlc_ver">{{.VlcVer}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>URL :</th>
+                        <th> <textarea name="url">{{.URL}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>Title :</th>
+                        <th> <textarea name="title">{{.Title}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <th> <textarea name="desc">{{.Description}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>Signature</th>
+                        <th> <textarea name="sig">{{.Signature}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>CreatedAt</th>
+                        <td>{{.CreatedAt}}</textarea></td>
+                    </tr>
+                    <tr>
+                        <th>UpdatedAt</th>
+                        <td>{{.UpdatedAt}}</textarea></td>
+                    </tr>
+                </table>
+                <input type="submit" value="Update">
+            </form>
             {{end}}
             <h3><a href="/admin/dashboard/releases">All Releases</a></h3>
     </body>

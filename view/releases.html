@@ -6,22 +6,14 @@
                     <th>ID</th>
                     <th>Product</th>
                     <th>Channel</th>
-                    <th>Created At</th>
                     <th>OS</th>
-                    <th>OS VER</th>
-                    <th>OS ARCH</th>
-                    <th>VLC VER</th>
                 </tr>
                 {{ range .releases }}
                 <tr>
                     <th><a href="/admin/dashboard/release/{{ .ID }}">{{ .ID }}</a></th>
                     <th>{{.Product}}</th>
                     <th>{{.Channel}}</th>
-                    <th>{{.CreatedAt}}</th>
                     <th>{{.OS}}</th>
-                    <th>{{.OsVer}}</th>
-                    <th>{{.OsArch}}</th>
-                    <th>{{.VlcVer}}</th>
                 </tr>
                 {{ end }}
             </table>
