@@ -69,8 +69,11 @@
                         <th>UpdatedAt</th>
                         <td>{{.UpdatedAt}}</textarea></td>
                     </tr>
+                    <tr>
+                        <td><a href="/admin/dashboard/del_release/{{.ID}}">Delete</a></td>
+                        <td><input type="submit" value="Update"></td>
+                    </tr>
                 </table>
-                <input type="submit" value="Update">
             </form>
             {{end}}
             <h3><a href="/admin/dashboard/releases">All Releases</a></h3>

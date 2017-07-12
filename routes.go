@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/xmarcoied/go-updater/model"
@@ -31,23 +30,33 @@ func getReleases(c *gin.Context) {
 
 func getRelease(c *gin.Context) {
 	var release model.Release
-	db.DB.Where("id = ?", c.Param("id")).First(&release)
 
-	c.HTML(http.StatusOK, "release.html", gin.H{
-		"release": release,
-	})
+	if err := db.DB.Where("id = ?", c.Param("id")).First(&release).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		log.Println(err)
+
+	} else {
+		c.HTML(http.StatusOK, "release.html", gin.H{
+			"release": release,
+		})
+	}
+
 }
 
 func editRelease(c *gin.Context) {
 	var release model.Release
 	c.Bind(&release)
-	log.Println(release)
-	id, _ := strconv.Atoi(c.Param("id"))
-	release.ID = uint(id)
-	log.Println("ID : ", uint(id), c.Param("id"))
-	db.DB.Model(&release).Where("id = ?", uint(id)).Updates(release)
+
+	db.DB.Model(&release).Where("id = ?", c.Param("id")).Updates(release)
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
 
+}
+
+func delRelease(c *gin.Context) {
+	var release model.Release
+
+	db.DB.Where("id = ?", c.Param("id")).Delete(&release)
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
 }
 
 // New release
