@@ -27,6 +27,14 @@ func getReleases(c *gin.Context) {
 		"releases": releases,
 	})
 }
+func getRelease(c *gin.Context) {
+	var release model.Release
+	db.DB.Where("id = ?", c.Param("id")).First(&release)
+
+	c.HTML(http.StatusOK, "release.html", gin.H{
+		"release": release,
+	})
+}
 
 // New release
 func newRelease(c *gin.Context) {
@@ -35,7 +43,7 @@ func newRelease(c *gin.Context) {
 	log.Println(release)
 
 	db.DB.Table("releases").Create(&release)
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/get_releases/")
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
 }
 
 // Admin dashboard (new releases)

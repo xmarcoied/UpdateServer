@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 5px;
+                text-align: left;    
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Release </h1>
+            {{range .}}
+            <table style="width:100%">
+                <tr>
+                    <th>ID :</th>
+                    <td>{{.ID}}</td>
+                </tr>
+                <tr>
+                    <th>Product :</th>
+                    <td>{{.Product}}</td>
+                </tr>
+                <tr>
+                    <th>Channel :</th>
+                    <td>{{.Channel}}</td>
+                </tr>
+                <tr>
+                    <th>OS : </th>
+                    <td>{{.OS}}</td>
+                </tr>
+                <tr>
+                    <th>OS Version :</th>
+                    <td>{{.OsVer}}</td>
+                </tr>
+                <tr>
+                    <th>OS Architecture :</th>
+                    <td>{{.OsArch}}</td>
+                </tr>
+                <tr>
+                    <th>Product Version :</th>
+                    <td>{{.VlcVer}}</td>
+                </tr>
+                <tr>
+                    <th>URL :</th>
+                    <td>{{.URL}}</td>
+                </tr>
+                <tr>
+                    <th>Title :</th>
+                    <td>{{.Title}}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{.Description}}</td>
+                </tr>
+                <tr>
+                    <th>Signature</th>
+                    <td>{{.Signature}}</td>
+                </tr>
+                <tr>
+                    <th>CreatedAt</th>
+                    <td>{{.CreatedAt}}</td>
+                </tr>
+
+            </table>
+            {{end}}
+            <h3><a href="/admin/dashboard/releases">All Releases</a></h3>
+    </body>
+
+</html>
