@@ -39,6 +39,13 @@ type Release struct {
 	Product     string `form:"product" json:"product"`
 }
 
+type Channel struct {
+	ID            uint   `gorm:"primary_key"`
+	Name          string `form:"name" json:"name"`
+	ReleasesCount string
+	RequestsCount string
+}
+
 // Impl is handling gorm
 type Impl struct {
 	DB *gorm.DB
@@ -54,7 +61,7 @@ func (i *Impl) ConnectDB(dbMode string) error {
 		i.DB.LogMode(true)
 	}
 
-	i.DB.AutoMigrate(&UpdateRequest{}, &Release{})
+	i.DB.AutoMigrate(&UpdateRequest{}, &Release{}, &Channel{})
 
 	return err
 }

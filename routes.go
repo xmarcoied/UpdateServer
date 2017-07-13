@@ -95,3 +95,27 @@ func update(c *gin.Context) {
 	db.DB.Table("update_requests").Create(&request)
 
 }
+
+func getChannels(c *gin.Context) {
+	var channels []model.Channel
+	db.DB.Order("id").Find(&channels)
+
+	c.HTML(http.StatusOK, "channels.html", gin.H{
+		"channels": channels,
+	})
+
+}
+
+func addChannel(c *gin.Context) {
+	c.HTML(http.StatusOK, "channel.html", nil)
+
+}
+
+func newChannel(c *gin.Context) {
+	var channel model.Channel
+	c.Bind(&channel)
+	log.Println(channel)
+
+	db.DB.Table("channels").Create(&channel)
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/channels/")
+}

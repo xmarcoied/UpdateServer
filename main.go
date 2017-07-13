@@ -45,8 +45,14 @@ func RouterInit() *gin.Engine {
 		adminRouter.GET("/dashboard/releases", getReleases)
 		adminRouter.GET("/dashboard/release/:id", getRelease)
 		adminRouter.GET("/dashboard/del_release/:id", delRelease)
+
 		adminRouter.POST("/dashboard/new_release", newRelease)
 		adminRouter.POST("/dashboard/edit_release/:id", editRelease)
+
+		adminRouter.GET("/dashboard/channels", getChannels)
+		adminRouter.GET("/dashboard/channels/add", addChannel)
+
+		adminRouter.POST("/dashboard/new_channel", newChannel)
 	}
 
 	appRouter := router.Group("/u/:product/:channel")
@@ -54,6 +60,7 @@ func RouterInit() *gin.Engine {
 		appRouter.GET("/get_requests", getRequests)
 		appRouter.GET("/update", update)
 	}
+
 	router.LoadHTMLGlob("view/*.html")
 	return router
 }
