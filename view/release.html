@@ -4,10 +4,11 @@
             table, th, td {
                 border: 1px solid black;
                 border-collapse: collapse;
+                margin: auto;
             }
-            th, td {
+            th, td ,h1 , h3{
                 padding: 5px;
-                text-align: left;    
+                text-align: center;    
             }
         </style>
     </head>
@@ -16,7 +17,7 @@
         <h1>Release </h1>
             {{range .}}
             <form action="/admin/dashboard/edit_release/{{.ID}}" method="post">
-                <table style="width:100%">
+                <table style="width:50%">
                     <tr>
                         <th>ID :</th>
                         <td> {{.ID}}</td>

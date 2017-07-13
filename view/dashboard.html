@@ -1,15 +1,24 @@
 <html>
     <head>
     <title>Admin Dashboard</title>
-    <style>
-        .content {
-            max-width: 500px;
-            margin: auto;
-         }
-    </style>
+ 
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin: auto;
+            }
+            th, td ,h1 , h3{
+                padding: 5px;
+                text-align: center;    
+            }
+        </style>
+    </head>
+
     </head>
     
-    <body class="content">
+    <body>
             <h1>Admin Dashboard</h1>    
             <form action="/admin/dashboard/new_release" method="post">
             <table style="margin: auto;">
@@ -53,9 +62,10 @@
                     <th>Signature : </th>
                     <th> <textarea name="sig"></textarea> </th>
                 </tr>
-
+                <tr>
+                    <td colspan="2"><input type="submit" value="Add"></td>
+                </tr>  
             </table>
-            <input type="submit" value="Save">
         </form>
         <hr>
     </body>
