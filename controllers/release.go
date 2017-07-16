@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/xmarcoied/go-updater/model"
@@ -56,6 +59,8 @@ func NewRelease(c *gin.Context) {
 	c.Bind(&release)
 
 	db.DB.Model("releases").Save(&release)
+	GenerateStatus(release)
+	GenerateSignature(release)
 	if utils.ProcessRelease(release) == true {
 		log.Println("Accepted Release")
 		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
@@ -69,4 +74,21 @@ func NewRelease(c *gin.Context) {
 // Admin dashboard (new releases)
 func Admin(c *gin.Context) {
 	c.HTML(http.StatusOK, "dashboard.html", nil)
+}
+
+func GenerateStatus(release model.Release) {
+	release.Signature = ""
+	ReleaseDir := "static/releases/" + strconv.Itoa(int(release.ID))
+	ReleaseJSON, _ := json.Marshal(release)
+	ioutil.WriteFile(ReleaseDir, ReleaseJSON, 0644)
+
+}
+
+func GenerateSignature(release model.Release) {
+	SignatureDir := "static/signatures/" + strconv.Itoa(int(release.ID)) + ".asc"
+	ReleaseDir := "static/releases/" + strconv.Itoa(int(release.ID))
+	PrivateKeyDir := "static/channels/private/" + release.Channel + ".asc"
+
+	err := utils.Sign(PrivateKeyDir, ReleaseDir, SignatureDir)
+	log.Println(err)
 }

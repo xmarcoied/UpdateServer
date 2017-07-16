@@ -1,8 +1,6 @@
 package utils
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -12,12 +10,9 @@ import (
 )
 
 func ProcessRelease(release model.Release) bool {
-	ReleaseJSON, _ := json.Marshal(release)
+
 	ReleaseDir := "static/releases/" + strconv.Itoa(int(release.ID))
 	SignatureDir := "static/signatures/" + strconv.Itoa(int(release.ID)) + ".asc"
-
-	ioutil.WriteFile(ReleaseDir, ReleaseJSON, 0644)
-	ioutil.WriteFile(SignatureDir, []byte(release.Signature), 0644)
 
 	signed, err := os.Open(ReleaseDir)
 	if err != nil {

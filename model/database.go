@@ -35,7 +35,7 @@ type Release struct {
 	URL         string `form:"url" json:"url"`
 	Title       string `form:"title" json:"title"`
 	Description string `form:"desc" json:"desc"`
-	Signature   string `form:"sig" json:"sig"`
+	Signature   string
 	Product     string `form:"product" json:"product"`
 }
 
