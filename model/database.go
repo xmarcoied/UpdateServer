@@ -42,6 +42,8 @@ type Release struct {
 type Channel struct {
 	ID            uint   `gorm:"primary_key"`
 	Name          string `form:"name" json:"name"`
+	PublicKey     string `form:"pubkey" json:"pubkey"`
+	PrivateKey    string `form:"privatekey" json:"privatekey"`
 	ReleasesCount string
 	RequestsCount string
 }

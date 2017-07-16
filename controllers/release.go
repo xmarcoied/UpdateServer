@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/xmarcoied/go-updater/model"
+	"github.com/xmarcoied/go-updater/utils"
 )
 
 // Show all releases
@@ -53,10 +54,16 @@ func DelRelease(c *gin.Context) {
 func NewRelease(c *gin.Context) {
 	var release model.Release
 	c.Bind(&release)
-	log.Println(release)
 
-	db.DB.Table("releases").Create(&release)
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
+	db.DB.Model("releases").Save(&release)
+	if utils.ProcessRelease(release) == true {
+		log.Println("Accepted Release")
+		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
+
+	} else {
+		log.Println("Refused Release")
+		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard")
+	}
 }
 
 // Admin dashboard (new releases)

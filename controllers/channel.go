@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"log"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,8 +26,13 @@ func AddChannel(c *gin.Context) {
 func NewChannel(c *gin.Context) {
 	var channel model.Channel
 	c.Bind(&channel)
-	log.Println(channel)
 
 	db.DB.Table("channels").Create(&channel)
+	pub := "static/channels/public/" + channel.Name + ".asc"
+	private := "static/channels/private/" + channel.Name + ".asc"
+
+	ioutil.WriteFile(pub, []byte(channel.PublicKey), 0644)
+	ioutil.WriteFile(private, []byte(channel.PrivateKey), 0644)
+
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/channels/")
 }
