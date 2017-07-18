@@ -23,15 +23,30 @@ func GetReleases(c *gin.Context) {
 }
 
 func GetRelease(c *gin.Context) {
-	var release model.Release
-
-	if err := db.DB.Where("id = ?", c.Param("id")).First(&release).Error; err != nil {
+	var (
+		release  []model.Release
+		rules    []model.Rule
+		timerule []model.TimeRule
+		buf      model.TimeRule
+		RulesID  uint
+	)
+	if err := db.DB.Where("id = ?", c.Param("id")).Find(&release).Error; err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		log.Println(err)
 
 	} else {
+		// FIXME : Must be an implementation better than this.
+		db.DB.Where("release_id = ?", c.Param("id")).Find(&rules)
+		for i, _ := range rules {
+			RulesID = rules[i].ID
+			db.DB.Where("rule_id =?", RulesID).First(&buf)
+			timerule = append(timerule, buf)
+
+		}
 		c.HTML(http.StatusOK, "release.html", gin.H{
-			"release": release,
+			"id":       c.Param("id"),
+			"release":  release,
+			"timerule": timerule,
 		})
 	}
 
@@ -58,7 +73,7 @@ func NewRelease(c *gin.Context) {
 	var release model.Release
 	c.Bind(&release)
 
-	db.DB.Model("releases").Save(&release)
+	db.DB.Save(&release)
 	GenerateStatus(release)
 	GenerateSignature(release)
 	if utils.ProcessRelease(release) == true {

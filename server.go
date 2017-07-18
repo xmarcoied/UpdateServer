@@ -55,6 +55,10 @@ func RouterInit() *gin.Engine {
 		adminRouter.GET("/dashboard/channels/add", controllers.AddChannel)
 
 		adminRouter.POST("/dashboard/new_channel", controllers.NewChannel)
+
+		adminRouter.GET("/dashboard/add_rule/:id", controllers.AddRule)
+		adminRouter.POST("/dashboard/new_rule/:id", controllers.NewRule)
+
 	}
 
 	appRouter := router.Group("/u/:product/:channel")

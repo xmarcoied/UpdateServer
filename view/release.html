@@ -1,21 +1,37 @@
 <html>
     <head>
         <style>
-            table, th, td {
+            table, th, td   {
                 border: 1px solid black;
                 border-collapse: collapse;
                 margin: auto;
             }
-            th, td ,h1 , h3{
+            th, td ,h1 , h3 {
                 padding: 5px;
                 text-align: center;    
+            }
+            hr{
+                width: 30%;
             }
         </style>
     </head>
 
     <body>
-        <h1>Release </h1>
-            {{range .}}
+        <h1>Release {{.id}}</h1>
+            <h3>Associated rules</h3>
+            <table style="width: 50%">
+                <tr>
+                    <th><a href="/admin/dashboard/add_rule/{{.id}}">Add new rule</a></th>
+                </tr>
+                {{range .timerule}}
+                <tr>
+                    <td>{{.}}</td>
+                </tr>
+                {{end}}
+            </table>
+
+            <hr>
+            {{range .release}}
             <form action="/admin/dashboard/edit_release/{{.ID}}" method="post">
                 <table style="width:50%">
                     <tr>
@@ -77,6 +93,7 @@
                 </table>
             </form>
             {{end}}
+            <hr>
             <h3><a href="/admin/dashboard/releases">All Releases</a></h3>
     </body>
 

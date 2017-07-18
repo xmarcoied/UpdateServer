@@ -35,10 +35,12 @@ type Release struct {
 	URL         string `form:"url" json:"url"`
 	Title       string `form:"title" json:"title"`
 	Description string `form:"desc" json:"desc"`
-	Signature   string
 	Product     string `form:"product" json:"product"`
+	Rules       Rule
+	Signature   string
 }
 
+// Channel database model
 type Channel struct {
 	ID            uint   `gorm:"primary_key"`
 	Name          string `form:"name" json:"name"`
@@ -62,8 +64,7 @@ func (i *Impl) ConnectDB(dbMode string) error {
 	if dbMode == "true" {
 		i.DB.LogMode(true)
 	}
-
-	i.DB.AutoMigrate(&UpdateRequest{}, &Release{}, &Channel{})
+	i.DB.AutoMigrate(&UpdateRequest{}, &Release{}, &Channel{}, &Rule{}, &TimeRule{})
 
 	return err
 }
