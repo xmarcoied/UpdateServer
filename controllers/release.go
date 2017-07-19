@@ -28,7 +28,6 @@ func GetRelease(c *gin.Context) {
 		rules    []model.Rule
 		timerule []model.TimeRule
 		buf      model.TimeRule
-		RulesID  uint
 	)
 	if err := db.DB.Where("id = ?", c.Param("id")).Find(&release).Error; err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
@@ -37,11 +36,9 @@ func GetRelease(c *gin.Context) {
 	} else {
 		// FIXME : Must be an implementation better than this.
 		db.DB.Where("release_id = ?", c.Param("id")).Find(&rules)
-		for i, _ := range rules {
-			RulesID = rules[i].ID
-			db.DB.Where("rule_id =?", RulesID).First(&buf)
+		for _, rule := range rules {
+			db.DB.Where("rule_id =?", rule.ID).First(&buf)
 			timerule = append(timerule, buf)
-
 		}
 		c.HTML(http.StatusOK, "release.html", gin.H{
 			"id":       c.Param("id"),

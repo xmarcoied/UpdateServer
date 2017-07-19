@@ -41,11 +41,27 @@ func Update(c *gin.Context) {
 }
 
 func ReleaseMap(r model.UpdateRequest) (model.Release, bool) {
+	var allAvailableReleases []model.Release
 	var ret model.Release
-	var booleanRet bool
-	ret = db.ReleaseMatch(r, ret)
-	if booleanRet = true; ret.Channel == "" {
-		booleanRet = false
+
+	db.ReleaseMatch(r, &allAvailableReleases)
+
+	// First check if there're any release matched with the request specs
+	if len(allAvailableReleases) == 0 {
+		return ret, false
+	} else {
+
+		// Check if the update request match the rules listed
+		for _, release := range allAvailableReleases {
+			if CountRules(release) == 0 {
+				return release, true
+			}
+			if CheckTimeRule(release) == false {
+				return release, false
+			}
+
+			return release, true
+		}
+		return ret, false
 	}
-	return ret, booleanRet
 }

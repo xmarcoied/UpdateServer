@@ -76,9 +76,8 @@ func (i *Impl) AllRequests(r []UpdateRequest, ch string, p string) []UpdateReque
 	return r
 }
 
-func (i *Impl) ReleaseMatch(req UpdateRequest, rel Release) Release {
-	i.DB.Table("releases").Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
-		req.Product, req.Channel, req.OS, req.OsArch, req.OsVer).First(&rel)
+func (i *Impl) ReleaseMatch(req UpdateRequest, rel *[]Release) {
+	i.DB.Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
+		req.Product, req.Channel, req.OS, req.OsArch, req.OsVer).Find(&rel)
 
-	return rel
 }

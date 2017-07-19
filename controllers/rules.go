@@ -30,9 +30,32 @@ func NewRule(c *gin.Context) {
 	db.DB.Where("id = ?", c.Param("id")).First(&release)
 
 	release.Rules.TimeRule.StartTime = t_start
+
+	if t_end.IsZero() {
+		t_end, _ = time.Parse(layout, "2906-01-02T15:04")
+	}
 	release.Rules.TimeRule.EndTime = t_end
 	db.DB.Save(&release)
 
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+c.Param("id"))
 
+}
+
+func CountRules(release model.Release) int {
+	var ret int
+	db.DB.Model(&model.Rule{}).Where("release_id = ?", release.ID).Count(&ret)
+	return ret
+}
+
+func CheckTimeRule(release model.Release) bool {
+	var rules []model.Rule
+	var timerule model.TimeRule
+	db.DB.Where("release_id = ?", release.ID).Find(&rules)
+	for _, rule := range rules {
+		db.DB.Where("rule_id =?", rule.ID).First(&timerule)
+		if !(time.Now().Before(timerule.EndTime) && time.Now().After(timerule.StartTime)) {
+			return false
+		}
+	}
+	return true
 }
