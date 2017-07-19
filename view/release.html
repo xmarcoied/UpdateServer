@@ -17,15 +17,37 @@
     </head>
 
     <body>
-        <h1>Release {{.id}}</h1>
+        <h1>Release #{{.id}}</h1>
             <h3>Associated rules</h3>
             <table style="width: 50%">
                 <tr>
-                    <th><a href="/admin/dashboard/add_rule/{{.id}}">Add new rule</a></th>
+                    <th colspan="2"><a href="/admin/dashboard/add_rule/{{.id}}">Add new rule</a></th>
+                </tr>
+                <tr>
+                    <th colspan="2">Time Rules :</th>
                 </tr>
                 {{range .timerule}}
                 <tr>
-                    <td>{{.}}</td>
+                    <td> Start at : {{.StartTime}}</td>
+                    <td> End at : {{.EndTime}}</td>
+                </tr>
+                {{end}}
+                <tr>
+                    <th colspan="2">OS Rules :</th>
+                </tr>
+                {{range .osrule}}
+                <tr>
+                    <td>OS Version: </td>
+                    <td>{{.OsVersion}}</td>
+                </tr>
+                {{end}}
+                <tr>
+                    <th colspan="2">Version Rules :</th>
+                </tr>
+                {{range .versionrule}}
+                <tr>
+                    <td>Product Version: </td>
+                    <td>{{.ProductVersion}}</td>
                 </tr>
                 {{end}}
             </table>

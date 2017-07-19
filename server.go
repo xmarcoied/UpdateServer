@@ -57,7 +57,7 @@ func RouterInit() *gin.Engine {
 		adminRouter.POST("/dashboard/new_channel", controllers.NewChannel)
 
 		adminRouter.GET("/dashboard/add_rule/:id", controllers.AddRule)
-		adminRouter.POST("/dashboard/new_rule/:id", controllers.NewRule)
+		adminRouter.POST("/dashboard/new_rule/:rule/:id", controllers.NewRule)
 
 	}
 

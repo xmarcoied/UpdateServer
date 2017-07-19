@@ -1,7 +1,4 @@
-<html>
-    <head>
-    <title>Admin Dashboard</title>
- 
+<html> 
     <head>
         <style>
             table, th, td {
@@ -13,31 +10,62 @@
                 padding: 5px;
                 text-align: center;    
             }
+            hr{
+                width: 10%;
+            }
         </style>
-    </head>
-
     </head>
     
     <body>
-            <h1>New rule associated with release #{{.id}}</h1>    
-            <form action="/admin/dashboard/new_rule/{{.id}}" method="post">
-            <table style="margin: auto;">
-                <tr>
-                    <td colspan="2">Time Rule</td>
-                </tr> 
-                <tr>
-                    <th>Start at: </th>
-                    <th> <input type="datetime-local" name="timestart"> </th>
-                </tr>
-                <tr>
-                    <th>End at: </th>
-                    <th> <input type="datetime-local" name="timeend"> </th>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="submit" value="Add"></td>
-                </tr>  
-            </table>
-        </form>
+        <h1>New rule associated with release #{{.id}}</h1>    
+            <form action="/admin/dashboard/new_rule/time/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">Time Rule</td>
+                    </tr> 
+                    <tr>
+                        <th>Start at: </th>
+                        <th> <input type="datetime-local" name="timestart"> </th>
+                    </tr>
+                    <tr>
+                        <th>End at: </th>
+                        <th> <input type="datetime-local" name="timeend"> </th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
+        <hr>
+            <form action="/admin/dashboard/new_rule/version/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">Version Rule</td>
+                    </tr> 
+                    <tr>
+                        <th>Product Version: </th>
+                        <th> <input name="product_version"> </th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
+        <hr>
+            <form action="/admin/dashboard/new_rule/os/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">OS Rule</td>
+                    </tr> 
+                    <tr>
+                        <th>OS Version: </th>
+                        <th> <input name="os_version"> </th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
         <hr>
     </body>
 </html>

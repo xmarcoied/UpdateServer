@@ -9,13 +9,24 @@ import (
 
 type Rule struct {
 	gorm.Model
-	Name      string
-	ReleaseID int
-	TimeRule  TimeRule
+	ReleaseID   int
+	TimeRule    TimeRule
+	OsRule      OsRule
+	VersionRule VersionRule
 }
 
 type TimeRule struct {
 	RuleID    int
 	StartTime time.Time
 	EndTime   time.Time
+}
+
+type OsRule struct {
+	RuleID    int
+	OsVersion string
+}
+
+type VersionRule struct {
+	RuleID         int
+	ProductVersion string
 }

@@ -24,10 +24,11 @@ func GetReleases(c *gin.Context) {
 
 func GetRelease(c *gin.Context) {
 	var (
-		release  []model.Release
-		rules    []model.Rule
-		timerule []model.TimeRule
-		buf      model.TimeRule
+		release     []model.Release
+		rules       []model.Rule
+		timerule    []model.TimeRule
+		osrule      []model.OsRule
+		versionrule []model.VersionRule
 	)
 	if err := db.DB.Where("id = ?", c.Param("id")).Find(&release).Error; err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
@@ -35,15 +36,34 @@ func GetRelease(c *gin.Context) {
 
 	} else {
 		// FIXME : Must be an implementation better than this.
+		var buf model.TimeRule
 		db.DB.Where("release_id = ?", c.Param("id")).Find(&rules)
 		for _, rule := range rules {
-			db.DB.Where("rule_id =?", rule.ID).First(&buf)
-			timerule = append(timerule, buf)
+			if err := db.DB.Model(buf).Where("rule_id =?", rule.ID).First(&buf).Error; err == nil {
+				timerule = append(timerule, buf)
+			}
 		}
+
+		var buf2 model.OsRule
+		for _, rule := range rules {
+			if err := db.DB.Model(buf2).Where("rule_id =?", rule.ID).First(&buf2).Error; err == nil {
+				osrule = append(osrule, buf2)
+			}
+		}
+
+		var buf3 model.VersionRule
+		for _, rule := range rules {
+			if err := db.DB.Model(buf3).Where("rule_id =?", rule.ID).First(&buf3).Error; err == nil {
+				versionrule = append(versionrule, buf3)
+			}
+		}
+
 		c.HTML(http.StatusOK, "release.html", gin.H{
-			"id":       c.Param("id"),
-			"release":  release,
-			"timerule": timerule,
+			"id":          c.Param("id"),
+			"release":     release,
+			"timerule":    timerule,
+			"osrule":      osrule,
+			"versionrule": versionrule,
 		})
 	}
 

@@ -59,6 +59,12 @@ func ReleaseMap(r model.UpdateRequest) (model.Release, bool) {
 			if CheckTimeRule(release) == false {
 				return release, false
 			}
+			if CheckOsRule(release) == false {
+				return release, false
+			}
+			if CheckVersionRule(release) == false {
+				return release, false
+			}
 
 			return release, true
 		}
