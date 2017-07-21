@@ -105,13 +105,18 @@ func NewRelease(c *gin.Context) {
 
 	} else {
 		log.Println("Refused Release")
-		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard")
+		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
 	}
 }
 
 // Admin dashboard (new releases)
-func Admin(c *gin.Context) {
-	c.HTML(http.StatusOK, "dashboard.html", nil)
+func AddRelease(c *gin.Context) {
+	var channels []model.Channel
+	db.DB.Model(&channels).Find(&channels)
+
+	c.HTML(http.StatusOK, "newrelease.html", gin.H{
+		"channels": channels,
+	})
 }
 
 func GenerateStatus(release model.Release) {

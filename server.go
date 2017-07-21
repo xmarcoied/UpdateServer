@@ -43,7 +43,7 @@ func RouterInit() *gin.Engine {
 
 	adminRouter := router.Group("/admin")
 	{
-		adminRouter.GET("/dashboard", controllers.Admin)
+		adminRouter.GET("/dashboard/newrelease", controllers.AddRelease)
 		adminRouter.GET("/dashboard/releases", controllers.GetReleases)
 		adminRouter.GET("/dashboard/release/:id", controllers.GetRelease)
 		adminRouter.GET("/dashboard/del_release/:id", controllers.DelRelease)

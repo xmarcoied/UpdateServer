@@ -28,7 +28,13 @@
                 </tr>
                 <tr>
                     <th>Channel </th>
-                    <th> <textarea name="channel"></textarea> </th>
+                    <th>
+                        <select name="channel">
+                            {{range .channels}}
+                            <option value="{{.Name}}">{{.Name}}</option>
+                            {{end}}
+                        </select>
+                    </th>
                 </tr>
                 <tr>
                     <th>OS : </th>
