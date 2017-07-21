@@ -74,6 +74,12 @@ func EditRelease(c *gin.Context) {
 	c.Bind(&release)
 
 	db.DB.Model(&release).Where("id = ?", c.Param("id")).Updates(release)
+
+	id_buf, _ := strconv.Atoi(c.Param("id"))
+	release.ID = uint(id_buf)
+
+	GenerateStatus(release)
+	GenerateSignature(release)
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
 
 }
