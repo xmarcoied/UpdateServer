@@ -23,7 +23,7 @@ func Sign(PrivateKeyFileName string, ReleaseFileName string, SignatureFileName s
 	}
 
 	var message *os.File
-	if message, err = os.Create(ReleaseFileName); err != nil {
+	if message, err = os.Open(ReleaseFileName); err != nil {
 		return err
 	}
 	defer message.Close()
