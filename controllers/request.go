@@ -70,8 +70,9 @@ func ReleaseMap(r model.UpdateRequest) (model.Release, bool) {
 			if CheckVersionRule(release) == false {
 				return release, false
 			}
-			if !(CheckIPRule(release, r) == true) {
-				return release, false
+			found, check := CheckIPRule(release, r)
+			if found == true {
+				return release, check
 			}
 
 			return release, true

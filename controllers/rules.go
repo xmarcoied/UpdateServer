@@ -130,17 +130,20 @@ func CheckOsRule(release model.Release) bool {
 	return true
 }
 
-func CheckIPRule(release model.Release, request model.UpdateRequest) bool {
+func CheckIPRule(release model.Release, request model.UpdateRequest) (bool, bool) {
 	var rules []model.Rule
 	var iprule model.IPRule
+
+	found := false
 	db.DB.Where("release_id = ?", release.ID).Find(&rules)
 	for _, rule := range rules {
 		if err := db.DB.Where("rule_id =?", rule.ID).First(&iprule).Error; err == nil {
+			found = true
 			if request.IP == iprule.IP {
-				return true
+				return true, true
 			}
 		}
 	}
 
-	return false
+	return found, false
 }
