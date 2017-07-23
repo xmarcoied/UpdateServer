@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/xmarcoied/go-updater/model"
+	"github.com/xmarcoied/go-updater/utils"
 )
 
 // Show all requests
@@ -22,8 +23,12 @@ func Update(c *gin.Context) {
 	// Request params are now getting in GET params
 	var request model.UpdateRequest
 	c.Bind(&request)
+
 	request.Channel = c.Param("channel")
 	request.Product = c.Param("product")
+
+	ForwardHeader := c.Request.Header.Get("X-Forwarded-For")
+	request.IP = utils.GetIP(ForwardHeader)
 
 	matchedRelease, retStatus := ReleaseMap(request)
 	if retStatus {
