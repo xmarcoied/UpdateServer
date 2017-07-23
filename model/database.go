@@ -10,34 +10,34 @@ import (
 // UpdateRequest database model
 type UpdateRequest struct {
 	//gorm.Model
-	CreatedAt time.Time
-	ID        uint   `gorm:"primary_key"`
-	Channel   string `form:"channel"`
-	OS        string `form:"os"`
-	OsVer     string `form:"os_ver"`
-	OsArch    string `form:"os_arch"`
-	VlcVer    string `form:"vlc_ver"`
-	IP        string `form:"ip"`
-	Status    bool
-	Product   string
+	CreatedAt      time.Time
+	ID             uint   `gorm:"primary_key"`
+	Channel        string `form:"channel"`
+	OS             string `form:"os"`
+	OsVer          string `form:"os_ver"`
+	OsArch         string `form:"os_arch"`
+	ProductVersion string `form:"product_ver"`
+	IP             string `form:"ip"`
+	Status         bool
+	Product        string
 }
 
 // Release database model
 type Release struct {
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	ID          uint   `gorm:"primary_key"`
-	Channel     string `form:"channel" json:"channel"`
-	OS          string `form:"os" json:"os"`
-	OsVer       string `form:"os_ver" json:"os_ver"`
-	OsArch      string `form:"os_arch" json:"os_arch"`
-	VlcVer      string `form:"vlc_ver" json:"vlc_ver"`
-	URL         string `form:"url" json:"url"`
-	Title       string `form:"title" json:"title"`
-	Description string `form:"desc" json:"desc"`
-	Product     string `form:"product" json:"product"`
-	Rules       Rule
-	Signature   string
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	ID             uint   `gorm:"primary_key"`
+	Channel        string `form:"channel" json:"channel"`
+	OS             string `form:"os" json:"os"`
+	OsVer          string `form:"os_ver" json:"os_ver"`
+	OsArch         string `form:"os_arch" json:"os_arch"`
+	ProductVersion string `form:"product_ver" json:"product_ver"`
+	URL            string `form:"url" json:"url"`
+	Title          string `form:"title" json:"title"`
+	Description    string `form:"desc" json:"desc"`
+	Product        string `form:"product" json:"product"`
+	Rules          Rule
+	Signature      string
 }
 
 // Channel database model

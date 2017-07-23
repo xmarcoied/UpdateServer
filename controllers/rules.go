@@ -95,7 +95,7 @@ func CheckVersionRule(release model.Release) bool {
 	db.DB.Where("release_id = ?", release.ID).Find(&rules)
 	for _, rule := range rules {
 		if err := db.DB.Where("rule_id =?", rule.ID).First(&versionrule).Error; err == nil {
-			if release.VlcVer == versionrule.ProductVersion {
+			if release.ProductVersion == versionrule.ProductVersion {
 				return false
 			}
 		}
