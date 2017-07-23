@@ -19,6 +19,7 @@
     </head>
     
     <body>
+            {{ template "head.html" . }}
             <h1>New Release</h1>    
             <form action="/admin/dashboard/new_release" method="post">
             <table style="margin: auto;">
@@ -65,6 +66,5 @@
                 </tr>  
             </table>
         </form>
-        <hr>
     </body>
 </html>

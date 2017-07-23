@@ -13,15 +13,16 @@
             hr{
                 width: 30%;
             }
+            
         </style>
     </head>
-
-    <body>
+        {{ template "head.html" . }}
         <h1>Release #{{.id}}</h1>
-            <h3>Associated rules</h3>
             <table style="width: 50%">
                 <tr>
-                    <th colspan="2"><a href="/admin/dashboard/add_rule/{{.id}}">Add new rule</a></th>
+                    <th colspan="2">
+                        Associated rules
+                    </th>
                 </tr>
                 {{if .timerule}}
                 <tr>
@@ -56,6 +57,9 @@
                 </tr>
                 {{end}}
                 {{end}}
+                <tr>
+                    <th colspan="2"><a href="/admin/dashboard/add_rule/{{.id}}">Add new rule</a></th>
+                </tr>
             </table>
 
             <hr>
@@ -121,8 +125,6 @@
                 </table>
             </form>
             {{end}}
-            <hr>
-            <h3><a href="/admin/dashboard/releases">All Releases</a></h3>
     </body>
 
 </html>

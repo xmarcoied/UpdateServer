@@ -1,7 +1,21 @@
 <html>
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin: auto;
+            }
+            th, td ,h1 , h3{
+                padding: 5px;
+                text-align: center;    
+            }
+        </style>
+    </head>
     <body>
+            {{ template "head.html" . }}
             <h1>Update Requests</h1>
-            <table style="margin: auto;">
+            <table>
                 <tr>
                     <th>ID</th>
                     <th>Product</th>

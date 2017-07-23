@@ -17,6 +17,7 @@
     </head>
     
     <body>
+        {{ template "head.html" . }}
         <h1>New rule associated with release #{{.id}}</h1>    
             <form action="/admin/dashboard/new_rule/time/{{.id}}" method="post">
                 <table style="margin: auto;">
@@ -36,7 +37,6 @@
                     </tr>  
                 </table>
             </form>
-        <hr>
             <form action="/admin/dashboard/new_rule/version/{{.id}}" method="post">
                 <table style="margin: auto;">
                     <tr>
@@ -51,7 +51,6 @@
                     </tr>  
                 </table>
             </form>
-        <hr>
             <form action="/admin/dashboard/new_rule/os/{{.id}}" method="post">
                 <table style="margin: auto;">
                     <tr>
@@ -66,6 +65,5 @@
                     </tr>  
                 </table>
             </form>
-        <hr>
     </body>
 </html>

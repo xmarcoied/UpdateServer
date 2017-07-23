@@ -14,23 +14,25 @@
     </head>
 
     <body>
-            <h1>Update Releases</h1>
-            <table style="width:50%">
-                <tr>
-                    <th>ID</th>
-                    <th>Product</th>
-                    <th>Channel</th>
-                    <th>OS</th>
-                </tr>
-                {{ range .releases }}
-                <tr>
-                    <th><a href="/admin/dashboard/release/{{ .ID }}">{{ .ID }}</a></th>
-                    <th>{{.Product}}</th>
-                    <th>{{.Channel}}</th>
-                    <th>{{.OS}}</th>
-                </tr>
-                {{ end }}
-            </table>
+        {{ template "head.html" . }}
+        <h1>Update Releases</h1>
+        <table style="width:50%">
+            <tr>
+                <th>ID</th>
+                <th>Product</th>
+                <th>Channel</th>
+                <th>OS</th>
+            </tr>
+            {{ range .releases }}
+            <tr>
+                <th><a href="/admin/dashboard/release/{{ .ID }}">{{ .ID }}</a></th>
+                <th>{{.Product}}</th>
+                <th>{{.Channel}}</th>
+                <th>{{.OS}}</th>
+            </tr>
+            {{ end }}
+        </table>
         <hr>
+        <h3><a href="/admin/dashboard/newrelease">Add new release</a></h3>
     </body>
 </html>
