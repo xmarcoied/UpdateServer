@@ -57,6 +57,17 @@
                 </tr>
                 {{end}}
                 {{end}}
+                {{if .iprule}}
+                <tr>
+                    <th colspan="2">IP Rules :</th>
+                </tr>
+                {{range .iprule}}
+                <tr>
+                    <td>IP Address: </td>
+                    <td>{{.IP}}</td>
+                </tr>
+                {{end}}
+                {{end}}
                 <tr>
                     <th colspan="2"><a href="/admin/dashboard/add_rule/{{.id}}">Add new rule</a></th>
                 </tr>

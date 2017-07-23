@@ -65,5 +65,19 @@
                     </tr>  
                 </table>
             </form>
+            <form action="/admin/dashboard/new_rule/ip/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">IP Rule</td>
+                    </tr> 
+                    <tr>
+                        <th>IP Address: </th>
+                        <th> <input name="ip_address"> </th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
     </body>
 </html>

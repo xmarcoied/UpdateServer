@@ -63,6 +63,17 @@ func NewRule(c *gin.Context) {
 		release.Rules.VersionRule.ProductVersion = buf.ProductVersion
 
 		db.DB.Save(&release)
+	case "ip":
+		var buf struct {
+			IP string `form:"ip_address"`
+		}
+		c.Bind(&buf)
+
+		var release model.Release
+		db.DB.Where("id = ?", c.Param("id")).First(&release)
+		release.Rules.IPRule.IP = buf.IP
+
+		db.DB.Save(&release)
 	}
 
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+c.Param("id"))
@@ -117,4 +128,19 @@ func CheckOsRule(release model.Release) bool {
 	}
 
 	return true
+}
+
+func CheckIPRule(release model.Release, request model.UpdateRequest) bool {
+	var rules []model.Rule
+	var iprule model.IPRule
+	db.DB.Where("release_id = ?", release.ID).Find(&rules)
+	for _, rule := range rules {
+		if err := db.DB.Where("rule_id =?", rule.ID).First(&iprule).Error; err == nil {
+			if request.IP == iprule.IP {
+				return true
+			}
+		}
+	}
+
+	return false
 }

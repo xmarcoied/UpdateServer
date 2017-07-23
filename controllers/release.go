@@ -29,6 +29,7 @@ func GetRelease(c *gin.Context) {
 		timerule    []model.TimeRule
 		osrule      []model.OsRule
 		versionrule []model.VersionRule
+		iprule      []model.IPRule
 	)
 	if err := db.DB.Where("id = ?", c.Param("id")).Find(&release).Error; err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
@@ -58,12 +59,19 @@ func GetRelease(c *gin.Context) {
 			}
 		}
 
+		var buf4 model.IPRule
+		for _, rule := range rules {
+			if err := db.DB.Model(buf4).Where("rule_id =?", rule.ID).First(&buf4).Error; err == nil {
+				iprule = append(iprule, buf4)
+			}
+		}
 		c.HTML(http.StatusOK, "release.html", gin.H{
 			"id":          c.Param("id"),
 			"release":     release,
 			"timerule":    timerule,
 			"osrule":      osrule,
 			"versionrule": versionrule,
+			"iprule":      iprule,
 		})
 	}
 
