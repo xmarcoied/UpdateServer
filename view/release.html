@@ -74,21 +74,27 @@
             </table>
 
             <hr>
-            {{range .release}}
             <form action="/admin/dashboard/edit_release/{{.ID}}" method="post">
                 <table style="width:50%">
                     <tr>
                         <th>ID :</th>
-                        <td> {{.ID}}</td>
+                        <td> {{.id}}</td>
                     </tr>
+                    <tr>
+                        <th>Channel :</th>
+                    <th>
+                        <select name="channel">
+                            {{range .channels}}
+                            <option value="{{.Name}}">{{.Name}}</option>
+                            {{end}}
+                        </select>
+                    </tr>
+                    {{range .release}}
                     <tr>
                         <th>Product :</th>
                         <th> <textarea name="product">{{.Product}}</textarea></th>
                     </tr>
-                    <tr>
-                        <th>Channel :</th>
-                        <th> <textarea name="channel">{{.Channel}}</textarea></th>
-                    </tr>   
+   
                     <tr>
                         <th>OS : </th>
                         <th> <textarea name="os">{{.OS}}</textarea></th>
@@ -107,7 +113,7 @@
                     </tr>
                     <tr>
                         <th>URL :</th>
-                        <th> <textarea name="url">{{.URL}}</textarea></th>
+                        <th> <textarea name="url" style="width:450">{{.URL}}</textarea></th>
                     </tr>
                     <tr>
                         <th>Title :</th>
@@ -115,11 +121,7 @@
                     </tr>
                     <tr>
                         <th>Description</th>
-                        <th> <textarea name="desc">{{.Description}}</textarea></th>
-                    </tr>
-                    <tr>
-                        <th>Signature</th>
-                        <th> <textarea name="sig">{{.Signature}}</textarea></th>
+                        <th> <textarea name="desc" style="width:450;height:100">{{.Description}}</textarea></th>
                     </tr>
                     <tr>
                         <th>CreatedAt</th>

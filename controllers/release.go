@@ -30,6 +30,7 @@ func GetRelease(c *gin.Context) {
 		osrule      []model.OsRule
 		versionrule []model.VersionRule
 		iprule      []model.IPRule
+		channels    []model.Channel
 	)
 	if err := db.DB.Where("id = ?", c.Param("id")).Find(&release).Error; err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
@@ -65,6 +66,9 @@ func GetRelease(c *gin.Context) {
 				iprule = append(iprule, buf4)
 			}
 		}
+
+		db.DB.Model(&channels).Find(&channels)
+
 		c.HTML(http.StatusOK, "release.html", gin.H{
 			"id":          c.Param("id"),
 			"release":     release,
@@ -72,6 +76,7 @@ func GetRelease(c *gin.Context) {
 			"osrule":      osrule,
 			"versionrule": versionrule,
 			"iprule":      iprule,
+			"channels":    channels,
 		})
 	}
 
