@@ -84,6 +84,25 @@ func (rsc RulesController) NewRule(c *gin.Context) {
 
 }
 
+func (rsc RulesController) DeleteRule(c *gin.Context) {
+	switch c.Param("rule") {
+	case "time":
+		var rule model.TimeRule
+		db.DB.Where("rule_id = ?", c.Param("id")).Delete(&rule)
+	case "os":
+		var rule model.OsRule
+		db.DB.Where("rule_id = ?", c.Param("id")).Delete(&rule)
+	case "version":
+		var rule model.VersionRule
+		db.DB.Where("rule_id = ?", c.Param("id")).Delete(&rule)
+	case "ip":
+		var rule model.IPRule
+		db.DB.Where("rule_id = ?", c.Param("id")).Delete(&rule)
+	}
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases")
+
+}
+
 func CountRules(release model.Release) int {
 	var ret int
 	db.DB.Model(&model.Rule{}).Where("release_id = ?", release.ID).Count(&ret)

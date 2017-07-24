@@ -63,6 +63,7 @@ func RouterInit(rc *controllers.RequestController, cc *controllers.ChannelContro
 
 		adminRouter.GET("/dashboard/add_rule/:id", rsc.AddRule)
 		adminRouter.POST("/dashboard/new_rule/:rule/:id", rsc.NewRule)
+		adminRouter.GET("/dashboard/delete_rule/:rule/:id", rsc.DeleteRule)
 
 	}
 
