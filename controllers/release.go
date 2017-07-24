@@ -12,8 +12,12 @@ import (
 	"github.com/xmarcoied/go-updater/utils"
 )
 
+func NewReleaseController() *ReleaseController {
+	return &ReleaseController{}
+}
+
 // Show all releases
-func GetReleases(c *gin.Context) {
+func (rlc ReleaseController) GetReleases(c *gin.Context) {
 	var releases []model.Release
 	db.DB.Order("id").Find(&releases)
 
@@ -22,7 +26,7 @@ func GetReleases(c *gin.Context) {
 	})
 }
 
-func GetRelease(c *gin.Context) {
+func (rlc ReleaseController) GetRelease(c *gin.Context) {
 	var (
 		release     []model.Release
 		rules       []model.Rule
@@ -82,7 +86,7 @@ func GetRelease(c *gin.Context) {
 
 }
 
-func EditRelease(c *gin.Context) {
+func (rlc ReleaseController) EditRelease(c *gin.Context) {
 	var release model.Release
 	c.Bind(&release)
 
@@ -97,7 +101,7 @@ func EditRelease(c *gin.Context) {
 
 }
 
-func DelRelease(c *gin.Context) {
+func (rlc ReleaseController) DelRelease(c *gin.Context) {
 	var release model.Release
 
 	db.DB.Where("id = ?", c.Param("id")).Delete(&release)
@@ -105,7 +109,7 @@ func DelRelease(c *gin.Context) {
 }
 
 // New release
-func NewRelease(c *gin.Context) {
+func (rlc ReleaseController) NewRelease(c *gin.Context) {
 	var release model.Release
 	c.Bind(&release)
 
@@ -123,7 +127,7 @@ func NewRelease(c *gin.Context) {
 }
 
 // Admin dashboard (new releases)
-func AddRelease(c *gin.Context) {
+func (rlc ReleaseController) AddRelease(c *gin.Context) {
 	var channels []model.Channel
 	db.DB.Model(&channels).Find(&channels)
 

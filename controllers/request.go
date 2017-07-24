@@ -9,8 +9,12 @@ import (
 	"github.com/xmarcoied/go-updater/utils"
 )
 
+func NewRequestController() *RequestController {
+	return &RequestController{}
+}
+
 // Show all requests
-func GetRequests(c *gin.Context) {
+func (rc RequestController) GetRequests(c *gin.Context) {
 	var requests []model.UpdateRequest
 	requests = db.AllRequests(requests, c.Param("channel"), c.Param("product"))
 
@@ -19,7 +23,7 @@ func GetRequests(c *gin.Context) {
 	})
 }
 
-func Update(c *gin.Context) {
+func (rc RequestController) Update(c *gin.Context) {
 	// Request params are now getting in GET params
 	var request model.UpdateRequest
 	c.Bind(&request)

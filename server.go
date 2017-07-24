@@ -30,41 +30,46 @@ func main() {
 	gin.SetMode(ginMode)
 	err := db.ConnectDB(dbMode)
 	controllers.SetDB(db)
+	rc := controllers.NewRequestController()
+	cc := controllers.NewChannelController()
+	rsc := controllers.NewRulesController()
+	rlc := controllers.NewReleaseController()
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	RouterInit().Run(":" + addr)
+	RouterInit(rc, cc, rsc, rlc).Run(":" + addr)
 }
 
-func RouterInit() *gin.Engine {
+func RouterInit(rc *controllers.RequestController, cc *controllers.ChannelController, rsc *controllers.RulesController, rlc *controllers.ReleaseController) *gin.Engine {
 
 	router := gin.Default()
 
 	adminRouter := router.Group("/admin")
 	{
-		adminRouter.GET("/dashboard/newrelease", controllers.AddRelease)
-		adminRouter.GET("/dashboard/releases", controllers.GetReleases)
-		adminRouter.GET("/dashboard/release/:id", controllers.GetRelease)
-		adminRouter.GET("/dashboard/del_release/:id", controllers.DelRelease)
+		adminRouter.GET("/dashboard/newrelease", rlc.AddRelease)
+		adminRouter.GET("/dashboard/releases", rlc.GetReleases)
+		adminRouter.GET("/dashboard/release/:id", rlc.GetRelease)
+		adminRouter.GET("/dashboard/del_release/:id", rlc.DelRelease)
 
-		adminRouter.POST("/dashboard/new_release", controllers.NewRelease)
-		adminRouter.POST("/dashboard/edit_release/:id", controllers.EditRelease)
+		adminRouter.POST("/dashboard/new_release", rlc.NewRelease)
+		adminRouter.POST("/dashboard/edit_release/:id", rlc.EditRelease)
 
-		adminRouter.GET("/dashboard/channels", controllers.GetChannels)
-		adminRouter.GET("/dashboard/channels/add", controllers.AddChannel)
+		adminRouter.GET("/dashboard/channels", cc.GetChannels)
+		adminRouter.GET("/dashboard/channels/add", cc.AddChannel)
 
-		adminRouter.POST("/dashboard/new_channel", controllers.NewChannel)
+		adminRouter.POST("/dashboard/new_channel", cc.NewChannel)
 
-		adminRouter.GET("/dashboard/add_rule/:id", controllers.AddRule)
-		adminRouter.POST("/dashboard/new_rule/:rule/:id", controllers.NewRule)
+		adminRouter.GET("/dashboard/add_rule/:id", rsc.AddRule)
+		adminRouter.POST("/dashboard/new_rule/:rule/:id", rsc.NewRule)
 
 	}
 
 	appRouter := router.Group("/u/:product/:channel")
 	{
-		appRouter.GET("/get_requests", controllers.GetRequests)
-		appRouter.GET("/update", controllers.Update)
+		appRouter.GET("/get_requests", rc.GetRequests)
+		appRouter.GET("/update", rc.Update)
 	}
 
 	router.LoadHTMLGlob("view/*.html")

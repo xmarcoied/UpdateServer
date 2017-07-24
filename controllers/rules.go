@@ -8,14 +8,18 @@ import (
 	"github.com/xmarcoied/go-updater/model"
 )
 
-func AddRule(c *gin.Context) {
+func NewRulesController() *RulesController {
+	return &RulesController{}
+}
+
+func (rsc RulesController) AddRule(c *gin.Context) {
 	c.HTML(http.StatusOK, "newrule.html", gin.H{
 		"id": c.Param("id"),
 	})
 
 }
 
-func NewRule(c *gin.Context) {
+func (rsc RulesController) NewRule(c *gin.Context) {
 
 	switch c.Param("rule") {
 	case "time":

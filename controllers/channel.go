@@ -8,7 +8,11 @@ import (
 	"github.com/xmarcoied/go-updater/model"
 )
 
-func GetChannels(c *gin.Context) {
+func NewChannelController() *ChannelController {
+	return &ChannelController{}
+}
+
+func (cc ChannelController) GetChannels(c *gin.Context) {
 	var channels []model.Channel
 	db.DB.Order("id").Find(&channels)
 
@@ -18,12 +22,12 @@ func GetChannels(c *gin.Context) {
 
 }
 
-func AddChannel(c *gin.Context) {
+func (cc ChannelController) AddChannel(c *gin.Context) {
 	c.HTML(http.StatusOK, "channel.html", nil)
 
 }
 
-func NewChannel(c *gin.Context) {
+func (cc ChannelController) NewChannel(c *gin.Context) {
 	var channel model.Channel
 	c.Bind(&channel)
 
