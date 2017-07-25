@@ -15,8 +15,14 @@
 
     <body>
         {{ template "head.html" . }}
-        <h1>Update Releases</h1>
+        <hr>
         <table style="width:50%">
+            <tr>
+                <th colspan="4"><h2>Update Releases</h2></th>
+            </tr>
+            <tr>
+                <td colspan="4"><a href="/admin/dashboard/newrelease">Add new release</a></td>
+            </tr>
             <tr>
                 <th>ID</th>
                 <th>Product</th>
@@ -31,8 +37,8 @@
                 <th>{{.OS}}</th>
             </tr>
             {{ end }}
+
         </table>
         <hr>
-        <h3><a href="/admin/dashboard/newrelease">Add new release</a></h3>
     </body>
 </html>

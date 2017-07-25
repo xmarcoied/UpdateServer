@@ -5,8 +5,9 @@
                 border: 1px solid black;
                 border-collapse: collapse;
                 margin: auto;
+
             }
-            th, td ,h1 , h3{
+            th, td{
                 padding: 5px;
                 text-align: center;    
             }
@@ -14,8 +15,11 @@
     </head>
     <body>
             {{ template "head.html" . }}
-            <h1>Update Requests</h1>
+            <hr>
             <table>
+                <tr>
+                    <th colspan="9"><h2>Update Requests</h2></th>
+                </tr>
                 <tr>
                     <th>ID</th>
                     <th>Product</th>
