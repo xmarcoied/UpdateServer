@@ -14,6 +14,7 @@ type Rule struct {
 	OsRule      OsRule
 	VersionRule VersionRule
 	IPRule      IPRule
+	RollRule    RollRule
 }
 
 type TimeRule struct {
@@ -30,6 +31,11 @@ type OsRule struct {
 type VersionRule struct {
 	RuleID         int
 	ProductVersion string
+}
+
+type RollRule struct {
+	RuleID            int
+	RollingPresentage int
 }
 
 type IPRule struct {

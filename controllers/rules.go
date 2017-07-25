@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"math/rand"
 	"net/http"
 	"time"
 
@@ -78,6 +79,17 @@ func (rsc RulesController) NewRule(c *gin.Context) {
 		release.Rules.IPRule.IP = buf.IP
 
 		db.DB.Save(&release)
+	case "roll":
+		var buf struct {
+			RollingPresentage int `form:"roll"`
+		}
+		c.Bind(&buf)
+
+		var release model.Release
+		db.DB.Where("id = ?", c.Param("id")).First(&release)
+		release.Rules.RollRule.RollingPresentage = buf.RollingPresentage
+
+		db.DB.Save(&release)
 	}
 
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+c.Param("id"))
@@ -97,6 +109,9 @@ func (rsc RulesController) DeleteRule(c *gin.Context) {
 		db.DB.Where("rule_id = ?", c.Param("id")).Delete(&rule)
 	case "ip":
 		var rule model.IPRule
+		db.DB.Where("rule_id = ?", c.Param("id")).Delete(&rule)
+	case "roll":
+		var rule model.RollRule
 		db.DB.Where("rule_id = ?", c.Param("id")).Delete(&rule)
 	}
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases")
@@ -169,4 +184,20 @@ func CheckIPRule(release model.Release, request model.UpdateRequest) (bool, bool
 	}
 
 	return found, false
+}
+
+func CheckRollRule(release model.Release) bool {
+	var rules []model.Rule
+	var rollrule model.RollRule
+
+	db.DB.Where("release_id = ?", release.ID).Find(&rules)
+	for _, rule := range rules {
+		if err := db.DB.Where("rule_id =?", rule.ID).First(&rollrule).Error; err == nil {
+			if rand.Intn(100) > rollrule.RollingPresentage {
+				return false
+			}
+		}
+	}
+
+	return true
 }

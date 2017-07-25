@@ -34,6 +34,7 @@ func (rlc ReleaseController) GetRelease(c *gin.Context) {
 		osrule      []model.OsRule
 		versionrule []model.VersionRule
 		iprule      []model.IPRule
+		rollrule    []model.RollRule
 		channels    []model.Channel
 	)
 	if err := db.DB.Where("id = ?", c.Param("id")).Find(&release).Error; err != nil {
@@ -71,6 +72,13 @@ func (rlc ReleaseController) GetRelease(c *gin.Context) {
 			}
 		}
 
+		var buf5 model.RollRule
+		for _, rule := range rules {
+			if err := db.DB.Model(buf5).Where("rule_id =?", rule.ID).First(&buf5).Error; err == nil {
+				rollrule = append(rollrule, buf5)
+			}
+		}
+
 		db.DB.Model(&channels).Find(&channels)
 
 		c.HTML(http.StatusOK, "release.html", gin.H{
@@ -80,6 +88,7 @@ func (rlc ReleaseController) GetRelease(c *gin.Context) {
 			"osrule":      osrule,
 			"versionrule": versionrule,
 			"iprule":      iprule,
+			"rollrule":    rollrule,
 			"channels":    channels,
 		})
 	}

@@ -64,7 +64,7 @@ func (i *Impl) ConnectDB(dbMode string) error {
 	if dbMode == "true" {
 		i.DB.LogMode(true)
 	}
-	i.DB.AutoMigrate(&UpdateRequest{}, &Release{}, &Channel{}, &Rule{}, &TimeRule{}, &OsRule{}, &VersionRule{}, &IPRule{})
+	i.DB.AutoMigrate(&UpdateRequest{}, &Release{}, &Channel{}, &Rule{}, &TimeRule{}, &OsRule{}, &VersionRule{}, &IPRule{}, &RollRule{})
 
 	return err
 }

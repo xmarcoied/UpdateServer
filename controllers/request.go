@@ -17,7 +17,6 @@ func NewRequestController() *RequestController {
 func (rc RequestController) GetRequests(c *gin.Context) {
 	var requests []model.UpdateRequest
 	requests = db.AllRequests(requests, c.Param("channel"), c.Param("product"))
-
 	c.HTML(http.StatusOK, "requests.html", gin.H{
 		"requests": requests,
 	})
@@ -72,6 +71,9 @@ func ReleaseMap(r model.UpdateRequest) (model.Release, bool) {
 				return release, false
 			}
 			if CheckVersionRule(release) == false {
+				return release, false
+			}
+			if CheckRollRule(release) == false {
 				return release, false
 			}
 			found, check := CheckIPRule(release, r)

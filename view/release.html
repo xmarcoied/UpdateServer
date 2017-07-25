@@ -73,6 +73,18 @@
                 </tr>
                 {{end}}
                 {{end}}
+                {{if .rollrule}}
+                <tr>
+                    <th colspan="3">Rolling Release Rules :</th>
+                </tr>
+                {{range .rollrule}}
+                <tr>
+                    <td>RollingPresentage: </td>
+                    <td>{{.RollingPresentage}}</td>
+                    <td><a href="/admin/dashboard/delete_rule/roll/{{.RuleID}}">Delete</a></td>
+                </tr>
+                {{end}}
+                {{end}}
                 <tr>
                     <th colspan="3"><a href="/admin/dashboard/add_rule/{{.id}}">Add new rule</a></th>
                 </tr>

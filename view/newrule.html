@@ -79,5 +79,19 @@
                     </tr>  
                 </table>
             </form>
+            <form action="/admin/dashboard/new_rule/roll/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">Rolling Release</td>
+                    </tr> 
+                    <tr>
+                        <th>Rolling Presentage: </th>
+                        <th> <input type="number" name="roll" min="1" max="99"> %</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
     </body>
 </html>
