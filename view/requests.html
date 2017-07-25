@@ -18,12 +18,13 @@
             <hr>
             <table>
                 <tr>
-                    <th colspan="9"><h2>Update Requests</h2></th>
+                    <th colspan="10"><h2>Update Requests</h2></th>
                 </tr>
                 <tr>
                     <th>ID</th>
                     <th>Product</th>
                     <th>Channel</th>
+                    <th>Status</th>
                     <th>Created At</th>
                     <th>OS</th>
                     <th>OS VER</th>
@@ -33,15 +34,20 @@
                 </tr>
                 {{ range .requests }}
                 <tr>
-                    <th>{{.ID}}</th>
-                    <th>{{.Product}}</th>
-                    <th>{{.Channel}}</th>
-                    <th>{{.CreatedAt}}</th>
-                    <th>{{.OS}}</th>
-                    <th>{{.OsVer}}</th>
-                    <th>{{.OsArch}}</th>
-                    <th>{{.ProductVersion}}</th>
-                    <th>{{.IP}}</th>
+                    <td>{{.ID}}</td>
+                    <td>{{.Product}}</td>
+                    <td>{{.Channel}}</td>
+                    <td>
+                        {{if eq .Status true}} Passed {{end}}
+                        {{if eq .Status false}} Refused {{end}}
+                    </td>
+                    <td>{{.CreatedAt}}</td>
+                    <td>{{.OS}}</td>
+                    <td>{{.OsVer}}</td>
+                    <td>{{.OsArch}}</td>
+                    <td>{{.ProductVersion}}</td>
+                    <td>{{.IP}}</td>
+
                 </tr>
                 {{ end }}
             </table>
