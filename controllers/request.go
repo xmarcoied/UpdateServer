@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/models"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/utils"
 	"github.com/gin-gonic/gin"
-	"github.com/xmarcoied/go-updater/model"
-	"github.com/xmarcoied/go-updater/utils"
 )
 
 func NewRequestController() *RequestController {

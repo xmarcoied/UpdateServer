@@ -4,10 +4,10 @@ import (
 	"flag"
 	"log"
 
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/config"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/controllers"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/models"
 	"github.com/gin-gonic/gin"
-	"github.com/xmarcoied/go-updater/config"
-	"github.com/xmarcoied/go-updater/controllers"
-	"github.com/xmarcoied/go-updater/model"
 )
 
 var (

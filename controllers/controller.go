@@ -1,6 +1,6 @@
 package controllers
 
-import "github.com/xmarcoied/go-updater/model"
+import "code.videolan.org/GSoC2017/Marco/UpdateServer/models"
 
 var db model.Impl
 

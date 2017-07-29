@@ -3,9 +3,9 @@ package model
 import (
 	"time"
 
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/config"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq" // for database
-	"github.com/xmarcoied/go-updater/config"
 )
 
 // UpdateRequest database model

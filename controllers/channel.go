@@ -4,8 +4,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/models"
 	"github.com/gin-gonic/gin"
-	"github.com/xmarcoied/go-updater/model"
 )
 
 func NewChannelController() *ChannelController {
