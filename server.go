@@ -5,39 +5,38 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/xmarcoied/go-updater/config"
 	"github.com/xmarcoied/go-updater/controllers"
 	"github.com/xmarcoied/go-updater/model"
 )
 
 var (
-	db      model.Impl
-	err     error
-	addr    string
-	ginMode string
-	dbMode  string
+	db   model.Impl
+	addr string
 )
 
-func main() {
-	// TODO : Add a middleware to keep the DB info
-
-	flag.StringVar(&addr, "port", "8080", "a port to listen")
-	flag.StringVar(&ginMode, "gin", "debug", "gin mode")
-	flag.StringVar(&dbMode, "db", "false", "gin mode")
-
+func init() {
+	flag.StringVar(&addr, "port", "8080", "The port server will be running on")
 	flag.Parse()
-	log.SetFlags(0)
+}
 
-	gin.SetMode(ginMode)
-	err := db.ConnectDB(dbMode)
+func main() {
+
+	c, err := config.Get()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = db.ConnectDB(c)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	controllers.SetDB(db)
 	rc := controllers.NewRequestController()
 	cc := controllers.NewChannelController()
 	rsc := controllers.NewRulesController()
 	rlc := controllers.NewReleaseController()
-
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	RouterInit(rc, cc, rsc, rlc).Run(":" + addr)
 }

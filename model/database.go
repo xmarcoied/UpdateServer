@@ -5,6 +5,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq" // for database
+	"github.com/xmarcoied/go-updater/config"
 )
 
 // UpdateRequest database model
@@ -56,14 +57,12 @@ type Impl struct {
 }
 
 // ConnectDB initiate the database
-func (i *Impl) ConnectDB(dbMode string) error {
+func (i *Impl) ConnectDB(c *config.Configuration) error {
 	var err error
 	// TODO : Move the psqlinfo to config & handle config/yml
-	psqlInfo := "host=localhost dbname=marcoied user=postgres password=postgres sslmode=disable"
+	psqlInfo := "host=" + c.Database.Host + " dbname=" + c.Database.Name + " user=" + c.Database.User + " password=" + c.Database.Password + " sslmode=disable"
 	i.DB, err = gorm.Open("postgres", psqlInfo)
-	if dbMode == "true" {
-		i.DB.LogMode(true)
-	}
+	i.DB.LogMode(true)
 	i.DB.AutoMigrate(&UpdateRequest{}, &Release{}, &Channel{}, &Rule{}, &TimeRule{}, &OsRule{}, &VersionRule{}, &IPRule{}, &RollRule{})
 
 	return err
