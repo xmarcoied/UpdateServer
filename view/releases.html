@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin: auto;
+            }
+            th, td ,h1 , h3{
+                padding: 5px;
+                text-align: center;    
+            }
+        </style>
+    </head>
+
+    <body>
+        {{ template "head.html" . }}
+        <hr>
+        <table style="width:50%">
+            <tr>
+                <th colspan="5"><h2>Update Releases</h2></th>
+            </tr>
+            <tr>
+                <td colspan="5"><a href="/admin/dashboard/newrelease">Add new release</a></td>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Product</th>
+                <th>Channel</th>
+                <th>OS</th>
+            </tr>
+            {{ range .releases }}
+            <tr onclick="GoNav('/admin/dashboard/release/{{ .ID }}')" style="cursor: pointer;">
+                <td>{{.ID}}</td>
+                <td>{{.Title}}</td>
+                <td>{{.Product}}</td>
+                <td>{{.Channel}}</td>
+                <td>{{.OS}}</td>
+            </tr>
+            {{ end }}
+
+        </table>
+        <hr>
+    <script type="text/javascript">
+        function GoNav(url){
+            document.location.href = url;
+        }
+    </script>
+    </body>
+</html>

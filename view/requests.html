@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin: auto;
+
+            }
+            th, td{
+                padding: 5px;
+                text-align: center;    
+            }
+        </style>
+    </head>
+    <body>
+            {{ template "head.html" . }}
+            <hr>
+            <table>
+                <tr>
+                    <th colspan="10"><h2>Update Requests</h2></th>
+                </tr>
+                <tr>
+                    <td colspan="10"><a href="#" onClick="window.location.reload();return false;">Refresh</a></td>
+                </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Channel</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>OS</th>
+                    <th>OS VER</th>
+                    <th>OS ARCH</th>
+                    <th>VLC VER</th>
+                    <th>IP</th>
+                </tr>
+                {{ range .requests }}
+                <tr>
+                    <td>{{.ID}}</td>
+                    <td>{{.Product}}</td>
+                    <td>{{.Channel}}</td>
+                    <td>
+                        {{if eq .Status true}} Passed {{end}}
+                        {{if eq .Status false}} Refused {{end}}
+                    </td>
+                    <td>
+                        {{if ne .CreatedSince.Month 0}} {{.CreatedSince.Month}} months ago {{end}}
+                        {{if eq .CreatedSince.Month 0}}
+                            {{if ne .CreatedSince.Day 0}} {{.CreatedSince.Day}} days ago {{end}}
+                            {{if eq .CreatedSince.Day 0}} 
+                                {{if ne .CreatedSince.Hour 0}} {{.CreatedSince.Hour}} hours ago {{end}}
+                                {{if eq .CreatedSince.Hour 0}}
+                                    {{if ne .CreatedSince.Minute 0}} {{.CreatedSince.Minute}} min ago {{end}}
+                                    {{if eq .CreatedSince.Minute 0}}
+                                        {{if eq .CreatedSince.Minute 0}} {{.CreatedSince.Second}} sec ago {{end}}
+                                    {{end}}
+                                {{end}}
+                            {{end}}
+                        {{end}}
+                    </td>
+                    <td>{{.OS}}</td>
+                    <td>{{.OsVer}}</td>
+                    <td>{{.OsArch}}</td>
+                    <td>{{.ProductVersion}}</td>
+                    <td>{{.IP}}</td>
+
+                </tr>
+                {{ end }}
+            </table>
+        <hr>
+    </body>
+</html>

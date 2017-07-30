@@ -1,0 +1,8 @@
+language: go
+
+go:
+  - 1.x
+  - master
+
+before_install:
+  - go get code.videolan.org/GSoC2017/Marco/UpdateServer

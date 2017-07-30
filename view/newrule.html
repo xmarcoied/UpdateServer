@@ -1,0 +1,97 @@
+<html> 
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin: auto;
+            }
+            th, td ,h1 , h3{
+                padding: 5px;
+                text-align: center;    
+            }
+            hr{
+                width: 10%;
+            }
+        </style>
+    </head>
+    
+    <body>
+        {{ template "head.html" . }}
+        <h1>New rule associated with release #{{.id}}</h1>    
+            <form action="/admin/dashboard/new_rule/time/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">Time Rule</td>
+                    </tr> 
+                    <tr>
+                        <th>Start at: </th>
+                        <th> <input type="datetime-local" name="timestart"> </th>
+                    </tr>
+                    <tr>
+                        <th>End at: </th>
+                        <th> <input type="datetime-local" name="timeend"> </th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
+            <form action="/admin/dashboard/new_rule/version/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">Version Rule</td>
+                    </tr> 
+                    <tr>
+                        <th>Product Version: </th>
+                        <th> <input name="product_version"> </th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
+            <form action="/admin/dashboard/new_rule/os/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">OS Rule</td>
+                    </tr> 
+                    <tr>
+                        <th>OS Version: </th>
+                        <th> <input name="os_version"> </th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
+            <form action="/admin/dashboard/new_rule/ip/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">IP Rule</td>
+                    </tr> 
+                    <tr>
+                        <th>IP Address: </th>
+                        <th> <input name="ip_address"> </th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
+            <form action="/admin/dashboard/new_rule/roll/{{.id}}" method="post">
+                <table style="margin: auto;">
+                    <tr>
+                        <td colspan="2">Rolling Release</td>
+                    </tr> 
+                    <tr>
+                        <th>Rolling Presentage: </th>
+                        <th> <input type="number" name="roll" min="1" max="99"> %</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>  
+                </table>
+            </form>
+    </body>
+</html>

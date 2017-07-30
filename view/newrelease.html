@@ -1,0 +1,74 @@
+<html>
+    <head>
+    <title>Admin Dashboard</title>
+ 
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin: auto;
+            }
+            th, td ,h1 , h3{
+                padding: 5px;
+                text-align: center;    
+            }
+        </style>
+    </head>
+
+    </head>
+    
+    <body>
+            {{ template "head.html" . }}
+            <h1>New Release</h1>    
+            <form action="/admin/dashboard/new_release" method="post">
+            <table style="margin: auto;">
+                <tr>
+                    <th>Product </th>
+                    <th> <textarea name="product"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>Channel </th>
+                    <th>
+                        <select name="channel">
+                            {{range .channels}}
+                            <option value="{{.Name}}">{{.Name}}</option>
+                            {{end}}
+                        </select>
+                    </th>
+                </tr>
+                <tr>
+                    <th>OS : </th>
+                    <th> <textarea name="os"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>OS Version : </th>
+                    <th> <textarea name="os_ver"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>OS Architecture : </th>
+                    <th> <textarea name="os_arch"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>Product Version : </th>
+                    <th> <textarea name="product_ver"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>URL : </th>
+                    <th> <textarea name="url"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>Title : </th>
+                    <th> <textarea name="title"></textarea> </th>
+                </tr>
+                <tr>
+                    <th>Description : </th>
+                    <th> <textarea name="desc"></textarea> </th>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Add"></td>
+                </tr>  
+            </table>
+        </form>
+    </body>
+</html>

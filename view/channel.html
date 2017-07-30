@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin: auto;
+            }
+            th, td ,h1 ,h3{
+                padding: 5px;
+                text-align: center;    
+            }
+        </style>
+    </head>
+
+    <body>
+        {{ template "head.html" . }}
+        <h1>New Channel </h1>
+            <form action="/admin/dashboard/new_channel" method="post">
+                <table style="width:50%">
+                    <tr>
+                        <th>Name :</th>
+                        <th> <textarea name="name"></textarea></th>
+                    </tr>
+                    <tr>
+                        <th>Public Key :</th>
+                        <th> <textarea rows="10" cols="50" name="pubkey"></textarea></th>
+                    </tr>
+                    <tr>
+                        <th>Private Key :</th>
+                        <th> <textarea rows="10" cols="50" name="privatekey"></textarea></th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"></td>
+                    </tr>    
+                </table>
+            </form>
+    </body>
+
+</html>

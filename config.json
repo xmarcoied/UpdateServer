@@ -1,0 +1,8 @@
+{
+    "psqlinfo": {
+        "psqlhost": "localhost" , 
+        "psqlname" : "marcoied" ,
+        "psqluser" : "postgres" , 
+        "psqlpassword" : "postgres" 
+    }
+}
