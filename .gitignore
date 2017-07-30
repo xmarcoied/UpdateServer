@@ -6,7 +6,8 @@ static/
 *.dll
 *.so
 *.dylib
-go-updater
+
+UpdateServer
 
 # Test binary, build with `go test -c`
 *.test
