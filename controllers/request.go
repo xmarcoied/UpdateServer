@@ -28,6 +28,8 @@ func (rc RequestController) GetRequests(c *gin.Context) {
 func ProcessCreatedSince(requests *[]model.UpdateRequest) {
 	TimeNow := time.Now().UTC()
 	for i := 0; i < len(*requests); i++ {
+		Duration := TimeNow.Sub((*requests)[i].CreatedAt.UTC())
+		(*requests)[i].CreatedSince.Month = int(Duration.Hours() / (24 * 30))
 		(*requests)[i].CreatedSince.Day = TimeNow.Day() - (*requests)[i].CreatedAt.UTC().Day()
 		(*requests)[i].CreatedSince.Hour = TimeNow.Hour() - (*requests)[i].CreatedAt.UTC().Hour()
 		(*requests)[i].CreatedSince.Minute = TimeNow.Minute() - (*requests)[i].CreatedAt.UTC().Minute()

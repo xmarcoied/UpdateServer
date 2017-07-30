@@ -22,6 +22,7 @@ type UpdateRequest struct {
 	Status         bool
 	Product        string
 	CreatedSince   struct {
+		Month  int
 		Day    int
 		Hour   int
 		Minute int
