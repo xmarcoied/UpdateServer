@@ -28,7 +28,7 @@
                     <th>Product</th>
                     <th>Channel</th>
                     <th>Status</th>
-                    <th>Created At</th>
+                    <th>Created</th>
                     <th>OS</th>
                     <th>OS VER</th>
                     <th>OS ARCH</th>
@@ -44,7 +44,12 @@
                         {{if eq .Status true}} Passed {{end}}
                         {{if eq .Status false}} Refused {{end}}
                     </td>
-                    <td>{{.CreatedAt}}</td>
+                    <td>
+                        {{if ne .CreatedSince.Day 0}} {{.CreatedSince.Day}} days ago {{end}}
+                        {{if ne .CreatedSince.Hour 0}} {{.CreatedSince.Hour}} hours ago {{end}}
+                        {{if ne .CreatedSince.Minute 0}} {{.CreatedSince.Minute}} min ago {{end}}
+                        {{if eq .CreatedSince.Minute 0}} {{.CreatedSince.Second}} sec ago {{end}}
+                    </td>
                     <td>{{.OS}}</td>
                     <td>{{.OsVer}}</td>
                     <td>{{.OsArch}}</td>

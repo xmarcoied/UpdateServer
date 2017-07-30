@@ -21,6 +21,12 @@ type UpdateRequest struct {
 	IP             string `form:"ip"`
 	Status         bool
 	Product        string
+	CreatedSince   struct {
+		Day    int
+		Hour   int
+		Minute int
+		Second int
+	} `gorm:"-"`
 }
 
 // Release database model

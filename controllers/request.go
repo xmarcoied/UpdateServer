@@ -3,6 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/model"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/utils"
@@ -17,9 +18,22 @@ func NewRequestController() *RequestController {
 func (rc RequestController) GetRequests(c *gin.Context) {
 	var requests []model.UpdateRequest
 	requests = db.AllRequests(requests, c.Param("channel"), c.Param("product"))
+
+	ProcessCreatedSince(&requests)
 	c.HTML(http.StatusOK, "requests.html", gin.H{
 		"requests": requests,
 	})
+}
+
+func ProcessCreatedSince(requests *[]model.UpdateRequest) {
+	TimeNow := time.Now().UTC()
+	for i := 0; i < len(*requests); i++ {
+		(*requests)[i].CreatedSince.Day = TimeNow.Day() - (*requests)[i].CreatedAt.UTC().Day()
+		(*requests)[i].CreatedSince.Hour = TimeNow.Hour() - (*requests)[i].CreatedAt.UTC().Hour()
+		(*requests)[i].CreatedSince.Minute = TimeNow.Minute() - (*requests)[i].CreatedAt.UTC().Minute()
+		(*requests)[i].CreatedSince.Second = TimeNow.Second() - (*requests)[i].CreatedAt.UTC().Second()
+	}
+
 }
 
 func (rc RequestController) Update(c *gin.Context) {
