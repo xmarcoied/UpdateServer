@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"log"
+	"math/rand"
+	"time"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/config"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/controllers"
@@ -16,6 +18,7 @@ var (
 )
 
 func init() {
+	rand.Seed(time.Now().UTC().UnixNano())
 	flag.StringVar(&addr, "port", "8080", "The port server will be running on")
 	flag.Parse()
 }
