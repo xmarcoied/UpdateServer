@@ -71,7 +71,7 @@ func RouterInit(rc *controllers.RequestController, cc *controllers.ChannelContro
 
 	appRouter := router.Group("/u/:product/:channel")
 	{
-		appRouter.GET("/get_requests", rc.GetRequests)
+		appRouter.GET("/requests", rc.GetRequests)
 		appRouter.GET("/update", rc.Update)
 	}
 

@@ -70,7 +70,7 @@ func (i *Impl) ConnectDB(c *config.Configuration) error {
 
 //AllRequests return all requests under specific channel
 func (i *Impl) AllRequests(r []UpdateRequest, ch string, p string) []UpdateRequest {
-	i.DB.Table("update_requests").Where("product = ? AND channel = ?", p, ch).Find(&r)
+	i.DB.Table("update_requests").Where("product = ? AND channel = ?", p, ch).Order("created_at desc").Find(&r)
 
 	return r
 }
