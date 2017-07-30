@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"code.videolan.org/GSoC2017/Marco/UpdateServer/models"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/model"
 	"github.com/gin-gonic/gin"
 )
 

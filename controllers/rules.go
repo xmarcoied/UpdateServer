@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"code.videolan.org/GSoC2017/Marco/UpdateServer/models"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -81,13 +81,13 @@ func (rsc RulesController) NewRule(c *gin.Context) {
 		db.DB.Save(&release)
 	case "roll":
 		var buf struct {
-			RollingPresentage int `form:"roll"`
+			RollingPercentage int `form:"roll"`
 		}
 		c.Bind(&buf)
 
 		var release model.Release
 		db.DB.Where("id = ?", c.Param("id")).First(&release)
-		release.Rules.RollRule.RollingPresentage = buf.RollingPresentage
+		release.Rules.RollRule.RollingPercentage = buf.RollingPercentage
 
 		db.DB.Save(&release)
 	}
@@ -193,7 +193,7 @@ func CheckRollRule(release model.Release) bool {
 	db.DB.Where("release_id = ?", release.ID).Find(&rules)
 	for _, rule := range rules {
 		if err := db.DB.Where("rule_id =?", rule.ID).First(&rollrule).Error; err == nil {
-			if rand.Intn(100) > rollrule.RollingPresentage {
+			if rand.Intn(100) > rollrule.RollingPercentage {
 				return false
 			}
 		}

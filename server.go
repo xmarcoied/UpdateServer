@@ -6,7 +6,7 @@ import (
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/config"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/controllers"
-	"code.videolan.org/GSoC2017/Marco/UpdateServer/models"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/model"
 	"github.com/gin-gonic/gin"
 )
 

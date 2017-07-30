@@ -35,7 +35,7 @@ type VersionRule struct {
 
 type RollRule struct {
 	RuleID            int
-	RollingPresentage int
+	RollingPercentage int
 }
 
 type IPRule struct {

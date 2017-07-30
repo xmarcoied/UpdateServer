@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	"code.videolan.org/GSoC2017/Marco/UpdateServer/models"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/model"
 	"golang.org/x/crypto/openpgp"
 )
 

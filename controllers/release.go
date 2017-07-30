@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"code.videolan.org/GSoC2017/Marco/UpdateServer/models"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/model"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/utils"
 	"github.com/gin-gonic/gin"
 )

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"code.videolan.org/GSoC2017/Marco/UpdateServer/models"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/model"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/utils"
 	"github.com/gin-gonic/gin"
 )

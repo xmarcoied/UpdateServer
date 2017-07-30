@@ -1,6 +1,6 @@
 package controllers
 
-import "code.videolan.org/GSoC2017/Marco/UpdateServer/models"
+import "code.videolan.org/GSoC2017/Marco/UpdateServer/model"
 
 var db model.Impl
 
