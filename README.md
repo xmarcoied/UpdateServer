@@ -38,9 +38,18 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
   and ```-config``` to add a path for the configuration file 
   
 ## Usage
+  - ```cd $GOPATH/src/code.videolan.org/GSoC2017/Marco/UpdateServer```
   - ```go build``` to build a binary UpdateServer
 
-  - ```./UpdateServer``` to run the Server [you may edit the port with flag -port]
+  - ```./UpdateServer``` to run the Server
+      
+      Optional flags: 
+      
+      ```./UpdateServer -port 80```
+      
+      ```./UpdateServer -config $HOME/config.json```
+      
+                      
 
   -  ```<host>/admin/dashboard/releaese``` to add new channel with public and private keys
 
