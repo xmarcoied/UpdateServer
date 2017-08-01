@@ -99,15 +99,21 @@ func (rlc ReleaseController) EditRelease(c *gin.Context) {
 	var release model.Release
 	c.Bind(&release)
 
-	db.DB.Model(&release).Where("id = ?", c.Param("id")).Updates(release)
-
 	id_buf, _ := strconv.Atoi(c.Param("id"))
 	release.ID = uint(id_buf)
 
 	GenerateStatus(release)
 	GenerateSignature(release)
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
+	if utils.ProcessRelease(release) == true {
+		log.Println("Accepted Release")
+		db.DB.Model(&release).Where("id = ?", c.Param("id")).Updates(release)
+		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases")
 
+	} else {
+		log.Println("Refused Release")
+		db.DB.Delete(&release)
+		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases")
+	}
 }
 
 func (rlc ReleaseController) DelRelease(c *gin.Context) {
@@ -122,6 +128,9 @@ func (rlc ReleaseController) NewRelease(c *gin.Context) {
 	var release model.Release
 	c.Bind(&release)
 
+	// FIXME : if the connection dropped for any reason at this point
+	// the server would count this release as a valid/signed release.
+
 	db.DB.Save(&release)
 	GenerateStatus(release)
 	GenerateSignature(release)
@@ -131,6 +140,7 @@ func (rlc ReleaseController) NewRelease(c *gin.Context) {
 
 	} else {
 		log.Println("Refused Release")
+		db.DB.Delete(&release)
 		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
 	}
 }

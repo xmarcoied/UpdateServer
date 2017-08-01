@@ -33,10 +33,8 @@ func (cc ChannelController) NewChannel(c *gin.Context) {
 
 	db.DB.Table("channels").Create(&channel)
 	pub := "static/channels/public/" + channel.Name + ".asc"
-	private := "static/channels/private/" + channel.Name + ".asc"
 
 	ioutil.WriteFile(pub, []byte(channel.PublicKey), 0644)
-	ioutil.WriteFile(private, []byte(channel.PrivateKey), 0644)
 
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/channels/")
 }
