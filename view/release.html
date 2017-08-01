@@ -17,7 +17,7 @@
         </style>
     </head>
         {{ template "head.html" . }}
-        <h1>Release #{{.id}}</h1>
+        <h1>Release #{{.release.ID}}</h1>
             <table style="width: 50%">
                 <tr>
                     <th colspan="4">
@@ -67,7 +67,7 @@
                 {{end}}
                 {{end}}
                 <tr>
-                    <th colspan="4"><a href="/admin/dashboard/add_rule/{{.id}}">Add new rule</a></th>
+                    <th colspan="4"><a href="/admin/dashboard/add_rule/{{.release.ID}}">Add new rule</a></th>
                 </tr>
             </table>
 
