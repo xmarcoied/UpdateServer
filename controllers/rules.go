@@ -37,12 +37,10 @@ func (rsc RulesController) NewRule(c *gin.Context) {
 		var release model.Release
 		db.DB.Where("id = ?", c.Param("id")).First(&release)
 
-		release.Rules.TimeRule.StartTime = t_start
-
 		if t_end.IsZero() {
 			t_end, _ = time.Parse(layout, "2906-01-02T15:04")
 		}
-		release.Rules.TimeRule.EndTime = t_end
+		release.Rules = append(release.Rules, model.Rule{TimeRule: model.TimeRule{EndTime: t_end, StartTime: t_start}})
 		db.DB.Save(&release)
 
 	case "os":
@@ -53,7 +51,7 @@ func (rsc RulesController) NewRule(c *gin.Context) {
 
 		var release model.Release
 		db.DB.Where("id = ?", c.Param("id")).First(&release)
-		release.Rules.OsRule.OsVersion = buf.OsVersion
+		release.Rules = append(release.Rules, model.Rule{OsRule: model.OsRule{OsVersion: buf.OsVersion}})
 
 		db.DB.Save(&release)
 
@@ -65,7 +63,7 @@ func (rsc RulesController) NewRule(c *gin.Context) {
 
 		var release model.Release
 		db.DB.Where("id = ?", c.Param("id")).First(&release)
-		release.Rules.VersionRule.ProductVersion = buf.ProductVersion
+		release.Rules = append(release.Rules, model.Rule{VersionRule: model.VersionRule{ProductVersion: buf.ProductVersion}})
 
 		db.DB.Save(&release)
 	case "ip":
@@ -76,7 +74,7 @@ func (rsc RulesController) NewRule(c *gin.Context) {
 
 		var release model.Release
 		db.DB.Where("id = ?", c.Param("id")).First(&release)
-		release.Rules.IPRule.IP = buf.IP
+		release.Rules = append(release.Rules, model.Rule{IPRule: model.IPRule{IP: buf.IP}})
 
 		db.DB.Save(&release)
 	case "roll":
@@ -87,7 +85,7 @@ func (rsc RulesController) NewRule(c *gin.Context) {
 
 		var release model.Release
 		db.DB.Where("id = ?", c.Param("id")).First(&release)
-		release.Rules.RollRule.RollingPercentage = buf.RollingPercentage
+		release.Rules = append(release.Rules, model.Rule{RollRule: model.RollRule{RollingPercentage: buf.RollingPercentage}})
 
 		db.DB.Save(&release)
 	}

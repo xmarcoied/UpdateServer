@@ -44,7 +44,7 @@ type Release struct {
 	Title          string `form:"title" json:"title"`
 	Description    string `form:"desc" json:"desc"`
 	Product        string `form:"product" json:"product"`
-	Rules          Rule
+	Rules          []Rule
 	Signature      string
 }
 

@@ -3,12 +3,11 @@ package model
 import (
 	"time"
 
-	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq" // for database
 )
 
 type Rule struct {
-	gorm.Model
+	ID          int
 	ReleaseID   int
 	TimeRule    TimeRule
 	OsRule      OsRule

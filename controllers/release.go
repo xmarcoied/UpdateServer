@@ -28,68 +28,31 @@ func (rlc ReleaseController) GetReleases(c *gin.Context) {
 
 func (rlc ReleaseController) GetRelease(c *gin.Context) {
 	var (
-		release     []model.Release
-		rules       []model.Rule
-		timerule    []model.TimeRule
-		osrule      []model.OsRule
-		versionrule []model.VersionRule
-		iprule      []model.IPRule
-		rollrule    []model.RollRule
-		channels    []model.Channel
+		release  model.Release
+		rules    []model.Rule
+		channels []model.Channel
 	)
-	if err := db.DB.Where("id = ?", c.Param("id")).Find(&release).Error; err != nil {
+	if err := db.DB.Find(&release, "id = ?", c.Param("id")).Related(&rules).Error; err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		log.Println(err)
 
 	} else {
-		// FIXME : Must be an implementation better than this.
-		var buf model.TimeRule
-		db.DB.Where("release_id = ?", c.Param("id")).Find(&rules)
-		for _, rule := range rules {
-			if err := db.DB.Model(buf).Where("rule_id =?", rule.ID).First(&buf).Error; err == nil {
-				timerule = append(timerule, buf)
-			}
-		}
 
-		var buf2 model.OsRule
-		for _, rule := range rules {
-			if err := db.DB.Model(buf2).Where("rule_id =?", rule.ID).First(&buf2).Error; err == nil {
-				osrule = append(osrule, buf2)
-			}
-		}
+		for i, rule := range rules {
+			db.DB.Model(&rule).Related(&rules[i].TimeRule)
+			db.DB.Model(&rule).Related(&rules[i].RollRule)
+			db.DB.Model(&rule).Related(&rules[i].VersionRule)
+			db.DB.Model(&rule).Related(&rules[i].OsRule)
+			db.DB.Model(&rule).Related(&rules[i].IPRule)
 
-		var buf3 model.VersionRule
-		for _, rule := range rules {
-			if err := db.DB.Model(buf3).Where("rule_id =?", rule.ID).First(&buf3).Error; err == nil {
-				versionrule = append(versionrule, buf3)
-			}
-		}
-
-		var buf4 model.IPRule
-		for _, rule := range rules {
-			if err := db.DB.Model(buf4).Where("rule_id =?", rule.ID).First(&buf4).Error; err == nil {
-				iprule = append(iprule, buf4)
-			}
-		}
-
-		var buf5 model.RollRule
-		for _, rule := range rules {
-			if err := db.DB.Model(buf5).Where("rule_id =?", rule.ID).First(&buf5).Error; err == nil {
-				rollrule = append(rollrule, buf5)
-			}
 		}
 
 		db.DB.Model(&channels).Find(&channels)
 
 		c.HTML(http.StatusOK, "release.html", gin.H{
-			"id":          c.Param("id"),
-			"release":     release,
-			"timerule":    timerule,
-			"osrule":      osrule,
-			"versionrule": versionrule,
-			"iprule":      iprule,
-			"rollrule":    rollrule,
-			"channels":    channels,
+			"release":  release,
+			"rules":    rules,
+			"channels": channels,
 		})
 	}
 
