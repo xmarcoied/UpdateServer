@@ -1,3 +1,5 @@
+![alt text](https://travis-ci.org/xmarcoied/UpdateServer.svg?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/xmarcoied/updateserver)](https://goreportcard.com/report/github.com/xmarcoied/updateserver)
 # UpdateServer
 
 An UpdateServer written in golang to ship releases and manage update requests
@@ -28,9 +30,9 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
 ```
     |-> static
       |-> channels        
-      |-> public        
+          |-> public        
          |- private    
-         |- releases
+      |- releases
       |-> signatures
 ```
 ## Flags
@@ -39,18 +41,17 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
   
 ## Usage
   - ```cd $GOPATH/src/code.videolan.org/GSoC2017/Marco/UpdateServer```
+  
   - ```go build``` to build a binary UpdateServer
 
   - ```./UpdateServer``` to run the Server
-      
+  
       Optional flags: 
+      ```
+      ./UpdateServer -port 80
+      ./UpdateServer -config $HOME/config.json
+      ```
       
-      ```./UpdateServer -port 80```
-      
-      ```./UpdateServer -config $HOME/config.json```
-      
-                      
-
   -  ```<host>/admin/dashboard/releaese``` to add new channel with public and private keys
 
   - ```<host>/admin/dashboard/releaese```  to add new release
