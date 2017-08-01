@@ -32,7 +32,7 @@
             </tr>
             {{ range .releases }}
             <tr onclick="GoNav('/admin/dashboard/release/{{ .ID }}')" style="cursor: pointer;">
-                <td>{{.ID}}</td>
+                <td> <a href="/admin/dashboard/release/{{.ID}}"> {{.ID}} </a></td>
                 <td>{{.Title}}</td>
                 <td>{{.Product}}</td>
                 <td>{{.Channel}}</td>
