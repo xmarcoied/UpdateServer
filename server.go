@@ -54,7 +54,9 @@ func RouterInit(rc *controllers.RequestController, cc *controllers.ChannelContro
 		adminRouter.GET("/dashboard/releases", rlc.GetReleases)
 		adminRouter.GET("/dashboard/release/:id", rlc.GetRelease)
 		adminRouter.GET("/dashboard/del_release/:id", rlc.DelRelease)
+		adminRouter.GET("/dashboard/addsignature/:id", rlc.AddSignature)
 
+		adminRouter.POST("/dashboard/verifysignature", rlc.VerifySignature)
 		adminRouter.POST("/dashboard/new_release", rlc.NewRelease)
 		adminRouter.POST("/dashboard/edit_release/:id", rlc.EditRelease)
 

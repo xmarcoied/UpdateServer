@@ -65,8 +65,6 @@ func (rlc ReleaseController) EditRelease(c *gin.Context) {
 	id_buf, _ := strconv.Atoi(c.Param("id"))
 	release.ID = uint(id_buf)
 
-	GenerateStatus(release)
-	GenerateSignature(release)
 	if utils.ProcessRelease(release) == true {
 		log.Println("Accepted Release")
 		db.DB.Model(&release).Where("id = ?", c.Param("id")).Updates(release)
@@ -95,15 +93,71 @@ func (rlc ReleaseController) NewRelease(c *gin.Context) {
 	// the server would count this release as a valid/signed release.
 
 	db.DB.Save(&release)
-	GenerateStatus(release)
-	GenerateSignature(release)
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/"+strconv.Itoa(int(release.ID)))
+
+}
+
+func (rlc ReleaseController) AddSignature(c *gin.Context) {
+	var (
+		release model.Release
+		buf     struct {
+			ID             uint
+			Channel        string `json:"channel"`
+			OS             string `json:"os"`
+			OsVer          string `json:"os_ver"`
+			OsArch         string `json:"os_arch"`
+			ProductVersion string `json:"product_ver"`
+			URL            string `json:"url"`
+			Title          string `json:"title"`
+			Description    string `json:"desc"`
+			Product        string `json:"product"`
+		}
+	)
+	db.DB.Model(&release).First(&release, "id = ?", c.Param("id"))
+
+	// FIXME: Isn't there a way to handle that?
+	buf.ID = release.ID
+	buf.Channel = release.Channel
+	buf.OS = release.OS
+	buf.OsVer = release.OsVer
+	buf.OsArch = release.OsArch
+	buf.ProductVersion = release.ProductVersion
+	buf.URL = release.URL
+	buf.Title = release.Title
+	buf.Description = release.Description
+	buf.Product = release.Product
+
+	ReleaseDir := "static/releases/" + strconv.Itoa(int(release.ID))
+	ReleaseJSON, _ := json.Marshal(buf)
+	ioutil.WriteFile(ReleaseDir, ReleaseJSON, 0644)
+
+	c.HTML(http.StatusOK, "newsignature.html", gin.H{
+		"status": string(ReleaseJSON),
+	})
+}
+
+func (rlc ReleaseController) VerifySignature(c *gin.Context) {
+	var (
+		buf struct {
+			Content   string `form:"content" json:"content"`
+			Signature string `form:"signature" json:"signature"`
+		}
+		release model.Release
+	)
+
+	c.Bind(&buf)
+	json.Unmarshal([]byte(string(buf.Content)), &release)
+	db.DB.Model(&release).First(&release, "id = ?", release.ID)
+
+	SignatureDir := "static/signatures/" + strconv.Itoa(int(release.ID)) + ".asc"
+	ioutil.WriteFile(SignatureDir, []byte(buf.Signature), 0644)
+
 	if utils.ProcessRelease(release) == true {
-		log.Println("Accepted Release")
-		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
+		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
 
 	} else {
-		log.Println("Refused Release")
 		db.DB.Delete(&release)
+		log.Println("Bad Signature")
 		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
 	}
 }
@@ -116,21 +170,4 @@ func (rlc ReleaseController) AddRelease(c *gin.Context) {
 	c.HTML(http.StatusOK, "newrelease.html", gin.H{
 		"channels": channels,
 	})
-}
-
-func GenerateStatus(release model.Release) {
-	release.Signature = ""
-	ReleaseDir := "static/releases/" + strconv.Itoa(int(release.ID))
-	ReleaseJSON, _ := json.Marshal(release)
-	ioutil.WriteFile(ReleaseDir, ReleaseJSON, 0644)
-
-}
-
-func GenerateSignature(release model.Release) {
-	SignatureDir := "static/signatures/" + strconv.Itoa(int(release.ID)) + ".asc"
-	ReleaseDir := "static/releases/" + strconv.Itoa(int(release.ID))
-	PrivateKeyDir := "static/channels/private/" + release.Channel + ".asc"
-
-	err := utils.Sign(PrivateKeyDir, ReleaseDir, SignatureDir)
-	log.Println(err)
 }
