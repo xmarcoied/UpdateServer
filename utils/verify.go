@@ -3,7 +3,6 @@ package utils
 import (
 	"log"
 	"os"
-	"strconv"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/model"
 	"golang.org/x/crypto/openpgp"
@@ -11,8 +10,8 @@ import (
 
 func ProcessRelease(release model.Release) bool {
 
-	ReleaseDir := "static/releases/" + strconv.Itoa(int(release.ID))
-	SignatureDir := "static/signatures/" + strconv.Itoa(int(release.ID)) + ".asc"
+	ReleaseDir := "static/releases/tmp"
+	SignatureDir := "static/signatures/tmp.asc"
 
 	signed, err := os.Open(ReleaseDir)
 	if err != nil {

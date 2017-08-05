@@ -15,7 +15,7 @@
 
     <body>
         <h1>Signature</h1>
-            <form action="/admin/dashboard/verifysignature" method="post">
+            <form action="/admin/dashboard/verifysignature/{{.ref}}?id={{.query}}" method="post">
                 <table style="width:60%">
                     <tr>
                         <th>Release content :</th>
