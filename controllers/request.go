@@ -37,7 +37,14 @@ func ProcessCreatedSince(requests *[]model.UpdateRequest) {
 	}
 
 }
+func (rc RequestController) GetSignature(c *gin.Context) {
+	var release model.Release
+	if err := db.DB.First(&release, "id = ?", c.Query("id")).Error; err != nil {
+		c.Abort()
+	}
+	c.String(http.StatusOK, release.Signature)
 
+}
 func (rc RequestController) Update(c *gin.Context) {
 	// Request params are now getting in GET params
 	var request model.UpdateRequest

@@ -159,6 +159,7 @@ func (rlc ReleaseController) VerifySignature(c *gin.Context) {
 	c.SetCookie("release", "", 0, "/", "", false, false)
 	if utils.ProcessRelease(release) == true {
 		if c.Param("reference") == "new" {
+			release.Signature = binding.Signature
 			db.DB.Create(&release)
 
 		}
@@ -189,6 +190,7 @@ func (rlc ReleaseController) VerifySignature(c *gin.Context) {
 			release.Title = buf.Title
 			release.Description = buf.Description
 			release.Product = buf.Product
+			release.Signature = binding.Signature
 
 			db.DB.Save(&release)
 		}

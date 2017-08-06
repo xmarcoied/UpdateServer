@@ -75,6 +75,7 @@ func RouterInit(rc *controllers.RequestController, cc *controllers.ChannelContro
 	{
 		appRouter.GET("/requests", rc.GetRequests)
 		appRouter.GET("/update", rc.Update)
+		appRouter.GET("/signature", rc.GetSignature)
 	}
 
 	router.LoadHTMLGlob("view/*.html")
