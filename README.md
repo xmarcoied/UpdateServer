@@ -31,7 +31,7 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
     |-> static
       |-> channels        
           |-> public        
-         |- private    
+          |- private    
       |- releases
       |-> signatures
 ```
@@ -51,12 +51,17 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
       ./UpdateServer -port 80
       ./UpdateServer -config $HOME/config.json
       ```
+      Default admin authentication : username:admin , password:admin
       
-  -  ```<host>/admin/dashboard/releaese``` to add new channel with public and private keys
+  -  ```<host>/admin/dashboard/channels``` to add new channel with public and private keys
 
   - ```<host>/admin/dashboard/releaese```  to add new release
 
        insert the needed fields and choose a channel and you can add rules against it later .
+       
+       Sign the status given via this commond :
+       
+       ```$ echo "<release metadata/json to sign here>" | gpg --default-key <fingerprint of the public key> --clearsign```
      
   - add ```<host>/u/update``` to you client with a querystring for the update_request paramaters.
     
