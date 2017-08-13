@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/base64"
 	"flag"
 	"log"
 	"math/rand"
+	"net/http"
+	"strings"
 	"time"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/config"
@@ -48,7 +51,8 @@ func RouterInit(rc *controllers.RequestController, cc *controllers.ChannelContro
 
 	router := gin.Default()
 
-	adminRouter := router.Group("/admin")
+	auth := router.Group("/", Auth)
+	adminRouter := auth.Group("/admin")
 	{
 		adminRouter.GET("/dashboard/newrelease", rlc.AddRelease)
 		adminRouter.GET("/dashboard/releases", rlc.GetReleases)
@@ -80,4 +84,35 @@ func RouterInit(rc *controllers.RequestController, cc *controllers.ChannelContro
 
 	router.LoadHTMLGlob("view/*.html")
 	return router
+}
+
+func Auth(c *gin.Context) {
+	if checkAuth(c) {
+		c.Next()
+	} else {
+		c.Writer.Header().Set("WWW-Authenticate", "Basic realm=UpdateServer")
+		c.AbortWithStatus(http.StatusUnauthorized)
+
+	}
+
+}
+func checkAuth(c *gin.Context) bool {
+	auth := strings.SplitN(c.Request.Header.Get("Authorization"), " ", 2)
+	if len(auth) != 2 {
+		return false
+	}
+
+	base, err := base64.StdEncoding.DecodeString(auth[1])
+	if err != nil {
+		return false
+	}
+
+	UserData := strings.SplitN(string(base), ":", 2)
+	if len(UserData) != 2 {
+		return false
+	}
+	log.Println(UserData)
+	username := UserData[0]
+	password := UserData[1]
+	return username == "admin" && password == "admin"
 }
