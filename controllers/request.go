@@ -60,9 +60,56 @@ func (rc RequestController) Update(c *gin.Context) {
 	if retStatus {
 		log.Println("There's a release matched")
 		request.Status = true
-		c.JSON(http.StatusOK, matchedRelease)
+		var buf struct {
+			ID             uint   `json:"id"`
+			Channel        string `json:"channel"`
+			OS             string `json:"os"`
+			OsVer          string `json:"os_ver"`
+			OsArch         string `json:"os_arch"`
+			ProductVersion string `json:"product_ver"`
+			URL            string `json:"url"`
+			Title          string `json:"title"`
+			Description    string `json:"desc"`
+			Product        string `json:"product"`
+		}
+		buf.ID = matchedRelease.ID
+		buf.Channel = matchedRelease.Channel
+		buf.OS = matchedRelease.OS
+		buf.OsVer = matchedRelease.OsVer
+		buf.OsArch = matchedRelease.OsArch
+		buf.ProductVersion = matchedRelease.ProductVersion
+		buf.URL = matchedRelease.URL
+		buf.Title = matchedRelease.Title
+		buf.Description = matchedRelease.Description
+		buf.Product = matchedRelease.Product
+
+		c.JSON(http.StatusOK, buf)
 	} else {
 		log.Println("No release matched")
+		var buf struct {
+			ID             uint   `json:"id"`
+			Channel        string `json:"channel"`
+			OS             string `json:"os"`
+			OsVer          string `json:"os_ver"`
+			OsArch         string `json:"os_arch"`
+			ProductVersion string `json:"product_ver"`
+			URL            string `json:"url"`
+			Title          string `json:"title"`
+			Description    string `json:"desc"`
+			Product        string `json:"product"`
+		}
+		buf.ID = matchedRelease.ID
+		buf.Channel = matchedRelease.Channel
+		buf.OS = matchedRelease.OS
+		buf.OsVer = matchedRelease.OsVer
+		buf.OsArch = matchedRelease.OsArch
+		buf.ProductVersion = matchedRelease.ProductVersion
+		buf.URL = matchedRelease.URL
+		buf.Title = matchedRelease.Title
+		buf.Description = matchedRelease.Description
+		buf.Product = matchedRelease.Product
+
+		c.JSON(http.StatusOK, buf)
 		request.Status = false
 	}
 	// TODO : DB Model API
