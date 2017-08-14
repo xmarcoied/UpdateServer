@@ -8,7 +8,9 @@ func RouterInit() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("/admin/dashboard/channels", GetChannels)
+	router.GET("/admin/dashboard/releases", GetReleases)
 	router.GET("/admin/dashboard/channels/add", AddChannel)
+	router.GET("/u/:product/:channel/requests", GetRequests)
 
 	router.POST("/admin/dashboard/new_channel", NewChannel)
 
