@@ -2,16 +2,14 @@ package main
 
 import (
 	"flag"
-
 	"log"
 	"math/rand"
-	"net/http"
 	"time"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/config"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/core"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
-	"github.com/gin-gonic/gin"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/http"
 )
 
 var (
@@ -26,7 +24,6 @@ func init() {
 }
 
 func main() {
-
 	c, err := config.Get()
 	if err != nil {
 		log.Fatal(err)
@@ -38,27 +35,5 @@ func main() {
 	}
 
 	core.SetDB(db)
-
-	router := gin.Default()
-
-	router.GET("/admin/dashboard/channels", func(c *gin.Context) {
-		channels := core.GetChannels()
-		c.HTML(http.StatusOK, "channels.html", gin.H{
-			"channels": channels,
-		})
-	})
-
-	router.GET("/admin/dashboard/channels/add", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "channel.html", nil)
-	})
-
-	router.POST("/admin/dashboard/new_channel", func(c *gin.Context) {
-		var channel database.Channel
-		c.Bind(&channel)
-		core.NewChannel(channel)
-		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/channels/")
-	})
-
-	router.LoadHTMLGlob("html/*.html")
-	router.Run(":" + addr)
+	http.Run(addr)
 }
