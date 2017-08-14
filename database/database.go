@@ -1,4 +1,4 @@
-package model
+package database
 
 import (
 	"time"
@@ -57,7 +57,6 @@ type Channel struct {
 	RequestsCount string
 }
 
-// Impl is handling gorm
 type Impl struct {
 	DB *gorm.DB
 }
@@ -72,17 +71,4 @@ func (i *Impl) ConnectDB(c *config.Configuration) error {
 	i.DB.AutoMigrate(&UpdateRequest{}, &Release{}, &Channel{}, &Rule{}, &TimeRule{}, &OsRule{}, &VersionRule{}, &IPRule{}, &RollRule{})
 
 	return err
-}
-
-//AllRequests return all requests under specific channel
-func (i *Impl) AllRequests(r []UpdateRequest, ch string, p string) []UpdateRequest {
-	i.DB.Table("update_requests").Where("product = ? AND channel = ?", p, ch).Order("created_at desc").Find(&r)
-
-	return r
-}
-
-func (i *Impl) ReleaseMatch(req UpdateRequest, rel *[]Release) {
-	i.DB.Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
-		req.Product, req.Channel, req.OS, req.OsArch, req.OsVer).Find(&rel)
-
 }
