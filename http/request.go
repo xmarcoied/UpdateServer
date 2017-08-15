@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetRequests is http handler to represent all the requests available in the UpdateServer
 func GetRequests(c *gin.Context) {
 	requests := core.GetRequests(c.Param("channel"), c.Param("product"))
 	c.HTML(http.StatusOK, "requests.html", gin.H{

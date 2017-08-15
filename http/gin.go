@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// RouterInit function initiate the gin engine main handler
 func RouterInit() *gin.Engine {
 	router := gin.Default()
 
@@ -18,6 +19,7 @@ func RouterInit() *gin.Engine {
 	return router
 }
 
+// Run function initaite the UpdateServer
 func Run(addr string) {
 	RouterInit().Run(":" + addr)
 }

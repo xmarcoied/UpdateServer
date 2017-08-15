@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetReleases is http handler to represent all the releases available in the UpdateServer
 func GetReleases(c *gin.Context) {
 	releases := core.GetReleases()
 	c.HTML(http.StatusOK, "releases.html", gin.H{

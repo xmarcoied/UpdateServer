@@ -6,6 +6,7 @@ import (
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
 )
 
+// GetRequests return all requests recorded at the database associated with a channel and product
 func GetRequests(channel, product string) []database.UpdateRequest {
 	var requests []database.UpdateRequest
 	db.DB.Where("product = ? AND channel = ?", product, channel).Order("created_at desc").Find(&requests)
@@ -13,6 +14,7 @@ func GetRequests(channel, product string) []database.UpdateRequest {
 	return requests
 }
 
+// ProcessCreatedSince initiate the CreateSince Section at update_requests
 func ProcessCreatedSince(requests *[]database.UpdateRequest) {
 	TimeNow := time.Now().UTC()
 	for i := 0; i < len(*requests); i++ {
