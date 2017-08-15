@@ -57,3 +57,8 @@ func EditRelease(release *database.Release, id string, bindingSignature string, 
 
 	db.DB.Save(&release)
 }
+
+func DeleteRelease(release_id string) {
+	var release database.Release
+	db.DB.Where("id = ?", release_id).Delete(&release)
+}

@@ -26,3 +26,9 @@ func ProcessCreatedSince(requests *[]database.UpdateRequest) {
 		(*requests)[i].CreatedSince.Second = TimeNow.Second() - (*requests)[i].CreatedAt.UTC().Second()
 	}
 }
+
+func GetSignature(release_id string) string {
+	var release database.Release
+	db.DB.First(&release, "id = ?", release_id)
+	return release.Signature
+}

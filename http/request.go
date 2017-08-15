@@ -14,3 +14,9 @@ func GetRequests(c *gin.Context) {
 		"requests": requests,
 	})
 }
+
+// GetSignature
+func GetSignature(c *gin.Context) {
+	releaseSignature := core.GetSignature(c.Query("id"))
+	c.String(http.StatusOK, releaseSignature)
+}
