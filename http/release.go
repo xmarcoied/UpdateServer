@@ -23,9 +23,9 @@ func GetReleases(c *gin.Context) {
 
 // GetRelease
 func GetRelease(c *gin.Context) {
-	var rules []database.Rule
 	release := core.GetRelease(c.Param("id"))
 	channels := core.GetChannels()
+	rules := core.GetRules(release)
 	c.HTML(http.StatusOK, "release.html", gin.H{
 		"release":  release,
 		"rules":    rules,

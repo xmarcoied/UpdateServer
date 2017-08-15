@@ -19,7 +19,7 @@ func RouterInit() *gin.Engine {
 	router.GET("/admin/dashboard/addsignature/:reference", AddSignature)
 	router.GET("/admin/dashboard/del_release/:id", DelRelease)
 	router.GET("/admin/dashboard/add_rule/:id", AddRule)
-	// router.GET("/admin/dashboard/delete_rule/:rule/:id", DeleteRule)
+	router.GET("/admin/dashboard/delete_rule/:rule/:id", DeleteRule)
 
 	router.POST("/admin/dashboard/new_rule/:rule/:id", NewRule)
 	router.POST("/admin/dashboard/edit_release/:id", EditRelease)

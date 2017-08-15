@@ -68,3 +68,9 @@ func NewRule(c *gin.Context) {
 	core.NewRule(c.Param("id"), rule)
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+c.Param("id"))
 }
+
+func DeleteRule(c *gin.Context) {
+	core.DeleteRule(c.Param("rule"), c.Param("id"))
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases")
+
+}
