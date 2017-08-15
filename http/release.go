@@ -33,6 +33,57 @@ func GetRelease(c *gin.Context) {
 	})
 }
 
+// AddRelease
+func AddRelease(c *gin.Context) {
+	channels := core.GetChannels()
+	c.HTML(http.StatusOK, "newrelease.html", gin.H{
+		"channels": channels,
+	})
+}
+
+// NewRelease
+func NewRelease(c *gin.Context) {
+	var (
+		release database.Release
+		buf     struct {
+			Channel        string `json:"channel"`
+			OS             string `json:"os"`
+			OsVer          string `json:"os_ver"`
+			OsArch         string `json:"os_arch"`
+			ProductVersion string `json:"product_ver"`
+			URL            string `json:"url"`
+			Title          string `json:"title"`
+			Description    string `json:"desc"`
+			Product        string `json:"product"`
+		}
+	)
+	c.Bind(&release)
+	// FIXME: Isn't there a way to handle that?
+	buf.Channel = release.Channel
+	buf.OS = release.OS
+	buf.OsVer = release.OsVer
+	buf.OsArch = release.OsArch
+	buf.ProductVersion = release.ProductVersion
+	buf.URL = release.URL
+	buf.Title = release.Title
+	buf.Description = release.Description
+	buf.Product = release.Product
+
+	ReleaseJSON, _ := json.Marshal(buf)
+	c.SetCookie("release", string(ReleaseJSON), 0, "/", "", false, false)
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/new")
+}
+
+// EditRelease
+func EditRelease(c *gin.Context) {
+	var release database.Release
+	c.Bind(&release)
+
+	ReleaseJSON, _ := json.Marshal(release)
+	c.SetCookie("release", string(ReleaseJSON), 0, "/", "", false, false)
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/edit?id="+c.Param("id"))
+}
+
 //AddSignature
 func AddSignature(c *gin.Context) {
 	release, _ := c.Cookie("release")
