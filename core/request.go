@@ -41,19 +41,39 @@ func GetSignature(release_id string) string {
 
 // ReleaseMap function map the incoming update_request with the most suitable update release
 func ReleaseMap(request database.UpdateRequest) (database.Release, bool) {
-	var release database.Release
+	var emptyrelease database.Release
 	// First , find and count the available releases match the request specs
 	var releasescount int
 	var releases []database.Release
 
 	db.DB.Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
 		request.Product, request.Channel, request.OS, request.OsArch, request.OsVer).Find(&releases).Count(&releasescount)
-	log.Println(releasescount, releases)
 
 	if releasescount == 0 {
-		return release, false
+		return emptyrelease, false
 	} else {
-		return releases[0], true
-	}
+		for _, release := range releases {
+			rules := GetRules(release)
+			if len(rules) == 0 {
+				log.Println("There's no rules")
+				return releases[0], true
+			}
+			if CheckTimeRule(release) == false {
+				return emptyrelease, false
+			}
+			if CheckOsRule(release, request) == false {
+				return emptyrelease, false
+			}
+			if CheckVersionRule(release, request) == false {
+				return emptyrelease, false
+			}
+			if CheckRollRule(release) == false {
+				return emptyrelease, false
+			}
 
+			return releases[0], true
+		}
+
+		return emptyrelease, false
+	}
 }

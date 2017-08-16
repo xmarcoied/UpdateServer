@@ -1,6 +1,10 @@
 package core
 
 import (
+	"log"
+	"math/rand"
+	"time"
+
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
 )
 
@@ -46,4 +50,66 @@ func DeleteRule(rule string, id string) {
 		var rule database.RollRule
 		db.DB.Where("rule_id = ?", id).Delete(&rule)
 	}
+}
+
+func CheckTimeRule(release database.Release) bool {
+	var rules []database.Rule
+	var timerule database.TimeRule
+	db.DB.Where("release_id = ?", release.ID).Find(&rules)
+	for _, rule := range rules {
+		if err := db.DB.Where("rule_id =?", rule.ID).First(&timerule).Error; err == nil {
+			if !(time.Now().Before(timerule.EndTime) && time.Now().After(timerule.StartTime)) {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func CheckOsRule(release database.Release, request database.UpdateRequest) bool {
+	var rules []database.Rule
+	var osrule database.OsRule
+	db.DB.Where("release_id = ?", release.ID).Find(&rules)
+	for _, rule := range rules {
+		if err := db.DB.Where("rule_id =?", rule.ID).First(&osrule).Error; err == nil {
+			log.Println("hola os rule : ", osrule.OsVersion, "hola os request:", release.OsVer, "Compression:", release.OsVer == osrule.OsVersion)
+			if request.OsVer == osrule.OsVersion {
+				log.Println("That suppose to be a false response")
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
+func CheckRollRule(release database.Release) bool {
+	var rules []database.Rule
+	var rollrule database.RollRule
+
+	db.DB.Where("release_id = ?", release.ID).Find(&rules)
+	for _, rule := range rules {
+		if err := db.DB.Where("rule_id =?", rule.ID).First(&rollrule).Error; err == nil {
+			if rand.Intn(100) > rollrule.RollingPercentage {
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
+func CheckVersionRule(release database.Release, request database.UpdateRequest) bool {
+	var rules []database.Rule
+	var versionrule database.VersionRule
+	db.DB.Where("release_id = ?", release.ID).Find(&rules)
+	for _, rule := range rules {
+		if err := db.DB.Where("rule_id =?", rule.ID).First(&versionrule).Error; err == nil {
+			if request.ProductVersion == versionrule.ProductVersion {
+				return false
+			}
+		}
+	}
+
+	return true
 }
