@@ -4,6 +4,7 @@ import (
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
 )
 
+// NewRule function create a new rule assoicated with a release. Given the release_id
 func NewRule(release_id string, rule database.Rule) {
 	var release database.Release
 	db.DB.Where("id = ?", release_id).First(&release)
@@ -12,6 +13,7 @@ func NewRule(release_id string, rule database.Rule) {
 	db.DB.Save(&release)
 }
 
+// GetRules function return all the rules associated with a release. Given the release
 func GetRules(release database.Release) []database.Rule {
 	var rules []database.Rule
 	db.DB.Model(&release).Related(&rules)
@@ -25,6 +27,7 @@ func GetRules(release database.Release) []database.Rule {
 	return rules
 }
 
+// DeleteRule function delete a specific rule from a release. Given the rule type and rule_id
 func DeleteRule(rule string, id string) {
 	switch rule {
 	case "time":

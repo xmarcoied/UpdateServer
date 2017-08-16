@@ -31,7 +31,7 @@ func Update(c *gin.Context) {
 	request.Channel = c.Param("channel")
 	request.Product = c.Param("product")
 
-	matchedRelease, retStatus := ReleaseMap(request)
+	matchedRelease, retStatus := core.ReleaseMap(request)
 	if retStatus {
 		log.Println("There's a release matched")
 		request.Status = true
@@ -89,9 +89,4 @@ func Update(c *gin.Context) {
 	}
 
 	core.NewRequest(request)
-}
-
-func ReleaseMap(request database.UpdateRequest) (database.Release, bool) {
-	var release database.Release
-	return release, true
 }
