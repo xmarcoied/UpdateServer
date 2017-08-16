@@ -99,3 +99,16 @@ func Update(c *gin.Context) {
 
 	core.NewRequest(request)
 }
+
+func GetAct(c *gin.Context) {
+	var request database.UpdateRequest
+	c.Bind(&request)
+
+	channels := core.GetChannels()
+	release, _ := core.ReleaseMap(request)
+	c.HTML(http.StatusOK, "requestclient.html", gin.H{
+		"request":  request,
+		"release":  release,
+		"channels": channels,
+	})
+}

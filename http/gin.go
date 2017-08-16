@@ -38,6 +38,8 @@ func RouterInit() *gin.Engine {
 		pub.GET("/signature", GetSignature)
 		pub.GET("/update", Update)
 	}
+	router.GET("act", GetAct)
+	router.POST("act", GetAct)
 
 	router.LoadHTMLGlob("html/*.html")
 	return router

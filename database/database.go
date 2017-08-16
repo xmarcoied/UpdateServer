@@ -20,7 +20,7 @@ type UpdateRequest struct {
 	ProductVersion string `form:"product_ver"`
 	IP             string `form:"ip"`
 	Status         bool
-	Product        string
+	Product        string `form:"product"`
 	CreatedSince   struct {
 		Month  int
 		Day    int
