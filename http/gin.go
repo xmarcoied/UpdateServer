@@ -1,6 +1,10 @@
 package http
 
 import (
+	"encoding/base64"
+	"net/http"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -8,24 +12,32 @@ import (
 func RouterInit() *gin.Engine {
 	router := gin.Default()
 
-	router.GET("/admin/dashboard/channels", GetChannels)
-	router.GET("/admin/dashboard/releases", GetReleases)
-	router.GET("/admin/dashboard/release/:id", GetRelease)
-	router.GET("/admin/dashboard/channels/add", AddChannel)
-	router.GET("/u/:product/:channel/requests", GetRequests)
-	router.GET("/u/:product/:channel/signature", GetSignature)
-	router.GET("/u/:product/:channel/update", Update)
-	router.GET("/admin/dashboard/newrelease", AddRelease)
-	router.GET("/admin/dashboard/addsignature/:reference", AddSignature)
-	router.GET("/admin/dashboard/del_release/:id", DelRelease)
-	router.GET("/admin/dashboard/add_rule/:id", AddRule)
-	router.GET("/admin/dashboard/delete_rule/:rule/:id", DeleteRule)
+	auth := router.Group("/", Auth)
+	admin := auth.Group("/admin/dashboard")
+	{
+		admin.GET("/channels", GetChannels)
+		admin.GET("/releases", GetReleases)
+		admin.GET("/release/:id", GetRelease)
+		admin.GET("/channels/add", AddChannel)
+		admin.GET("/newrelease", AddRelease)
+		admin.GET("/addsignature/:reference", AddSignature)
+		admin.GET("/del_release/:id", DelRelease)
+		admin.GET("/add_rule/:id", AddRule)
+		admin.GET("/delete_rule/:rule/:id", DeleteRule)
 
-	router.POST("/admin/dashboard/new_rule/:rule/:id", NewRule)
-	router.POST("/admin/dashboard/edit_release/:id", EditRelease)
-	router.POST("/admin/dashboard/verifysignature/:reference", VerifySignature)
-	router.POST("/admin/dashboard/new_release", NewRelease)
-	router.POST("/admin/dashboard/new_channel", NewChannel)
+		admin.POST("/new_rule/:rule/:id", NewRule)
+		admin.POST("/edit_release/:id", EditRelease)
+		admin.POST("/verifysignature/:reference", VerifySignature)
+		admin.POST("/new_release", NewRelease)
+		admin.POST("/new_channel", NewChannel)
+	}
+
+	pub := router.Group("/u/:product/:channel")
+	{
+		pub.GET("/requests", GetRequests)
+		pub.GET("/signature", GetSignature)
+		pub.GET("/update", Update)
+	}
 
 	router.LoadHTMLGlob("html/*.html")
 	return router
@@ -34,4 +46,34 @@ func RouterInit() *gin.Engine {
 // Run function initaite the UpdateServer
 func Run(addr string) {
 	RouterInit().Run(":" + addr)
+}
+
+func Auth(c *gin.Context) {
+	if checkAuth(c) {
+		c.Next()
+	} else {
+		c.Writer.Header().Set("WWW-Authenticate", "Basic realm=UpdateServer")
+		c.AbortWithStatus(http.StatusUnauthorized)
+
+	}
+
+}
+func checkAuth(c *gin.Context) bool {
+	auth := strings.SplitN(c.Request.Header.Get("Authorization"), " ", 2)
+	if len(auth) != 2 {
+		return false
+	}
+
+	base, err := base64.StdEncoding.DecodeString(auth[1])
+	if err != nil {
+		return false
+	}
+
+	UserData := strings.SplitN(string(base), ":", 2)
+	if len(UserData) != 2 {
+		return false
+	}
+	username := UserData[0]
+	password := UserData[1]
+	return username == "admin" && password == "admin"
 }

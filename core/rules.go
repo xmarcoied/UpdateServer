@@ -113,3 +113,21 @@ func CheckVersionRule(release database.Release, request database.UpdateRequest) 
 
 	return true
 }
+
+func CheckIPRule(release database.Release, request database.UpdateRequest) (bool, bool) {
+	var rules []database.Rule
+	var iprule database.IPRule
+
+	found := false
+	db.DB.Where("release_id = ?", release.ID).Find(&rules)
+	for _, rule := range rules {
+		if err := db.DB.Where("rule_id =?", rule.ID).First(&iprule).Error; err == nil {
+			found = true
+			if request.IP == iprule.IP {
+				return true, true
+			}
+		}
+	}
+
+	return found, false
+}

@@ -70,6 +70,10 @@ func ReleaseMap(request database.UpdateRequest) (database.Release, bool) {
 			if CheckRollRule(release) == false {
 				return emptyrelease, false
 			}
+			found, check := CheckIPRule(release, request)
+			if found == true {
+				return emptyrelease, check
+			}
 
 			return releases[0], true
 		}

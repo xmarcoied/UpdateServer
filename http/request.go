@@ -3,6 +3,7 @@ package http
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/core"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
@@ -30,6 +31,14 @@ func Update(c *gin.Context) {
 
 	request.Channel = c.Param("channel")
 	request.Product = c.Param("product")
+
+	ForwardHeader := c.Request.Header.Get("X-Forwarded-For")
+	ForwardedFields := strings.Split(ForwardHeader, ",")
+	if len(ForwardedFields) > 0 {
+		request.IP = ForwardedFields[0]
+	} else {
+		request.IP = ""
+	}
 
 	matchedRelease, retStatus := core.ReleaseMap(request)
 	if retStatus {
