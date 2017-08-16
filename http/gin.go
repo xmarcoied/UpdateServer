@@ -14,7 +14,7 @@ func RouterInit() *gin.Engine {
 	router.GET("/admin/dashboard/channels/add", AddChannel)
 	router.GET("/u/:product/:channel/requests", GetRequests)
 	router.GET("/u/:product/:channel/signature", GetSignature)
-	// router.GET("/u/:product/:channel/update", Update)
+	router.GET("/u/:product/:channel/update", Update)
 	router.GET("/admin/dashboard/newrelease", AddRelease)
 	router.GET("/admin/dashboard/addsignature/:reference", AddSignature)
 	router.GET("/admin/dashboard/del_release/:id", DelRelease)

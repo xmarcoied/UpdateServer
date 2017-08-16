@@ -14,6 +14,10 @@ func GetRequests(channel, product string) []database.UpdateRequest {
 	return requests
 }
 
+func NewRequest(request database.UpdateRequest) {
+	db.DB.Create(&request)
+}
+
 // ProcessCreatedSince initiate the CreateSince Section at update_requests
 func ProcessCreatedSince(requests *[]database.UpdateRequest) {
 	TimeNow := time.Now().UTC()
