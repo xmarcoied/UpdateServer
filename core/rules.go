@@ -32,24 +32,11 @@ func GetRules(release database.Release) []database.Rule {
 }
 
 // DeleteRule function delete a specific rule from a release. Given the rule type and rule_id
-func DeleteRule(rule string, id string) {
-	switch rule {
-	case "time":
-		var rule database.TimeRule
-		db.DB.Where("rule_id = ?", id).Delete(&rule)
-	case "os":
-		var rule database.OsRule
-		db.DB.Where("rule_id = ?", id).Delete(&rule)
-	case "version":
-		var rule database.VersionRule
-		db.DB.Where("rule_id = ?", id).Delete(&rule)
-	case "ip":
-		var rule database.IPRule
-		db.DB.Where("rule_id = ?", id).Delete(&rule)
-	case "roll":
-		var rule database.RollRule
-		db.DB.Where("rule_id = ?", id).Delete(&rule)
-	}
+func DeleteRule(id string) int {
+	var rule database.Rule
+	db.DB.Where("id = ? ", id).First(&rule)
+	db.DB.Where("id = ?", id).Delete(&database.Rule{})
+	return rule.ReleaseID
 }
 
 func CheckTimeRule(release database.Release) bool {

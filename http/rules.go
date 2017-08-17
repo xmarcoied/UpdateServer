@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/core"
@@ -70,7 +71,7 @@ func NewRule(c *gin.Context) {
 }
 
 func DeleteRule(c *gin.Context) {
-	core.DeleteRule(c.Param("rule"), c.Param("id"))
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases")
+	release_id := strconv.Itoa(core.DeleteRule(c.Param("id")))
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+release_id)
 
 }
