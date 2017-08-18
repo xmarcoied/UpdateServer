@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -19,9 +20,13 @@ func GetRequests(c *gin.Context) {
 }
 
 // GetSignature
+// Expecting requests like "x.asc" format
 func GetSignature(c *gin.Context) {
-	releaseSignature := core.GetSignature(c.Query("id"))
+	var release_id int
+	fmt.Sscanf(c.Query("id"), "%d.asc", &release_id)
+	releaseSignature := core.GetSignature(release_id)
 	c.String(http.StatusOK, releaseSignature)
+
 }
 
 func Update(c *gin.Context) {

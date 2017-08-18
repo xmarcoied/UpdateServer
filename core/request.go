@@ -33,7 +33,7 @@ func ProcessCreatedSince(requests *[]database.UpdateRequest) {
 }
 
 // GetSignature function return the signature of a given release.
-func GetSignature(release_id string) string {
+func GetSignature(release_id int) string {
 	var release database.Release
 	db.DB.First(&release, "id = ?", release_id)
 	return release.Signature
