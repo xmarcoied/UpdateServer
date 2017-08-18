@@ -2,6 +2,7 @@ package http
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -116,8 +117,11 @@ func AddSignature(c *gin.Context) {
 	if ref == "edit" {
 		query = c.Query("id")
 	}
+
+	fingerprint, _ := utils.GetFingerprint(buf.Channel)
+	status := fmt.Sprintf("printf '%s' | gpg --default-key %s --detach-sign -a", string(ReleaseJSON), fingerprint)
 	c.HTML(http.StatusOK, "newsignature.html", gin.H{
-		"status": string(ReleaseJSON),
+		"status": status,
 		"ref":    ref,
 		"query":  query,
 	})
@@ -134,6 +138,7 @@ func VerifySignature(c *gin.Context) {
 	)
 
 	c.Bind(&binding)
+	binding.Content, _ = c.Cookie("release")
 	json.Unmarshal([]byte(string(binding.Content)), &release)
 
 	SignatureDir := "static/signatures/tmp.asc"

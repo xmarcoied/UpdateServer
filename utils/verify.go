@@ -1,8 +1,10 @@
 package utils
 
 import (
+	"encoding/hex"
 	"log"
 	"os"
+	"strings"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
 	"golang.org/x/crypto/openpgp"
@@ -62,4 +64,19 @@ func verify(keyRing openpgp.EntityList, signed, signature string) bool {
 		return false
 	}
 	return true
+}
+
+func GetFingerprint(channel string) (string, error) {
+	pub := "static/channels/public/" + channel + ".asc"
+	keyRingFile, err := os.Open(pub)
+	if err != nil {
+		return "", err
+	}
+	defer keyRingFile.Close()
+	keyRing, err := openpgp.ReadArmoredKeyRing(keyRingFile)
+	if err != nil {
+		return "", err
+	}
+	fingerprint := strings.ToUpper(hex.EncodeToString(keyRing[0].PrimaryKey.Fingerprint[:]))
+	return fingerprint, nil
 }
