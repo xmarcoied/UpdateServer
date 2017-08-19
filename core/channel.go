@@ -13,10 +13,20 @@ func GetChannels() []database.Channel {
 	return channels
 }
 
+func GetChannel(name string) database.Channel {
+	var channel database.Channel
+	db.DB.First(&channel, "name = ?", name)
+	return channel
+}
+
 // NewChannel create a new channel associated with a public key
 func NewChannel(channel database.Channel) {
 	db.DB.Table("channels").Create(&channel)
 	pub := "static/channels/public/" + channel.Name + ".asc"
-
 	ioutil.WriteFile(pub, []byte(channel.PublicKey), 0644)
+
+	if channel.PrivateKey != "" {
+		private := "static/channels/private/" + channel.Name + ".asc"
+		ioutil.WriteFile(private, []byte(channel.PrivateKey), 0644)
+	}
 }

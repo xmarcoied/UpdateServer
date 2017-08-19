@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -71,8 +72,38 @@ func NewRelease(c *gin.Context) {
 	buf.Product = release.Product
 
 	ReleaseJSON, _ := json.Marshal(buf)
+	ReleaseChannel := core.GetChannel(release.Channel)
 	c.SetCookie("release", string(ReleaseJSON), 0, "/", "", false, false)
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/new")
+
+	// Check if the channel have private key or not
+	if ReleaseChannel.PrivateKey == "" {
+		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/new")
+
+	} else {
+		ReleaseDir := "static/releases/tmp"
+		SignatureDir := "static/signatures/tmp.asc"
+		PrivateKeyDir := "static/channels/private/" + release.Channel + ".asc"
+		ioutil.WriteFile(ReleaseDir, ReleaseJSON, 0644)
+
+		err := utils.Sign(PrivateKeyDir, ReleaseDir, SignatureDir)
+		if err != nil {
+			log.Println(err)
+		}
+		if utils.ProcessRelease(release) == true {
+			ReleaseSignature, err := ioutil.ReadFile(SignatureDir)
+			if err != nil {
+				log.Println(err)
+			}
+			release.Signature = string(ReleaseSignature)
+			core.NewRelease(&release)
+			os.Rename("static/releases/tmp", "static/releases/"+strconv.Itoa(int(release.ID)))
+			os.Rename("static/signatures/tmp.asc", "static/signatures/"+strconv.Itoa(int(release.ID))+".asc")
+			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
+
+		} else {
+			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
+		}
+	}
 }
 
 //DelRelease
@@ -83,12 +114,62 @@ func DelRelease(c *gin.Context) {
 
 // EditRelease
 func EditRelease(c *gin.Context) {
-	var release database.Release
+	var (
+		release database.Release
+		buf     struct {
+			Channel        string `json:"channel"`
+			OS             string `json:"os"`
+			OsVer          string `json:"os_ver"`
+			OsArch         string `json:"os_arch"`
+			ProductVersion string `json:"product_ver"`
+			URL            string `json:"url"`
+			Title          string `json:"title"`
+			Description    string `json:"desc"`
+			Product        string `json:"product"`
+		}
+	)
 	c.Bind(&release)
+	// FIXME: Isn't there a way to handle that?
+	buf.Channel = release.Channel
+	buf.OS = release.OS
+	buf.OsVer = release.OsVer
+	buf.OsArch = release.OsArch
+	buf.ProductVersion = release.ProductVersion
+	buf.URL = release.URL
+	buf.Title = release.Title
+	buf.Description = release.Description
+	buf.Product = release.Product
 
-	ReleaseJSON, _ := json.Marshal(release)
+	ReleaseJSON, _ := json.Marshal(buf)
+	ReleaseChannel := core.GetChannel(release.Channel)
 	c.SetCookie("release", string(ReleaseJSON), 0, "/", "", false, false)
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/edit?id="+c.Param("id"))
+	// Check if the channel have private key or not
+	if ReleaseChannel.PrivateKey == "" {
+		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/edit?id="+c.Param("id"))
+	} else {
+		ReleaseDir := "static/releases/tmp"
+		SignatureDir := "static/signatures/tmp.asc"
+		PrivateKeyDir := "static/channels/private/" + release.Channel + ".asc"
+		ioutil.WriteFile(ReleaseDir, ReleaseJSON, 0644)
+
+		err := utils.Sign(PrivateKeyDir, ReleaseDir, SignatureDir)
+		if err != nil {
+			log.Println(err)
+		}
+		if utils.ProcessRelease(release) == true {
+			ReleaseSignature, err := ioutil.ReadFile(SignatureDir)
+			if err != nil {
+				log.Println(err)
+			}
+			core.EditRelease(&release, c.Param("id"), string(ReleaseSignature), string(ReleaseJSON))
+			os.Rename("static/releases/tmp", "static/releases/"+c.Param("id"))
+			os.Rename("static/signatures/tmp.asc", "static/signatures/"+c.Param("id")+".asc")
+			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+c.Param("id"))
+
+		} else {
+			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
+		}
+	}
 }
 
 //AddSignature
