@@ -29,10 +29,11 @@
                 </tr>
                 {{ range .channels }}
                 <tr>
-                    <th>{{.ID}}</th>
-                    <th>{{.Name}}</th>
+                    <td>{{.ID}}</td>
+                    <td> <a href="/admin/dashboard/channel/{{.Name}}"> {{.Name}} </a></td>
                 </tr>
                 {{ end }}
             </table>
+            <hr>
     </body>
 </html>

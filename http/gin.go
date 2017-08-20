@@ -18,6 +18,7 @@ func RouterInit() *gin.Engine {
 		admin.GET("/channels", GetChannels)
 		admin.GET("/releases", GetReleases)
 		admin.GET("/release/:id", GetRelease)
+		admin.GET("/channel/:name", GetChannel)
 		admin.GET("/channels/add", AddChannel)
 		admin.GET("/newrelease", AddRelease)
 		admin.GET("/addsignature/:reference", AddSignature)

@@ -16,9 +16,20 @@ func GetChannels(c *gin.Context) {
 	})
 }
 
+// GetChannel is http handler to represent channel content
+func GetChannel(c *gin.Context) {
+	channel := core.GetChannel(c.Param("name"))
+	c.HTML(http.StatusOK, "channel.html", gin.H{
+		"title":   "view channel",
+		"channel": channel,
+	})
+}
+
 // AddChannel is http handler to show "New Channel" html page
 func AddChannel(c *gin.Context) {
-	c.HTML(http.StatusOK, "channel.html", nil)
+	c.HTML(http.StatusOK, "channel.html", gin.H{
+		"title": "new channel",
+	})
 }
 
 // NewChannel is http handler binding the channel data to create a new channel
