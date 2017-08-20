@@ -1,10 +1,12 @@
 package http
 
 import (
+	"log"
 	"net/http"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/core"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,9 +21,14 @@ func GetChannels(c *gin.Context) {
 // GetChannel is http handler to represent channel content
 func GetChannel(c *gin.Context) {
 	channel := core.GetChannel(c.Param("name"))
+	fingerprint, err := utils.GetFingerprint(c.Param("name"))
+	if err != nil {
+		log.Println(err)
+	}
 	c.HTML(http.StatusOK, "channel.html", gin.H{
-		"title":   "view channel",
-		"channel": channel,
+		"title":       "view channel",
+		"channel":     channel,
+		"fingerprint": fingerprint,
 	})
 }
 

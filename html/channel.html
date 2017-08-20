@@ -51,6 +51,10 @@
                         <th>Public Key :</th>
                         <td> <textarea rows="10" cols="65">{{.channel.PublicKey}}</textarea></td>
                     </tr>
+                    <tr>
+                        <th>fingerprint</th>
+                        <td>{{.fingerprint}}</td>
+                    </tr>
                     {{if ne .channel.PrivateKey ""}}
                     <tr>
                         <th>Private Key :</th>
