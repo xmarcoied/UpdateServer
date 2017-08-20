@@ -20,9 +20,14 @@
     
     <body>
             {{ template "head.html" . }}
-            <h1>New Release</h1>    
+            <hr>
             <form action="/admin/dashboard/new_release" method="post">
             <table style="margin: auto;">
+                <tr>
+                    <th colspan="2">
+                        <h1>New Release</h1>    
+                    </th>
+                </tr>
                 <tr>
                     <th>Product </th>
                     <th> <textarea name="product"></textarea> </th>
@@ -70,5 +75,6 @@
                 </tr>  
             </table>
         </form>
+        <hr>
     </body>
 </html>

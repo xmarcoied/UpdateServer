@@ -17,8 +17,13 @@
         </style>
     </head>
         {{ template "head.html" . }}
-        <h1>Release #{{.release.ID}}</h1>
+            <hr>
             <table style="width: 50%">
+                <tr>
+                    <th colspan="4">
+                        <h2>Release #{{.release.ID}}</h2>
+                    </th>
+                </tr>
                 <tr>
                     <th colspan="4">
                         Associated rules
