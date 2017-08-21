@@ -34,6 +34,7 @@ type UpdateRequest struct {
 type Release struct {
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
+	Active         bool   `gorm:"default:'false'"`
 	ID             uint   `gorm:"primary_key"`
 	Channel        string `form:"channel" json:"channel"`
 	OS             string `form:"os" json:"os"`

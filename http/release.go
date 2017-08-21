@@ -35,6 +35,14 @@ func GetRelease(c *gin.Context) {
 	})
 }
 
+// ToggleRelease
+func ToggleRelease(c *gin.Context) {
+	log.Println("Hola")
+	release := core.GetRelease(c.Param("id"))
+	core.ToggleReleaseActivtion(&release)
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+c.Param("id"))
+}
+
 // AddRelease
 func AddRelease(c *gin.Context) {
 	channels := core.GetChannels()

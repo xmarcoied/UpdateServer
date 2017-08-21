@@ -46,7 +46,7 @@ func ReleaseMap(request database.UpdateRequest) (database.Release, bool) {
 	var releasescount int
 	var releases []database.Release
 
-	db.DB.Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ?",
+	db.DB.Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ? AND active = true",
 		request.Product, request.Channel, request.OS, request.OsArch, request.OsVer).Find(&releases).Count(&releasescount)
 
 	if releasescount == 0 {

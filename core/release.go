@@ -21,6 +21,12 @@ func GetRelease(id string) database.Release {
 	return release
 }
 
+// ToggleReleaseActivtion
+func ToggleReleaseActivtion(release *database.Release) {
+	active := !release.Active
+	db.DB.Model(&release).Update("active", active)
+}
+
 // NewRelease
 func NewRelease(release *database.Release) {
 	db.DB.Create(&release)

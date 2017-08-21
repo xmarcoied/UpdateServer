@@ -21,7 +21,26 @@
             <table style="width: 50%">
                 <tr>
                     <th colspan="4">
-                        <h2>Release #{{.release.ID}}</h2>
+                        <div>
+                            <h2 style="display: inline;"> Release # {{.release.ID}} | </h2>
+                            {{if eq .release.Active false}}
+                                    <h2 style="display: inline;color: red;">inactive</h2>
+                            {{end}}
+                            {{if eq .release.Active true}}
+                                    <h2 style="display: inline;color: blue;">active</h2>
+                            {{end}}
+                        </div>
+                        <hr>
+                        <div>
+                            <form action="/admin/dashboard/release/{{.release.ID}}/active" method="post">
+                            {{if eq .release.Active false}}
+                                <input type="submit" value="Activate">
+                            {{end}}
+                            {{if eq .release.Active true}}
+                                <input type="submit" value="Deactivate">
+                            {{end}}
+                            </form>
+                        </div>
                     </th>
                 </tr>
                 <tr>
@@ -144,6 +163,11 @@
                     </tr>
                 </table>
             </form>
+            <script type="text/javascript">
+                function GoNav(url){
+                    document.location.href = url;
+                }
+            </script>
     </body>
 
 </html>

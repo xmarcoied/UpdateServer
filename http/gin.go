@@ -15,22 +15,24 @@ func RouterInit() *gin.Engine {
 	auth := router.Group("/", Auth)
 	admin := auth.Group("/admin/dashboard")
 	{
-		admin.GET("/channels", GetChannels)
+		admin.GET("/newrelease", AddRelease)
 		admin.GET("/releases", GetReleases)
 		admin.GET("/release/:id", GetRelease)
+		admin.POST("/release/:id/active", ToggleRelease)
+		admin.GET("/del_release/:id", DelRelease)
+		admin.POST("/new_release", NewRelease)
+		admin.POST("/edit_release/:id", EditRelease)
+
+		admin.GET("/channels", GetChannels)
 		admin.GET("/channel/:name", GetChannel)
 		admin.GET("/channels/add", AddChannel)
-		admin.GET("/newrelease", AddRelease)
+		admin.POST("/new_channel", NewChannel)
+
 		admin.GET("/addsignature/:reference", AddSignature)
-		admin.GET("/del_release/:id", DelRelease)
 		admin.GET("/add_rule/:id", AddRule)
 		admin.GET("/delete_rule/:rule/:id", DeleteRule)
-
 		admin.POST("/new_rule/:rule/:id", NewRule)
-		admin.POST("/edit_release/:id", EditRelease)
 		admin.POST("/verifysignature/:reference", VerifySignature)
-		admin.POST("/new_release", NewRelease)
-		admin.POST("/new_channel", NewChannel)
 	}
 
 	pub := router.Group("/u/:product/:channel")

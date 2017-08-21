@@ -18,13 +18,14 @@
         <hr>
         <table style="width:50%">
             <tr>
-                <th colspan="5"><h2>Update Releases</h2></th>
+                <th colspan="6"><h2>Update Releases</h2></th>
             </tr>
             <tr>
-                <td colspan="5"><a href="/admin/dashboard/newrelease">Add new release</a></td>
+                <td colspan="6"><a href="/admin/dashboard/newrelease">Add new release</a></td>
             </tr>
             <tr>
                 <th>ID</th>
+                <th>Status</th>
                 <th>Title</th>
                 <th>Product</th>
                 <th>Channel</th>
@@ -33,6 +34,14 @@
             {{ range .releases }}
             <tr onclick="GoNav('/admin/dashboard/release/{{ .ID }}')" style="cursor: pointer;">
                 <td> <a href="/admin/dashboard/release/{{.ID}}"> {{.ID}} </a></td>
+                <td>
+                    {{if eq .Active true}}
+                        Active
+                    {{end}}
+                    {{if eq .Active false}}
+                        Inactive
+                    {{end}}
+                </td>
                 <td>{{.Title}}</td>
                 <td>{{.Product}}</td>
                 <td>{{.Channel}}</td>
