@@ -28,6 +28,7 @@ type Configuration struct {
 		Name     string `json:"psqlname"`
 		User     string `json:"psqluser"`
 		Password string `json:"psqlpassword"`
+		Port     string `json:"psqlport"`
 	} `json:"psqlinfo"`
 	// TODO : add (path to signatures/releases static folder)
 }

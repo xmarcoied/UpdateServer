@@ -1,8 +1,9 @@
 {
     "psqlinfo": {
         "psqlhost": "localhost" , 
-        "psqlname" : "marcoied" ,
+        "psqlname" : "updater" ,
         "psqluser" : "postgres" , 
-        "psqlpassword" : "postgres" 
+        "psqlpassword" : "postgres" ,
+        "psqlport" : "5432"
     }
 }

@@ -66,8 +66,7 @@ type Impl struct {
 // ConnectDB initiate the database
 func (i *Impl) ConnectDB(c *config.Configuration) error {
 	var err error
-	// TODO : Move the psqlinfo to config & handle config/yml
-	psqlInfo := "host=" + c.Database.Host + " dbname=" + c.Database.Name + " user=" + c.Database.User + " password=" + c.Database.Password + " sslmode=disable"
+	psqlInfo := "host=" + c.Database.Host + " dbname=" + c.Database.Name + " user=" + c.Database.User + " password=" + c.Database.Password + " port=" + c.Database.Port + " sslmode=disable"
 	i.DB, err = gorm.Open("postgres", psqlInfo)
 	i.DB.LogMode(true)
 	i.DB.AutoMigrate(&UpdateRequest{}, &Release{}, &Channel{}, &Rule{}, &TimeRule{}, &OsRule{}, &VersionRule{}, &IPRule{}, &RollRule{})
