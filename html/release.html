@@ -120,33 +120,45 @@
                         <th>Product :</th>
                         <th> <textarea name="product">{{.release.Product}}</textarea></th>
                     </tr>
-   
                     <tr>
                         <th>OS : </th>
-                        <th> <textarea name="os">{{.release.OS}}</textarea></th>
+                        <th> 
+                            <input name="os" type=text list=oses value="{{.release.OS}}">
+                            <datalist id=oses >
+                                <option value ="Linux"> Linux </option>  
+                                <option value = "Windows"> Windows </option>
+                                <option value = "Mac"> Mac </option>
+                            </datalist>
+                        </th>
                     </tr>
                     <tr>
-                        <th>OS Version :</th>
-                        <th> <textarea name="os_ver">{{.release.OsVer}}</textarea></th>
+                        <th>OS Architecture : </th>
+                        <th>
+                            <input name="os_arch" type=text list=oses_arch value="{{.release.OsArch}}">
+                            <datalist id=oses_arch >
+                                <option value = "32"> 32 bits </option>
+                                <option value ="64"> 64 bits </option>  
+                            </datalist>
+                        </th>
                     </tr>
                     <tr>
-                        <th>OS Architecture :</th>
-                        <th> <textarea name="os_arch">{{.release.OsArch}}</textarea></th>
+                        <th>OS Version : </th>
+                        <th> <textarea name="os">{{.release.OsVer}}</textarea></th>
                     </tr>
                     <tr>
                         <th>Product Version :</th>
                         <th> <textarea name="product_ver">{{.release.ProductVersion}}</textarea></th>
                     </tr>
                     <tr>
-                        <th>URL :</th>
-                        <th> <textarea name="url" style="width:450">{{.release.URL}}</textarea></th>
-                    </tr>
-                    <tr>
                         <th>Title :</th>
                         <th> <textarea name="title">{{.release.Title}}</textarea></th>
                     </tr>
                     <tr>
-                        <th>Description</th>
+                        <th>URL :</th>
+                        <th> <textarea name="url" style="width:450">{{.release.URL}}</textarea></th>
+                    </tr>
+                    <tr>
+                        <th>Description :</th>
                         <th> <textarea name="desc" style="width:450;height:100">{{.release.Description}}</textarea></th>
                     </tr>
                     <tr>

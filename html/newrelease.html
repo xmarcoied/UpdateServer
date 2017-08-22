@@ -44,15 +44,28 @@
                 </tr>
                 <tr>
                     <th>OS : </th>
-                    <th> <textarea name="os"></textarea> </th>
+                    <th> 
+                        <input name="os" type=text list=oses >
+                        <datalist id=oses >
+                            <option value ="Linux"> Linux </option>  
+                            <option value = "Windows"> Windows </option>
+                            <option value = "Mac"> Mac </option>
+                        </datalist>
+                    </th>
+                </tr>
+                <tr>
+                    <th>OS Architecture : </th>
+                    <th>
+                        <input name="os_arch" type=text list=oses_arch >
+                        <datalist id=oses_arch >
+                            <option value = "32"> 32 bits </option>
+                            <option value ="64"> 64 bits </option>  
+                        </datalist>
+                    </th>
                 </tr>
                 <tr>
                     <th>OS Version : </th>
                     <th> <textarea name="os_ver"></textarea> </th>
-                </tr>
-                <tr>
-                    <th>OS Architecture : </th>
-                    <th> <textarea name="os_arch"></textarea> </th>
                 </tr>
                 <tr>
                     <th>Product Version : </th>
