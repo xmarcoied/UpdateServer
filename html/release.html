@@ -118,12 +118,12 @@
                     </tr>
                     <tr>
                         <th>Product :</th>
-                        <th> <textarea name="product">{{.release.Product}}</textarea></th>
+                        <th> <textarea name="product" required>{{.release.Product}}</textarea></th>
                     </tr>
                     <tr>
                         <th>OS : </th>
                         <th> 
-                            <input name="os" type=text list=oses value="{{.release.OS}}">
+                            <input name="os" type=text list=oses value="{{.release.OS}}" required>
                             <datalist id=oses >
                                 <option value ="Linux"> Linux </option>  
                                 <option value = "Windows"> Windows </option>
@@ -134,7 +134,7 @@
                     <tr>
                         <th>OS Architecture : </th>
                         <th>
-                            <input name="os_arch" type=text list=oses_arch value="{{.release.OsArch}}">
+                            <input name="os_arch" type=text list=oses_arch value="{{.release.OsArch}}" required>
                             <datalist id=oses_arch >
                                 <option value = "32"> 32 bits </option>
                                 <option value ="64"> 64 bits </option>  
@@ -143,31 +143,31 @@
                     </tr>
                     <tr>
                         <th>OS Version : </th>
-                        <th> <textarea name="os">{{.release.OsVer}}</textarea></th>
+                        <th> <textarea name="os" required>{{.release.OsVer}}</textarea></th>
                     </tr>
                     <tr>
                         <th>Product Version :</th>
-                        <th> <textarea name="product_ver">{{.release.ProductVersion}}</textarea></th>
+                        <th> <textarea name="product_ver" required>{{.release.ProductVersion}}</textarea></th>
                     </tr>
                     <tr>
                         <th>Title :</th>
-                        <th> <textarea name="title">{{.release.Title}}</textarea></th>
+                        <th> <textarea name="title" required>{{.release.Title}}</textarea></th>
                     </tr>
                     <tr>
                         <th>URL :</th>
-                        <th> <textarea name="url" style="width:450">{{.release.URL}}</textarea></th>
+                        <th> <textarea name="url" style="width:450" required>{{.release.URL}}</textarea></th>
                     </tr>
                     <tr>
                         <th>Description :</th>
-                        <th> <textarea name="desc" style="width:450;height:100">{{.release.Description}}</textarea></th>
+                        <th> <textarea name="desc" style="width:450;height:100" required>{{.release.Description}}</textarea></th>
                     </tr>
                     <tr>
                         <th>CreatedAt</th>
-                        <td>{{.release.CreatedAt}}</textarea></td>
+                        <td>{{.release.CreatedAt}}</td>
                     </tr>
                     <tr>
                         <th>UpdatedAt</th>
-                        <td>{{.release.UpdatedAt}}</textarea></td>
+                        <td>{{.release.UpdatedAt}}</td>
                     </tr>
                     <tr>
                         <td><a href="/admin/dashboard/del_release/{{.release.ID}}">Delete</a></td>
