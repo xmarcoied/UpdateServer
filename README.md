@@ -26,15 +26,7 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
   }
   
   ```
-  Make a static folder with the following sub-folders :
-```
-    |-> static
-      |-> channels        
-          |-> public        
-          |- private    
-      |- releases
-      |-> signatures
-```
+
 ## Flags
   The UpdateServer uses ```-port``` flag to customize port web application will be running on (8080 default)
   and ```-config``` to add a path for the configuration file 

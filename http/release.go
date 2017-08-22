@@ -3,10 +3,8 @@ package http
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/core"
@@ -88,27 +86,20 @@ func NewRelease(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/new")
 
 	} else {
-		ReleaseDir := "static/releases/tmp"
-		SignatureDir := "static/signatures/tmp.asc"
-		PrivateKeyDir := "static/channels/private/" + release.Channel + ".asc"
-		ioutil.WriteFile(ReleaseDir, ReleaseJSON, 0644)
-
-		err := utils.Sign(PrivateKeyDir, ReleaseDir, SignatureDir)
+		signature, err := utils.Sign(release, string(ReleaseJSON))
 		if err != nil {
 			log.Println(err)
 		}
-		if utils.ProcessRelease(release) == true {
-			ReleaseSignature, err := ioutil.ReadFile(SignatureDir)
-			if err != nil {
-				log.Println(err)
-			}
-			release.Signature = string(ReleaseSignature)
+
+		isvalid, err := utils.ProcessRelease(release, signature, string(ReleaseJSON))
+		log.Println(isvalid, err)
+		if isvalid == true && err == nil {
+			release.Signature = signature
 			core.NewRelease(&release)
-			os.Rename("static/releases/tmp", "static/releases/"+strconv.Itoa(int(release.ID)))
-			os.Rename("static/signatures/tmp.asc", "static/signatures/"+strconv.Itoa(int(release.ID))+".asc")
 			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
 
 		} else {
+			log.Println(err)
 			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
 		}
 	}
@@ -151,30 +142,23 @@ func EditRelease(c *gin.Context) {
 	ReleaseJSON, _ := json.Marshal(buf)
 	ReleaseChannel := core.GetChannel(release.Channel)
 	c.SetCookie("release", string(ReleaseJSON), 0, "/", "", false, false)
+
 	// Check if the channel have private key or not
 	if ReleaseChannel.PrivateKey == "" {
 		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/edit?id="+c.Param("id"))
 	} else {
-		ReleaseDir := "static/releases/tmp"
-		SignatureDir := "static/signatures/tmp.asc"
-		PrivateKeyDir := "static/channels/private/" + release.Channel + ".asc"
-		ioutil.WriteFile(ReleaseDir, ReleaseJSON, 0644)
-
-		err := utils.Sign(PrivateKeyDir, ReleaseDir, SignatureDir)
+		signature, err := utils.Sign(release, string(ReleaseJSON))
 		if err != nil {
 			log.Println(err)
 		}
-		if utils.ProcessRelease(release) == true {
-			ReleaseSignature, err := ioutil.ReadFile(SignatureDir)
-			if err != nil {
-				log.Println(err)
-			}
-			core.EditRelease(&release, c.Param("id"), string(ReleaseSignature), string(ReleaseJSON))
-			os.Rename("static/releases/tmp", "static/releases/"+c.Param("id"))
-			os.Rename("static/signatures/tmp.asc", "static/signatures/"+c.Param("id")+".asc")
+
+		isvalid, err := utils.ProcessRelease(release, signature, string(ReleaseJSON))
+		if isvalid == true && err == nil {
+			core.EditRelease(&release, c.Param("id"), signature, string(ReleaseJSON))
 			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+c.Param("id"))
 
 		} else {
+			log.Println(err)
 			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
 		}
 	}
@@ -197,9 +181,7 @@ func AddSignature(c *gin.Context) {
 
 	json.Unmarshal([]byte(string(release)), &buf)
 
-	ReleaseDir := "static/releases/tmp"
 	ReleaseJSON, _ := json.Marshal(buf)
-	ioutil.WriteFile(ReleaseDir, ReleaseJSON, 0644)
 
 	ref := c.Param("reference")
 	query := "0"
@@ -208,6 +190,7 @@ func AddSignature(c *gin.Context) {
 	}
 
 	fingerprint, _ := utils.GetFingerprint(buf.Channel)
+	log.Println("Fingerprint:", fingerprint)
 	status := fmt.Sprintf("printf '%s' | gpg --default-key %s --detach-sign -a", string(ReleaseJSON), fingerprint)
 	c.HTML(http.StatusOK, "newsignature.html", gin.H{
 		"status": status,
@@ -230,22 +213,16 @@ func VerifySignature(c *gin.Context) {
 	binding.Content, _ = c.Cookie("release")
 	json.Unmarshal([]byte(string(binding.Content)), &release)
 
-	SignatureDir := "static/signatures/tmp.asc"
-	ioutil.WriteFile(SignatureDir, []byte(binding.Signature), 0644)
-
 	c.SetCookie("release", "", 0, "/", "", false, false)
-	if utils.ProcessRelease(release) == true {
+	isvalid, err := utils.ProcessRelease(release, binding.Signature, binding.Content)
+	if isvalid == true && err == nil {
 		if c.Param("reference") == "new" {
 			release.Signature = binding.Signature
 			core.NewRelease(&release)
-
 		}
 		if c.Param("reference") == "edit" {
 			core.EditRelease(&release, c.Query("id"), binding.Signature, binding.Content)
 		}
-
-		os.Rename("static/releases/tmp", "static/releases/"+strconv.Itoa(int(release.ID)))
-		os.Rename("static/signatures/tmp.asc", "static/signatures/"+strconv.Itoa(int(release.ID))+".asc")
 		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
 
 	} else {

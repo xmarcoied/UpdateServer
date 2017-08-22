@@ -1,8 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
-
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
 )
 
@@ -22,11 +20,4 @@ func GetChannel(name string) database.Channel {
 // NewChannel create a new channel associated with a public key
 func NewChannel(channel database.Channel) {
 	db.DB.Table("channels").Create(&channel)
-	pub := "static/channels/public/" + channel.Name + ".asc"
-	ioutil.WriteFile(pub, []byte(channel.PublicKey), 0644)
-
-	if channel.PrivateKey != "" {
-		private := "static/channels/private/" + channel.Name + ".asc"
-		ioutil.WriteFile(private, []byte(channel.PrivateKey), 0644)
-	}
 }
