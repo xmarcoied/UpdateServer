@@ -8,9 +8,9 @@ import (
 )
 
 // GetRequests return all requests recorded at the database associated with a channel and product
-func GetRequests(channel, product string) []database.UpdateRequest {
+func GetRequests(query string) []database.UpdateRequest {
 	var requests []database.UpdateRequest
-	db.DB.Where("product = ? AND channel = ?", product, channel).Order("created_at desc").Find(&requests)
+	db.DB.Where(query).Order("created_at desc").Find(&requests)
 	ProcessCreatedSince(&requests)
 	return requests
 }

@@ -13,11 +13,30 @@ import (
 
 // GetRequests is http handler to represent all the requests available in the UpdateServer
 func GetRequests(c *gin.Context) {
-	requests := core.GetRequests(c.Query("channel"), c.Query("product"))
+	var (
+		query   string
+		request struct {
+			Channel string `form:"channel"`
+			Product string `form:"product"`
+		}
+	)
+	c.Bind(&request)
+	if request.Channel != "" {
+		newquery := "channel = '" + c.Query("channel") + "'"
+		query = database.QueryAppend(query, newquery)
+	}
+
+	if request.Product != "" {
+		newquery := "product = '" + c.Query("product") + "'"
+		query = database.QueryAppend(query, newquery)
+	}
+
+	requests := core.GetRequests(query)
 	channels := core.GetChannels()
 	c.HTML(http.StatusOK, "requests.html", gin.H{
 		"requests": requests,
 		"channels": channels,
+		"request":  request,
 	})
 }
 

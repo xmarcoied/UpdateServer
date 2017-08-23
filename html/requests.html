@@ -29,12 +29,20 @@
                 <tr>
                     <td colspan="10">
                         <form style=" margin: 0;" action="/u/requests" method="get">
-                                <input type=text name=product placeholder="Product">
+                                <label>Product:</label>
+                                <input style="width: 100" type=text name=product value="{{.request.Product}}">
+                                <label>Channel:</label>
                                 <select name="channel">
+                                        <option value=""></option>
                                         {{range .channels}}
-                                            <option value="{{.Name}}">{{.Name}}</option>
+                                        {{if eq .Name $.request.Channel}}
+                                            <option selected="selected" value="{{.Name}}">{{.Name}}</option>
+                                            {{end}}
+                                            {{if ne .Name $.request.Channel}}
+                                                <option value="{{.Name}}">{{.Name}}</option>
+                                            {{end}}
                                         {{end}}
-                                    </select>
+                                </select>
                                 <input type="submit" value="view">
                         </form>
                     </td>

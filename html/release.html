@@ -45,11 +45,13 @@
 
                     </th>
                 </tr>
-                <tr>
-                    <th colspan="4">
-                        Associated rules
-                    </th>
-                </tr>
+                {{if ne (len .rules) 0}}
+                    <tr>
+                        <th colspan="4">
+                            Associated rules
+                        </th>
+                    </tr>
+                {{end}}
                 {{range .rules}}
                 {{if ne .TimeRule.RuleID 0}}
                 <tr>

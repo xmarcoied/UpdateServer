@@ -73,3 +73,12 @@ func (i *Impl) ConnectDB(c *config.Configuration) error {
 
 	return err
 }
+
+func QueryAppend(parent, sub string) string {
+	if parent == "" {
+		return sub
+	} else {
+		ret := parent + " AND " + sub
+		return ret
+	}
+}
