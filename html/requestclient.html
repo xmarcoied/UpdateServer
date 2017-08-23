@@ -25,26 +25,39 @@
                     <th>Product</th>
                     <th>Channel</th>
                     <th>OS</th>
-                    <th>OS VER</th>
                     <th>OS ARCH</th>
+                    <th>OS VER</th>
                     <th>Product VER</th>
                     <th>IP</th>
                 </tr>
 
                 <tr>
-                    <td> <textarea style="width:100;" name="product">{{.request.Product}}</textarea></td>
-                    <th>
+                    <td> <input name="product" value="{{.request.Product}}" style="width:100;" required> </td>
+                    <td>
                         <select name="channel">
                             {{range .channels}}
                                     <option value="{{.Name}}">{{.Name}}</option>
                             {{end}}
                         </select>
-                    </th>
-                    <td> <textarea style="width:100;" name="os">{{.request.OS}}</textarea></td>
-                    <td> <textarea style="width:100;" name="os_ver">{{.request.OsVer}}</textarea></td>
-                    <td> <textarea style="width:100;" name="os_arch">{{.request.OsArch}}</textarea></td>
-                    <td> <textarea style="width:100;" name="product_ver">{{.request.ProductVersion}}</textarea></td>
-                    <td> <textarea style="width:100;" name="ip">{{.request.IP}}</textarea></td>
+                    </td>
+                    <td>
+                        <input name="os" type=text list=oses value="{{.request.OS}}" style="width: 100" required>
+                        <datalist id=oses >
+                            <option value ="Linux"> Linux </option>  
+                            <option value = "Windows"> Windows </option>
+                            <option value = "Mac"> Mac </option>
+                        </datalist>
+                    </td>
+                    <td>
+                        <input name="os_arch" type=text list=oses_arch value="{{.request.OsArch}}" style="width:100;" required>
+                            <datalist id=oses_arch >
+                                <option value = "32"> 32 bits </option>
+                                <option value ="64"> 64 bits </option>  
+                            </datalist>
+                    </td>
+                    <td> <input name="os_ver" value="{{.request.OsVer}}" style="width:100;" required> </td>
+                    <td> <input name="product_ver" value="{{.request.ProductVersion}}" style="width:100;" required> </td>
+                    <td> <input name="ip" value="{{.request.IP}}" style="width:100;" required> </td>
                 </tr>
                 <tr>
                     <td colspan="7"><input type="submit" value="Try"></td>
@@ -103,7 +116,7 @@
                     </tr>
                     <tr>
                         <th>CreatedAt</th>
-                        <td>{{.release.CreatedAt}}</textarea></td>
+                        <td>{{.release.CreatedAt}}</td>
                     </tr>
                 </table>
             <hr>
