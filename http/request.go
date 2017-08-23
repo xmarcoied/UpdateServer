@@ -13,9 +13,11 @@ import (
 
 // GetRequests is http handler to represent all the requests available in the UpdateServer
 func GetRequests(c *gin.Context) {
-	requests := core.GetRequests(c.Param("channel"), c.Param("product"))
+	requests := core.GetRequests(c.Query("channel"), c.Query("product"))
+	channels := core.GetChannels()
 	c.HTML(http.StatusOK, "requests.html", gin.H{
 		"requests": requests,
+		"channels": channels,
 	})
 }
 
@@ -33,9 +35,6 @@ func Update(c *gin.Context) {
 	// Request params are now getting in GET params
 	var request database.UpdateRequest
 	c.Bind(&request)
-
-	request.Channel = c.Param("channel")
-	request.Product = c.Param("product")
 
 	ForwardHeader := c.Request.Header.Get("X-Forwarded-For")
 	ForwardedFields := strings.Split(ForwardHeader, ",")

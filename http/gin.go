@@ -35,14 +35,14 @@ func RouterInit() *gin.Engine {
 		admin.POST("/verifysignature/:reference", VerifySignature)
 	}
 
-	pub := router.Group("/u/:product/:channel")
+	pub := router.Group("/u")
 	{
 		pub.GET("/requests", GetRequests)
 		pub.GET("/signature", GetSignature)
 		pub.GET("/update", Update)
+		pub.GET("act", GetAct)
+		pub.POST("act", GetAct)
 	}
-	router.GET("act", GetAct)
-	router.POST("act", GetAct)
 
 	router.LoadHTMLGlob("html/*.html")
 	return router

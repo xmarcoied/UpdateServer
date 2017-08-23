@@ -21,10 +21,23 @@
                     <th colspan="10"><h2>Update Requests</h2></th>
                 </tr>
                 <tr>
-                    <td colspan="10"><a href="/act">Act like a client</a></td>
+                    <td colspan="10"><a href="/u/act">Act like a client</a></td>
                 </tr>
                 <tr>
                     <td colspan="10"><a href="#" onClick="window.location.reload();return false;">Refresh</a></td>
+                </tr>
+                <tr>
+                    <td colspan="10">
+                        <form style=" margin: 0;" action="/u/requests" method="get">
+                                <input type=text name=product placeholder="Product">
+                                <select name="channel">
+                                        {{range .channels}}
+                                            <option value="{{.Name}}">{{.Name}}</option>
+                                        {{end}}
+                                    </select>
+                                <input type="submit" value="view">
+                        </form>
+                    </td>
                 </tr>
                 <tr>
                     <th>ID</th>
