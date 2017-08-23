@@ -43,8 +43,8 @@ func AddChannel(c *gin.Context) {
 func NewChannel(c *gin.Context) {
 	var channel database.Channel
 	c.Bind(&channel)
-	core.NewChannel(channel)
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/channels/")
+	core.NewChannel(&channel)
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/channel/"+channel.Name)
 }
 
 // DeleteChannel

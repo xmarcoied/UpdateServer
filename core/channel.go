@@ -22,7 +22,7 @@ func GetChannel(name string) database.Channel {
 }
 
 // NewChannel create a new channel associated with a public key
-func NewChannel(channel database.Channel) {
+func NewChannel(channel *database.Channel) {
 	db.DB.Table("channels").Create(&channel)
 }
 
