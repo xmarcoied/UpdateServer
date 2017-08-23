@@ -55,18 +55,12 @@
                     </tr>
                     <tr>
                         <th>Public Key :</th>
-                        <td> <textarea rows="10" cols="65">{{.channel.PublicKey}}</textarea></td>
+                        <td> <textarea rows="10" cols="65" readonly>{{.channel.PublicKey}}</textarea></td>
                     </tr>
                     <tr>
                         <th>fingerprint</th>
                         <td>{{.fingerprint}}</td>
-                    </tr>
-                    {{if ne .channel.PrivateKey ""}}
-                    <tr>
-                        <th>Private Key :</th>
-                        <td> <textarea rows="10" cols="65">{{.channel.PrivateKey}}</textarea></td>
-                    </tr>
-                    {{end}}   
+                    </tr> 
                 </table>
         {{end}}
         <hr>
