@@ -8,9 +8,9 @@ import (
 )
 
 // GetReleases return all releases recorded at the database orded by id
-func GetReleases() []database.Release {
+func GetReleases(query string) []database.Release {
 	var releases []database.Release
-	db.DB.Order("id").Find(&releases)
+	db.DB.Order("id").Find(&releases, query)
 	return releases
 }
 

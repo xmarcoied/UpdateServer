@@ -61,10 +61,21 @@
                     <tr>
                         <th>fingerprint</th>
                         <td>{{.fingerprint}}</td>
-                    </tr> 
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                                <button onclick="DeleteChannel()">Delete</button>
+                        </td>
+                    </tr>
                 </table>
         {{end}}
         <hr>
+        <script type="text/javascript">
+            function DeleteChannel() {
+                if (confirm("You're going to delete the {{.channel.Name}} channel ") == true) {
+                    window.location.href='/admin/dashboard/channels/delete?name={{.channel.Name}}'
+                } 
+            }
+        </script>
     </body>
-
 </html>

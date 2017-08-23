@@ -15,7 +15,9 @@ import (
 
 // GetReleases is http handler to represent all the releases available in the UpdateServer
 func GetReleases(c *gin.Context) {
-	releases := core.GetReleases()
+	// pass empty query to get all releases
+	query := ""
+	releases := core.GetReleases(query)
 	c.HTML(http.StatusOK, "releases.html", gin.H{
 		"releases": releases,
 	})
@@ -35,7 +37,6 @@ func GetRelease(c *gin.Context) {
 
 // ToggleRelease
 func ToggleRelease(c *gin.Context) {
-	log.Println("Hola")
 	release := core.GetRelease(c.Param("id"))
 	core.ToggleReleaseActivtion(&release)
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+c.Param("id"))

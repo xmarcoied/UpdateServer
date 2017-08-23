@@ -22,12 +22,12 @@ func GetRequests(c *gin.Context) {
 	)
 	c.Bind(&request)
 	if request.Channel != "" {
-		newquery := "channel = '" + c.Query("channel") + "'"
+		newquery := fmt.Sprintf("channel = '%s'", request.Channel)
 		query = database.QueryAppend(query, newquery)
 	}
 
 	if request.Product != "" {
-		newquery := "product = '" + c.Query("product") + "'"
+		newquery := fmt.Sprintf("product = '%s'", request.Product)
 		query = database.QueryAppend(query, newquery)
 	}
 

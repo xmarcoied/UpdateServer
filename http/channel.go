@@ -46,3 +46,9 @@ func NewChannel(c *gin.Context) {
 	core.NewChannel(channel)
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/channels/")
 }
+
+// DeleteChannel
+func DeleteChannel(c *gin.Context) {
+	core.DeleteChannel(c.Query("name"))
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/channels")
+}

@@ -184,7 +184,7 @@
                     document.location.href = url;
                 }
 
-                function DeleteRelease(argument) {
+                function DeleteRelease() {
                     if (confirm("You're going to delete the release #{{.release.ID}}") == true) {
                         window.location.href='/admin/dashboard/del_release/{{.release.ID}}'
                     } 

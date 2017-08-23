@@ -1,6 +1,10 @@
 package core
 
 import (
+	"fmt"
+	"log"
+	"strconv"
+
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
 )
 
@@ -20,4 +24,18 @@ func GetChannel(name string) database.Channel {
 // NewChannel create a new channel associated with a public key
 func NewChannel(channel database.Channel) {
 	db.DB.Table("channels").Create(&channel)
+}
+
+// DeleteChannel
+func DeleteChannel(channelName string) {
+	// First delete all the releases releases with the 'channelName' channel
+	query := fmt.Sprintf("channel = '%s'", channelName)
+	releases := GetReleases(query)
+
+	log.Println("hola", len(releases))
+	for _, release := range releases {
+		DeleteRelease(strconv.Itoa(int(release.ID)))
+	}
+	// Then delete the channel
+	db.DB.Where("name = ?", channelName).Delete(&database.Channel{})
 }
