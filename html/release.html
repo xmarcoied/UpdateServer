@@ -32,15 +32,17 @@
                         </div>
                         <hr>
                         <div>
-                            <form action="/admin/dashboard/release/{{.release.ID}}/active" method="post">
+                            <form style=" margin: 0;" action="/admin/dashboard/release/{{.release.ID}}/active" method="post">
                             {{if eq .release.Active false}}
                                 <input type="submit" value="Activate">
                             {{end}}
                             {{if eq .release.Active true}}
                                 <input type="submit" value="Deactivate">
                             {{end}}
+                                <button onclick="window.location.href='/admin/dashboard/del_release/{{.release.ID}}'">Delete</button>
                             </form>
                         </div>
+
                     </th>
                 </tr>
                 <tr>
@@ -170,7 +172,7 @@
                         <td>{{.release.UpdatedAt}}</td>
                     </tr>
                     <tr>
-                        <td><a href="/admin/dashboard/del_release/{{.release.ID}}">Delete</a></td>
+                        <td><input type="reset"></td>
                         <td><input type="submit" value="Update"></td>
                     </tr>
                 </table>
