@@ -18,10 +18,11 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
   ```
   {
     "psqlinfo": {
-        "psqlhost": "host" , 
-        "psqlname" : "marcoied" ,
-        "psqluser" : "postgres" , 
-        "psqlpassword" : "postgres" 
+        "psqlhost"     : "host" , 
+        "psqlname"     : "updater" ,
+        "psqluser"     : "postgres" , 
+        "psqlpassword" : "postgres" ,
+        "psqlport"     : "5432"
     }
   }
   
@@ -29,6 +30,7 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
 
 ## Flags
   The UpdateServer uses ```-port``` flag to customize port web application will be running on (8080 default)
+  
   and ```-config``` to add a path for the configuration file 
   
 ## Usage
@@ -45,20 +47,32 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
       ```
       Default admin authentication : username:admin , password:admin
       
-  -  ```<host>/admin/dashboard/channels``` to add new channel with public and private keys
+  -  ```<host>/admin/dashboard/channels``` to add new channel .
+  
+      - [secure] Add only public key, and sign the metadata at every release's action.
+      
+      - [less secure] Add both public and private key, and the server would auto-sign the releases .
 
-  - ```<host>/admin/dashboard/releaese```  to add new release
+  - ```<host>/admin/dashboard/releases```  to add new release
 
        insert the needed fields and choose a channel and you can add rules against it later .
        
-       Sign the status given via this commond :
-       
-       ```$ echo "<release metadata/json to sign here>" | gpg --default-key <fingerprint of the public key> --clearsign```
      
   - add ```<host>/u/update``` to you client with a querystring for the update_request paramaters.
     
-    Example : ```<host>/u/update?os=Win&os_ver=7&os_arch=64&product_ver=2.1.4```
+    Example : ```<host>/u/update?product=vlc&channel=stable&os=Win&os_ver=7&os_arch=64&product_ver=2.1.4```
+    
+    Expected release content :
+      ```
+      {"id":17,"channel":"stable","os":"Linux","os_ver":"Linux","os_arch":"32","product_ver":"2.1.1","url":"localhost","title":"Title","desc":"Description","product":"vlc"}
   
-  - Monitor the incoming update_requests through ```<host>/u/releases```
+      ```
+    
+    
+  - also add ```<host>/u/signature``` to get the signature for the associated release
+  
+    Example : ```<host>/u/signature?id=<release_id> ```
+  
+  - Monitor the incoming update_requests through ```<host>/u/requests```
   
   
