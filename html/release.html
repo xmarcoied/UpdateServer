@@ -32,15 +32,15 @@
                         </div>
                         <hr>
                         <div>
-                            <form style=" margin: 0;" action="/admin/dashboard/release/{{.release.ID}}/active" method="post">
+                            <form style="display: inline; margin: 0;" action="/admin/dashboard/release/{{.release.ID}}/active" method="post">
                             {{if eq .release.Active false}}
                                 <input type="submit" value="Activate">
                             {{end}}
                             {{if eq .release.Active true}}
                                 <input type="submit" value="Deactivate">
                             {{end}}
-                                <button onclick="window.location.href='/admin/dashboard/del_release/{{.release.ID}}'">Delete</button>
                             </form>
+                            <button style="display: inline;" onclick="DeleteRelease()">Delete</button>
                         </div>
 
                     </th>
@@ -182,6 +182,12 @@
             <script type="text/javascript">
                 function GoNav(url){
                     document.location.href = url;
+                }
+
+                function DeleteRelease(argument) {
+                    if (confirm("You're going to delete the release #{{.release.ID}}") == true) {
+                        window.location.href='/admin/dashboard/del_release/{{.release.ID}}'
+                    } 
                 }
             </script>
     </body>
