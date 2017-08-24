@@ -18,15 +18,15 @@ func RouterInit() *gin.Engine {
 		admin.GET("/newrelease", AddRelease)
 		admin.GET("/releases", GetReleases)
 		admin.GET("/release/:id", GetRelease)
+		admin.DELETE("/release/:id/delete", DelRelease)
 		admin.POST("/release/:id/active", ToggleRelease)
-		admin.GET("/del_release/:id", DelRelease)
 		admin.POST("/new_release", NewRelease)
 		admin.POST("/edit_release/:id", EditRelease)
 
 		admin.GET("/channels", GetChannels)
 		admin.GET("/channel/:name", GetChannel)
+		admin.DELETE("/channel/:name/delete", DeleteChannel)
 		admin.GET("/channels/add", AddChannel)
-		admin.GET("/channels/delete", DeleteChannel)
 		admin.POST("/new_channel", NewChannel)
 
 		admin.GET("/addsignature/:reference", AddSignature)

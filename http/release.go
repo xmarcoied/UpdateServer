@@ -109,7 +109,6 @@ func NewRelease(c *gin.Context) {
 //DelRelease
 func DelRelease(c *gin.Context) {
 	core.DeleteRelease(c.Param("id"))
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/")
 }
 
 // EditRelease

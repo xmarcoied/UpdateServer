@@ -77,7 +77,10 @@
         <script type="text/javascript">
             function DeleteChannel() {
                 if (confirm("You're going to delete the {{.channel.Name}} channel ") == true) {
-                    window.location.href='/admin/dashboard/channels/delete?name={{.channel.Name}}'
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('DELETE', '/admin/dashboard/channel/{{.channel.Name}}/delete');
+                    xhr.send(null);
+                    window.location.href='/admin/dashboard/channels'
                 } 
             }
         </script>

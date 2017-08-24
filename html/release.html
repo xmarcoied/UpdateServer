@@ -186,7 +186,10 @@
 
                 function DeleteRelease() {
                     if (confirm("You're going to delete the release #{{.release.ID}}") == true) {
-                        window.location.href='/admin/dashboard/del_release/{{.release.ID}}'
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('DELETE', '/admin/dashboard/release/{{.release.ID}}/delete');
+                        xhr.send(null);
+                        window.location.href='/admin/dashboard/releases'
                     } 
                 }
             </script>
