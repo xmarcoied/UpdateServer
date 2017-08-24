@@ -40,6 +40,7 @@ func GetSignature(release_id int) string {
 }
 
 // ReleaseMap function map the incoming update_request with the most suitable update release
+// Ordered
 func ReleaseMap(request database.UpdateRequest) (database.Release, bool) {
 	var emptyrelease database.Release
 	// First , find and count the available releases match the request specs
@@ -47,7 +48,8 @@ func ReleaseMap(request database.UpdateRequest) (database.Release, bool) {
 	var releases []database.Release
 
 	db.DB.Where("product = ? AND channel = ? AND os = ? AND os_arch = ? AND os_ver >= ? AND active = true",
-		request.Product, request.Channel, request.OS, request.OsArch, request.OsVer).Find(&releases).Count(&releasescount)
+		request.Product, request.Channel, request.OS, request.OsArch, request.OsVer).
+		Order("product_version desc").Find(&releases).Count(&releasescount)
 
 	if releasescount == 0 {
 		return emptyrelease, false
