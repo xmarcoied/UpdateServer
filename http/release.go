@@ -191,8 +191,7 @@ func AddSignature(c *gin.Context) {
 	}
 
 	fingerprint, _ := utils.GetFingerprint(buf.Channel)
-	log.Println("Fingerprint:", fingerprint)
-	status := fmt.Sprintf("printf '%s' | gpg --default-key %s --detach-sign -a", string(ReleaseJSON), fingerprint)
+	status := fmt.Sprintf("echo -n '%s' | gpg --default-key %s --detach-sign -a", string(ReleaseJSON), fingerprint)
 	c.HTML(http.StatusOK, "newsignature.html", gin.H{
 		"status": status,
 		"ref":    ref,
