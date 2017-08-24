@@ -3,7 +3,6 @@ package utils
 import (
 	"bytes"
 	"encoding/hex"
-	"log"
 	"strings"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/core"
@@ -23,7 +22,6 @@ func ProcessRelease(release database.Release, signature string, signed string) (
 	}
 	_, err = openpgp.CheckArmoredDetachedSignature(keyRing, signedFile, signatureFile)
 	if err != nil {
-		log.Println(err)
 		return false, err
 	} else {
 		return true, err
@@ -36,7 +34,6 @@ func Sign(release database.Release, signed string) (string, error) {
 
 	signer, err := openpgp.ReadArmoredKeyRing(keyRingFile)
 	if err != nil {
-		log.Println(err)
 		return "", err
 	}
 

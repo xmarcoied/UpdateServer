@@ -2,7 +2,6 @@ package http
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"strings"
 
@@ -65,7 +64,6 @@ func Update(c *gin.Context) {
 
 	matchedRelease, retStatus := core.ReleaseMap(request)
 	if retStatus {
-		log.Println("There's a release matched")
 		request.Status = true
 		var buf struct {
 			ID             uint   `json:"id"`
@@ -92,7 +90,6 @@ func Update(c *gin.Context) {
 
 		c.JSON(http.StatusOK, buf)
 	} else {
-		log.Println("No release matched")
 		var buf struct {
 			ID             uint   `json:"id"`
 			Channel        string `json:"channel"`

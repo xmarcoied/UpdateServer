@@ -1,7 +1,6 @@
 package core
 
 import (
-	"log"
 	"time"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
@@ -57,7 +56,6 @@ func ReleaseMap(request database.UpdateRequest) (database.Release, bool) {
 		for _, release := range releases {
 			rules := GetRules(release)
 			if len(rules) == 0 {
-				log.Println("There's no rules")
 				return releases[0], true
 			}
 			if CheckTimeRule(release) == false {

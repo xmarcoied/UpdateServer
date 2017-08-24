@@ -2,7 +2,6 @@ package core
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
@@ -32,7 +31,6 @@ func DeleteChannel(channelName string) {
 	query := fmt.Sprintf("channel = '%s'", channelName)
 	releases := GetReleases(query)
 
-	log.Println("hola", len(releases))
 	for _, release := range releases {
 		DeleteRelease(strconv.Itoa(int(release.ID)))
 	}

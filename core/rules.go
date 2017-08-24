@@ -1,7 +1,6 @@
 package core
 
 import (
-	"log"
 	"math/rand"
 	"time"
 
@@ -59,9 +58,7 @@ func CheckOsRule(release database.Release, request database.UpdateRequest) bool 
 	db.DB.Where("release_id = ?", release.ID).Find(&rules)
 	for _, rule := range rules {
 		if err := db.DB.Where("rule_id =?", rule.ID).First(&osrule).Error; err == nil {
-			log.Println("hola os rule : ", osrule.OsVersion, "hola os request:", release.OsVer, "Compression:", release.OsVer == osrule.OsVersion)
 			if request.OsVer == osrule.OsVersion {
-				log.Println("That suppose to be a false response")
 				return false
 			}
 		}
