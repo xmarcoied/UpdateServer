@@ -1,5 +1,7 @@
-![alt text](https://travis-ci.org/xmarcoied/UpdateServer.svg?branch=master)
+[![Build Status](https://travis-ci.org/xmarcoied/UpdateServer.svg?branch=master)](https://travis-ci.org/xmarcoied/UpdateServer)
 [![Go Report Card](https://goreportcard.com/badge/github.com/xmarcoied/updateserver)](https://goreportcard.com/report/github.com/xmarcoied/updateserver)
+[![GoDoc](https://godoc.org/code.videolan.org/GSoC2017/Marco/UpdateServer?status.svg)](https://godoc.org/code.videolan.org/GSoC2017/Marco/UpdateServer)
+
 # UpdateServer
 
 An UpdateServer written in golang to ship releases and manage update requests
@@ -67,7 +69,10 @@ go get code.videolan.org/GSoC2017/Marco/UpdateServer
       {"id":17,"channel":"stable","os":"Linux","os_ver":"Linux","os_arch":"32","product_ver":"2.1.1","url":"localhost","title":"Title","desc":"Description","product":"vlc"}
   
       ```
+      
+    Note: the signed status is the JSON release without ID field.
     
+    so, at verifying the releases at client remove the ```"id":<id>, ``` part .
     
   - also add ```<host>/u/signature``` to get the signature for the associated release
   
