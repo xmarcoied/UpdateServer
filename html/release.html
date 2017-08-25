@@ -109,7 +109,7 @@
                     <tr>
                         <th>Channel :</th>
                     <th>
-                        <select name="channel">
+                        <select name="channel" style="width:170px;">
                             {{range .channels}}
                                     {{if eq .Name $.release.Channel}}
                                         <option selected="selected" value="{{.Name}}">{{.Name}}</option>
@@ -122,12 +122,12 @@
                     </tr>
                     <tr>
                         <th>Product :</th>
-                        <th> <textarea name="product" required>{{.release.Product}}</textarea></th>
+                        <th> <input name="product" value="{{.release.Product}}" style="height: 30px;" required></th>
                     </tr>
                     <tr>
                         <th>OS : </th>
                         <th> 
-                            <input name="os" type=text list=oses value="{{.release.OS}}" required>
+                            <input name="os" type=text list=oses value="{{.release.OS}}" style="height: 30px;" required>
                             <datalist id=oses >
                                 <option value ="Linux"> Linux </option>  
                                 <option value = "Windows"> Windows </option>
@@ -138,7 +138,7 @@
                     <tr>
                         <th>OS Architecture : </th>
                         <th>
-                            <input name="os_arch" type=text list=oses_arch value="{{.release.OsArch}}" required>
+                            <input name="os_arch" type=text list=oses_arch value="{{.release.OsArch}}" style="height: 30px;" required>
                             <datalist id=oses_arch >
                                 <option value = "32"> 32 bits </option>
                                 <option value ="64"> 64 bits </option>  
@@ -147,23 +147,27 @@
                     </tr>
                     <tr>
                         <th>OS Version : </th>
-                        <th> <textarea name="os_ver" required>{{.release.OsVer}}</textarea></th>
+                        <td> 
+                            <input name="os_ver" value="{{.release.OsVer}}" style="height: 30px;">
+                            <br>
+                            <small>(*) make the os version empty for Linux OSes</small>
+                        </td>
                     </tr>
                     <tr>
                         <th>Product Version :</th>
-                        <th> <textarea name="product_ver" required>{{.release.ProductVersion}}</textarea></th>
+                        <th> <input name="product_ver" value="{{.release.ProductVersion}}" style="height: 30px;" required></th>
                     </tr>
                     <tr>
                         <th>Title :</th>
-                        <th> <textarea name="title" required>{{.release.Title}}</textarea></th>
+                        <th> <input name="title" value="{{.release.Title}}" style="height: 30px;" required> </th>
                     </tr>
                     <tr>
                         <th>URL :</th>
-                        <th> <textarea name="url" style="width:450" required>{{.release.URL}}</textarea></th>
+                        <th> <input name="url" value="{{.release.URL}}" style="width:450; height: 30px;" required> </th>
                     </tr>
                     <tr>
                         <th>Description :</th>
-                        <th> <textarea name="desc" style="width:450;height:100" required>{{.release.Description}}</textarea></th>
+                        <th> <textarea name="desc" style="width:450;height:100" style="height: 30px;" required>{{.release.Description}}</textarea></th>
                     </tr>
                     <tr>
                         <th>CreatedAt</th>
@@ -194,5 +198,4 @@
                 }
             </script>
     </body>
-
 </html>
