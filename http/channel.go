@@ -21,7 +21,7 @@ func GetChannels(c *gin.Context) {
 // GetChannel is http handler to represent channel content
 func GetChannel(c *gin.Context) {
 	channel := core.GetChannel(c.Param("name"))
-	fingerprint, err := utils.GetFingerprint(c.Param("name"))
+	fingerprint, err := utils.GetFingerprint(channel)
 	if err != nil {
 		log.Println(err)
 	}

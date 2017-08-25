@@ -5,13 +5,11 @@ import (
 	"encoding/hex"
 	"strings"
 
-	"code.videolan.org/GSoC2017/Marco/UpdateServer/core"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
 	"golang.org/x/crypto/openpgp"
 )
 
-func ProcessRelease(release database.Release, signature string, signed string) (bool, error) {
-	channel := core.GetChannel(release.Channel)
+func ProcessRelease(channel database.Channel, release database.Release, signature string, signed string) (bool, error) {
 	keyRingFile := strings.NewReader(channel.PublicKey)
 	signedFile := strings.NewReader(signed)
 	signatureFile := strings.NewReader(signature)
@@ -28,8 +26,7 @@ func ProcessRelease(release database.Release, signature string, signed string) (
 	}
 }
 
-func Sign(release database.Release, signed string) (string, error) {
-	channel := core.GetChannel(release.Channel)
+func Sign(channel database.Channel, release database.Release, signed string) (string, error) {
 	keyRingFile := strings.NewReader(channel.PrivateKey)
 
 	signer, err := openpgp.ReadArmoredKeyRing(keyRingFile)
@@ -47,8 +44,7 @@ func Sign(release database.Release, signed string) (string, error) {
 	return w.String(), nil
 }
 
-func GetFingerprint(channelname string) (string, error) {
-	channel := core.GetChannel(channelname)
+func GetFingerprint(channel database.Channel) (string, error) {
 	keyRingFile := strings.NewReader(channel.PublicKey)
 
 	keyRing, err := openpgp.ReadArmoredKeyRing(keyRingFile)

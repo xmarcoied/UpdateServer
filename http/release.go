@@ -87,12 +87,12 @@ func NewRelease(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/new")
 
 	} else {
-		signature, err := utils.Sign(release, string(ReleaseJSON))
+		signature, err := utils.Sign(ReleaseChannel, release, string(ReleaseJSON))
 		if err != nil {
 			log.Println(err)
 		}
 
-		isvalid, err := utils.ProcessRelease(release, signature, string(ReleaseJSON))
+		isvalid, err := utils.ProcessRelease(ReleaseChannel, release, signature, string(ReleaseJSON))
 		log.Println(isvalid, err)
 		if isvalid == true && err == nil {
 			release.Signature = signature
@@ -147,12 +147,12 @@ func EditRelease(c *gin.Context) {
 	if ReleaseChannel.PrivateKey == "" {
 		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/addsignature/edit?id="+c.Param("id"))
 	} else {
-		signature, err := utils.Sign(release, string(ReleaseJSON))
+		signature, err := utils.Sign(ReleaseChannel, release, string(ReleaseJSON))
 		if err != nil {
 			log.Println(err)
 		}
 
-		isvalid, err := utils.ProcessRelease(release, signature, string(ReleaseJSON))
+		isvalid, err := utils.ProcessRelease(ReleaseChannel, release, signature, string(ReleaseJSON))
 		if isvalid == true && err == nil {
 			core.EditRelease(&release, c.Param("id"), signature, string(ReleaseJSON))
 			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+c.Param("id"))
@@ -189,7 +189,8 @@ func AddSignature(c *gin.Context) {
 		query = c.Query("id")
 	}
 
-	fingerprint, _ := utils.GetFingerprint(buf.Channel)
+	channel := core.GetChannel(buf.Channel)
+	fingerprint, _ := utils.GetFingerprint(channel)
 	status := fmt.Sprintf("echo -n '%s' | gpg --default-key %s --detach-sign -a", string(ReleaseJSON), fingerprint)
 	c.HTML(http.StatusOK, "newsignature.html", gin.H{
 		"status": status,
@@ -211,9 +212,10 @@ func VerifySignature(c *gin.Context) {
 	c.Bind(&binding)
 	binding.Content, _ = c.Cookie("release")
 	json.Unmarshal([]byte(string(binding.Content)), &release)
+	channel := core.GetChannel(release.Channel)
 
 	c.SetCookie("release", "", 0, "/", "", false, false)
-	isvalid, err := utils.ProcessRelease(release, binding.Signature, binding.Content)
+	isvalid, err := utils.ProcessRelease(channel, release, binding.Signature, binding.Content)
 	if isvalid == true && err == nil {
 		if c.Param("reference") == "new" {
 			release.Signature = binding.Signature
