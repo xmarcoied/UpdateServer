@@ -74,7 +74,7 @@ func ReleaseMap(request database.UpdateRequest) (database.Release, bool) {
 
 			if found == true && check == true {
 				return release, true
-			} else {
+			} else if found == true && check == false {
 				return emptyrelease, false
 			}
 
