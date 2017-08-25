@@ -24,9 +24,10 @@ func RouterInit() *gin.Engine {
 		admin.POST("/edit_release/:id", EditRelease)
 
 		admin.GET("/channels", GetChannels)
+		admin.GET("/channels/add", AddChannel)
+		admin.POST("/channels/check", CheckChannel)
 		admin.GET("/channel/:name", GetChannel)
 		admin.DELETE("/channel/:name/delete", DeleteChannel)
-		admin.GET("/channels/add", AddChannel)
 		admin.POST("/new_channel", NewChannel)
 
 		admin.GET("/addsignature/:reference", AddSignature)

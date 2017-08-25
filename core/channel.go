@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
+	"code.videolan.org/GSoC2017/Marco/UpdateServer/utils"
 )
 
 // GetChannels return all channels recorded at the database orded by id
@@ -36,4 +37,19 @@ func DeleteChannel(channelName string) {
 	}
 	// Then delete the channel
 	db.DB.Where("name = ?", channelName).Delete(&database.Channel{})
+}
+
+// CheckChannel
+func CheckChannel(channel database.Channel) (bool, error) {
+	var count int
+	db.DB.Model(&database.Channel{}).Where("name = ?", channel.Name).Count(&count)
+	if count != 0 {
+		return false, fmt.Errorf("Can't have a duplicated channel name")
+	} else if err := utils.CheckPGPKey(channel.PublicKey); err != nil {
+		return false, fmt.Errorf("public key error: %v", err)
+	} else if err := utils.CheckPGPKey(channel.PrivateKey); err != nil && channel.PrivateKey != "" {
+		return false, fmt.Errorf("private key error: %v", err)
+	} else {
+		return true, nil
+	}
 }

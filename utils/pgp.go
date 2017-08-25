@@ -54,3 +54,9 @@ func GetFingerprint(channel database.Channel) (string, error) {
 	fingerprint := strings.ToUpper(hex.EncodeToString(keyRing[0].PrimaryKey.Fingerprint[:]))
 	return fingerprint, nil
 }
+
+func CheckPGPKey(key string) error {
+	keyRingFile := strings.NewReader(key)
+	_, err := openpgp.ReadArmoredKeyRing(keyRingFile)
+	return err
+}

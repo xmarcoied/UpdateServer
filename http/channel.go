@@ -51,3 +51,16 @@ func NewChannel(c *gin.Context) {
 func DeleteChannel(c *gin.Context) {
 	core.DeleteChannel(c.Param("name"))
 }
+
+// CheckChannel
+func CheckChannel(c *gin.Context) {
+	var channel database.Channel
+	c.Bind(&channel)
+	ret, err := core.CheckChannel(channel)
+	if ret == true {
+		c.String(http.StatusOK, "OK")
+	} else {
+		c.String(http.StatusOK, err.Error())
+	}
+
+}

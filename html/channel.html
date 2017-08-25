@@ -17,7 +17,7 @@
         {{ template "head.html" . }}
         <hr>
         {{if eq .title "new channel"}}
-            <form action="/admin/dashboard/new_channel" method="post">
+            <form action="/admin/dashboard/new_channel" method="post" onsubmit="return ValidatePubKey(this)">
                 <table style="width:50%">
                     <tr>
                         <th colspan="2">
@@ -75,6 +75,8 @@
         {{end}}
         <hr>
         <script type="text/javascript">
+            'strict mode'
+            var foo = 1 ;
             function DeleteChannel() {
                 if (confirm("You're going to delete the {{.channel.Name}} channel ") == true) {
                     var xhr = new XMLHttpRequest();
@@ -82,6 +84,18 @@
                     xhr.send(null);
                     window.location.href='/admin/dashboard/channels'
                 } 
+            }
+
+            function ValidatePubKey(oFormElement){
+                  var request = new XMLHttpRequest();
+                  request.open('POST', '/admin/dashboard/channels/check', /* async = */ false);
+                  request.send(new FormData (oFormElement)); 
+                  if (request.responseText == "OK"){
+                        return true;
+                  }else{
+                        alert(request.responseText);
+                        return false;
+                  }
             }
         </script>
     </body>
