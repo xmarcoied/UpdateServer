@@ -232,6 +232,8 @@ func DuplicateRelease(c *gin.Context) {
 	release := core.GetRelease(c.Param("id"))
 	// setting the release_id to zero to avoid violating releases_pkey
 	release.ID = 0
+	// set the release_status to inactive
+	release.Active = false
 	core.NewRelease(&release)
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
 }

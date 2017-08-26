@@ -40,7 +40,7 @@
                                 <input type="submit" value="Deactivate">
                             {{end}}
                             </form>
-                            <button style="display: inline;" onclick="GoNav('/admin/dashboard/release/{{.release.ID}}/duplicate')">Duplicate</button>
+                            <button style="display: inline;" onclick="Duplicate()">Duplicate</button>
                             <button style="display: inline;" onclick="DeleteRelease()">Delete</button>
                         </div>
 
@@ -185,8 +185,10 @@
                 </table>
             </form>
             <script type="text/javascript">
-                function GoNav(url){
-                    document.location.href = url;
+                function Duplicate(){
+                    if (confirm("You're going to duplicate the release #{{.release.ID}}")){
+                        document.location.href = '/admin/dashboard/release/{{.release.ID}}/duplicate';
+                    }
                 }
 
                 function DeleteRelease() {
