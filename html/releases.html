@@ -24,6 +24,33 @@
                 <td colspan="6"><a href="/admin/dashboard/releases/new">Add new release</a></td>
             </tr>
             <tr>
+                    <td colspan="10">
+                        <form style=" margin: 0;" action="/admin/dashboard/releases" method="get">
+                                <label>Status:</label>
+                                <select name="status">
+                                        <option value=""></option>
+                                        <option {{if eq $.release.Status "true"}}selected{{end}} value="true">Active</option>
+                                        <option {{if eq $.release.Status "false"}}selected{{end}} value="false">Inactive</option>
+                                </select>
+                                <label>Product:</label>
+                                <input style="width: 100" type=text name=product value="{{.release.Product}}">
+                                <label>Channel:</label>
+                                <select name="channel">
+                                        <option value=""></option>
+                                        {{range .allchannels}}
+                                            {{if eq .Name $.release.Channel}}
+                                            <option selected="selected" value={{.Name}}>{{.Name}}</option>
+                                            {{end}}
+                                            {{if ne .Name $.release.Channel}}
+                                            <option value={{.Name}}>{{.Name}}</option>
+                                            {{end}}
+                                        {{end}}
+                                </select>
+                                <input type="submit" value="view">
+                        </form>
+                    </td>
+                </tr>
+            <tr>
                 <th>ID</th>
                 <th>Status</th>
                 <th>Title</th>

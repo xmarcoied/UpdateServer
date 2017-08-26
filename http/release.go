@@ -16,10 +16,36 @@ import (
 // GetReleases is http handler to represent all the releases available in the UpdateServer
 func GetReleases(c *gin.Context) {
 	// pass empty query to get all releases
-	query := ""
+	var query string
+	var release struct {
+		Channel string `form:"channel"`
+		Product string `form:"product"`
+		Status  string `form:"status"`
+	}
+
+	c.Bind(&release)
+
+	if release.Channel != "" {
+		newquery := fmt.Sprintf("channel = '%s'", release.Channel)
+		query = database.QueryAppend(query, newquery)
+	}
+
+	if release.Product != "" {
+		newquery := fmt.Sprintf("product = '%s'", release.Product)
+		query = database.QueryAppend(query, newquery)
+	}
+
+	if release.Status != "" {
+		newquery := fmt.Sprintf("active = '%s'", release.Status)
+		query = database.QueryAppend(query, newquery)
+	}
+
+	channels := core.GetChannels()
 	releases := core.GetReleases(query)
 	c.HTML(http.StatusOK, "releases.html", gin.H{
-		"releases": releases,
+		"releases":    releases,
+		"allchannels": channels,
+		"release":     release,
 	})
 }
 
