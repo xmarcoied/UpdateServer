@@ -15,13 +15,13 @@ func RouterInit() *gin.Engine {
 	auth := router.Group("/", Auth)
 	admin := auth.Group("/admin/dashboard")
 	{
-		admin.GET("/newrelease", AddRelease)
 		admin.GET("/releases", GetReleases)
+		admin.GET("/releases/new", NewRelease)
+		admin.POST("/releases/new", NewRelease)
 		admin.GET("/release/:id", GetRelease)
+		admin.POST("/release/:id/edit", EditRelease)
 		admin.DELETE("/release/:id/delete", DelRelease)
 		admin.POST("/release/:id/active", ToggleRelease)
-		admin.POST("/new_release", NewRelease)
-		admin.POST("/edit_release/:id", EditRelease)
 
 		admin.GET("/channels", GetChannels)
 		admin.GET("/channels/add", AddChannel)
