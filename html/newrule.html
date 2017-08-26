@@ -10,17 +10,32 @@
                 padding: 5px;
                 text-align: center;    
             }
-            hr{
-                width: 10%;
-            }
         </style>
     </head>
     
     <body>
         {{ template "head.html" . }}
-        <h1>New rule associated with release #{{.id}}</h1>    
-            <form action="/admin/dashboard/new_rule/time/{{.id}}" method="post">
-                <table style="margin: auto;">
+        <hr>
+        <table style="margin: auto;">
+            <tr>
+                <td colspan="2">
+                    <h2>New rule associated with release #{{.id}}</h2>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <select id="rules" onchange="ShowRule()" style="width: 100">
+                        <option value=""></option>
+                        <option value="time"> Time Rule </option>
+                        <option value="roll"> Rolling Rule </option>
+                        <option value="ip"> IP Rule </option>
+                        <option value="version"> Version Rule </option>
+                        <option value="os"> OS Rule </option>
+                    </select>
+                </td>
+            </tr>
+            <tbody id ="time" style="display: none;">
+                <form action="/admin/dashboard/new_rule/time/{{.id}}" method="post">
                     <tr>
                         <td colspan="2">Time Rule</td>
                     </tr> 
@@ -34,11 +49,11 @@
                     </tr>
                     <tr>
                         <td colspan="2"><input type="submit" value="Add"></td>
-                    </tr>  
-                </table>
-            </form>
-            <form action="/admin/dashboard/new_rule/version/{{.id}}" method="post">
-                <table style="margin: auto;">
+                    </tr> 
+                </form> 
+            </tbody>
+            <tbody id="version" style="display: none;">
+                <form action="/admin/dashboard/new_rule/version/{{.id}}" method="post">
                     <tr>
                         <td colspan="2">Version Rule</td>
                     </tr> 
@@ -49,10 +64,10 @@
                     <tr>
                         <td colspan="2"><input type="submit" value="Add"></td>
                     </tr>  
-                </table>
-            </form>
-            <form action="/admin/dashboard/new_rule/os/{{.id}}" method="post">
-                <table style="margin: auto;">
+                </form>
+            </tobdy>
+            <tbody id="os" style="display: none;">
+                <form action="/admin/dashboard/new_rule/os/{{.id}}" method="post">
                     <tr>
                         <td colspan="2">OS Rule</td>
                     </tr> 
@@ -63,24 +78,24 @@
                     <tr>
                         <td colspan="2"><input type="submit" value="Add"></td>
                     </tr>  
-                </table>
-            </form>
-            <form action="/admin/dashboard/new_rule/ip/{{.id}}" method="post">
-                <table style="margin: auto;">
-                    <tr>
-                        <td colspan="2">IP Rule</td>
-                    </tr> 
-                    <tr>
-                        <th>IP Address: </th>
-                        <th> <input name="ip_address"> </th>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="submit" value="Add"></td>
-                    </tr>  
-                </table>
-            </form>
-            <form action="/admin/dashboard/new_rule/roll/{{.id}}" method="post">
-                <table style="margin: auto;">
+                </form>
+            </tbody>
+            <tbody id="ip" style="display: none;">
+                <form action="/admin/dashboard/new_rule/ip/{{.id}}" method="post">
+                        <tr>
+                            <td colspan="2">IP Rule</td>
+                        </tr> 
+                        <tr>
+                            <th>IP Address: </th>
+                            <th> <input name="ip_address"> </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="submit" value="Add"></td>
+                        </tr>  
+                </form>
+            </tbody>
+            <tbody id="roll" style="display: none;">
+                <form action="/admin/dashboard/new_rule/roll/{{.id}}" method="post">
                     <tr>
                         <td colspan="2">Rolling Release</td>
                     </tr> 
@@ -91,7 +106,19 @@
                     <tr>
                         <td colspan="2"><input type="submit" value="Add"></td>
                     </tr>  
-                </table>
-            </form>
+                </form>
+            </tbody>
+        </table>
+        <hr>
+            <script type="text/javascript">
+                function ShowRule(){
+                    var selectedrule = document.getElementById('rules').options[document.getElementById('rules').selectedIndex].value
+                    var rules = ["time" , "roll" , "ip" , "os" , "version"]
+                    for (i = 0; i < rules.length; i++) { 
+                        document.getElementById(rules[i]).style.display = "none";
+                    }
+                    document.getElementById(selectedrule).style.display = "table-row-group";
+                }
+            </script>
     </body>
 </html>
