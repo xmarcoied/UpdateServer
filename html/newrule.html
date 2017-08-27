@@ -25,7 +25,7 @@
             <tr>
                 <td colspan="2">
                     <select id="rules" onchange="ShowRule()" style="width: 100">
-                        <option value=""></option>
+                        <option value="">Choose rule</option>
                         <option value="time"> Time Rule </option>
                         <option value="roll"> Rolling Rule </option>
                         <option value="ip"> IP Rule </option>
@@ -53,13 +53,13 @@
                 </form> 
             </tbody>
             <tbody id="version" style="display: none;">
-                <form action="/admin/dashboard/new_rule/version/{{.id}}" method="post">
+                <form action="/admin/dashboard/new_rule/version/{{.id}}" method="post" >
                     <tr>
                         <td colspan="2">Version Rule</td>
                     </tr> 
                     <tr>
                         <th>Product Version: </th>
-                        <th> <input name="product_version"> </th>
+                        <th> <input name="product_version" required> </th>
                     </tr>
                     <tr>
                         <td colspan="2"><input type="submit" value="Add"></td>
@@ -73,7 +73,7 @@
                     </tr> 
                     <tr>
                         <th>OS Version: </th>
-                        <th> <input name="os_version"> </th>
+                        <th> <input name="os_version" required> </th>
                     </tr>
                     <tr>
                         <td colspan="2"><input type="submit" value="Add"></td>
@@ -87,7 +87,7 @@
                         </tr> 
                         <tr>
                             <th>IP Address: </th>
-                            <th> <input name="ip_address"> </th>
+                            <th> <input name="ip_address" required> </th>
                         </tr>
                         <tr>
                             <td colspan="2"><input type="submit" value="Add"></td>
@@ -101,7 +101,7 @@
                     </tr> 
                     <tr>
                         <th>Rolling Presentage: </th>
-                        <th> <input type="number" name="roll" min="1" max="99"> %</th>
+                        <th> <input type="number" name="roll" min="1" max="99" required> %</th>
                     </tr>
                     <tr>
                         <td colspan="2"><input type="submit" value="Add"></td>

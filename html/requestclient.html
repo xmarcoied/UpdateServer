@@ -30,7 +30,6 @@
                     <th>Product VER</th>
                     <th>IP</th>
                 </tr>
-
                 <tr>
                     <td> <input name="product" value="{{.request.Product}}" style="width:100;" required> </td>
                     <td>
@@ -55,7 +54,7 @@
                                 <option value ="64"> 64 bits </option>  
                             </datalist>
                     </td>
-                    <td> <input name="os_ver" value="{{.request.OsVer}}" style="width:100;" required> </td>
+                    <td> <input name="os_ver" value="{{.request.OsVer}}" style="width:100;" > </td>
                     <td> <input name="product_ver" value="{{.request.ProductVersion}}" style="width:100;" required> </td>
                     <td> <input name="ip" value="{{.request.IP}}" style="width:100;"> </td>
                 </tr>
@@ -121,6 +120,5 @@
                 </table>
             <hr>
             {{end}}
-
     </body>
 </html>
