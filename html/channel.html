@@ -12,7 +12,6 @@
             }
         </style>
     </head>
-
     <body>
         {{ template "head.html" . }}
         <hr>
@@ -44,39 +43,37 @@
             </form>
         {{end}}
         {{if eq .title "view channel"}}
-                <table style="width:50%">
-                    <tr>
-                        <th colspan="2">
-                            <h2>{{.channel.Name}} channel</h2>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Name :</th>
-                        <td> {{.channel.Name}} </td>
-                    </tr>
-                    <tr>
-                        <th>Public Key :</th>
-                        <td> <textarea rows="10" cols="65" readonly>{{.channel.PublicKey}}</textarea></td>
-                    </tr>
-                    <tr>
-                        <th>fingerprint</th>
-                        <td>{{.fingerprint}}</td>
-                    </tr>
-                    <tr>
-                        <th>releases count :</th>
-                        <td>{{.channel.ReleasesCount}} releases</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                                <button onclick="DeleteChannel()">Delete</button>
-                        </td>
-                    </tr>
-                </table>
+            <table style="width:50%">
+                <tr>
+                    <th colspan="2">
+                        <h2>{{.channel.Name}} channel</h2>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Name :</th>
+                    <td> {{.channel.Name}} </td>
+                </tr>
+                <tr>
+                    <th>Public Key :</th>
+                    <td> <textarea rows="10" cols="65" readonly>{{.channel.PublicKey}}</textarea></td>
+                </tr>
+                <tr>
+                    <th>fingerprint</th>
+                    <td>{{.fingerprint}}</td>
+                </tr>
+                <tr>
+                    <th>releases count :</th>
+                    <td>{{.channel.ReleasesCount}} releases</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                            <button onclick="DeleteChannel()">Delete</button>
+                    </td>
+                </tr>
+            </table>
         {{end}}
         <hr>
         <script type="text/javascript">
-            'strict mode'
-            var foo = 1 ;
             function DeleteChannel() {
                 if (confirm("You're going to delete the {{.channel.Name}} channel ") == true) {
                     var xhr = new XMLHttpRequest();
@@ -85,7 +82,6 @@
                     window.location.href='/admin/dashboard/channels'
                 } 
             }
-
             function ValidatePubKey(oFormElement){
                   var request = new XMLHttpRequest();
                   request.open('POST', '/admin/dashboard/channels/check', /* async = */ false);

@@ -32,7 +32,7 @@
                         </div>
                         <hr>
                         <div>
-                            <form style="display: inline; margin: 0;" action="/admin/dashboard/release/{{.release.ID}}/active" method="post">
+                            <form style="display: inline; margin: 0;" action="/admin/dashboard/release/{{.release.ID}}/active" onsubmit ="return ActivateHandler()" method="post">
                             {{if eq .release.Active false}}
                                 <input type="submit" value="Activate">
                             {{end}}
@@ -40,8 +40,8 @@
                                 <input type="submit" value="Deactivate">
                             {{end}}
                             </form>
-                            <button style="display: inline;" onclick="Duplicate()">Duplicate</button>
-                            <button style="display: inline;" onclick="DeleteRelease()">Delete</button>
+                            <button style="display: inline;" onclick="DuplicateHandler()">Duplicate</button>
+                            <button style="display: inline;" onclick="Delete_ReleaseHandler()">Delete</button>
                         </div>
 
                     </th>
@@ -164,11 +164,11 @@
                     </tr>
                     <tr>
                         <th>URL :</th>
-                        <th> <input name="url" value="{{.release.URL}}" style="width:450; height: 30px;" required> </th>
+                        <th> <input name="url" value="{{.release.URL}}" style="width:450px; height: 30px;" required> </th>
                     </tr>
                     <tr>
                         <th>Description :</th>
-                        <th> <textarea name="desc" style="width:450;height:100" style="height: 30px;" required>{{.release.Description}}</textarea></th>
+                        <th> <textarea name="desc" style="width:450px;height:100px" required>{{.release.Description}}</textarea></th>
                     </tr>
                     <tr>
                         <th>CreatedAt</th>
@@ -185,13 +185,16 @@
                 </table>
             </form>
             <script type="text/javascript">
-                function Duplicate(){
+                function ActivateHandler(){
+                    return (confirm("You're going to active the release #{{.release.ID}}"));
+                }
+                function DuplicateHandler(){
                     if (confirm("You're going to duplicate the release #{{.release.ID}}")){
                         document.location.href = '/admin/dashboard/release/{{.release.ID}}/duplicate';
                     }
                 }
 
-                function DeleteRelease() {
+                function Delete_ReleaseHandler() {
                     if (confirm("You're going to delete the release #{{.release.ID}}") == true) {
                         var xhr = new XMLHttpRequest();
                         xhr.open('DELETE', '/admin/dashboard/release/{{.release.ID}}/delete');

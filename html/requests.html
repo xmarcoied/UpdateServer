@@ -48,11 +48,11 @@
                                     <input {{if ne $.request.OsArch ""}}checked{{end}} type='checkbox' id = "os_arch" onclick='handleClick(this);'>OS Arch
                                 </label>
                                 <br>
-                                <div id = "release-product" style="margin:1;display: inline-flex;">
+                                <div id = "request-product" style="margin:1;display: inline-flex;">
                                     <label>Product:</label>
                                     <input style="width: 100" type=text name=product value="{{.request.Product}}">
                                 </div>
-                                <div id = "release-channel" style="margin:1;display: inline-flex;">
+                                <div id = "request-channel" style="margin:1;display: inline-flex;">
                                     <label>Channel:</label>
                                     <select name="channel">
                                             <option value="">All</option>
@@ -66,7 +66,7 @@
                                             {{end}}
                                     </select>
                                 </div>
-                                <div id = "release-status" style="margin:1;display: none;">
+                                <div id = "request-status" style="margin:1;display: none;">
                                     <label>Status:</label>
                                     <select name="status">
                                         <option value=""></option>
@@ -74,15 +74,15 @@
                                         <option {{if eq $.request.Status "false"}}selected{{end}} value="false">Refused</option>
                                     </select>
                                 </div>
-                                <div id = "release-os" style="margin:1;display: none;">
+                                <div id = "request-os" style="margin:1;display: none;">
                                     <label>OS:</label>
                                     <input style="width: 100" type=text name=os value="{{.request.OS}}">
                                 </div>
-                                <div id = "release-os_ver" style="margin:1;display: none;">
+                                <div id = "request-os_ver" style="margin:1;display: none;">
                                     <label>OS Ver:</label>
                                     <input style="width: 100" type=text name=os_ver value="{{.request.OsVer}}">
                                 </div>
-                                <div id = "release-os_arch" style="margin:1;display: none;">
+                                <div id = "request-os_arch" style="margin:1;display: none;">
                                     <label>OS Arch:</label>
                                     <input style="width: 100" type=text name=os_arch value="{{.request.OsArch}}">
                                 </div>
@@ -139,22 +139,21 @@
             </table>
         <hr>
         <script type="text/javascript">
-        function handleClick(cb) {
-            console.log('release-' + cb.id , cb.checked)
-            if (cb.checked){
-                document.getElementById('release-' + cb.id).style.display = "inline-flex";
-            }else{
-                document.getElementById('release-' + cb.id).style.display = "none";
+            function handleClick(cb) {
+                if (cb.checked){
+                    document.getElementById('request-' + cb.id).style.display = "inline-flex";
+                }else{
+                    document.getElementById('request-' + cb.id).style.display = "none";
+                }
             }
-        }
-        var requests_ch = ["os" , "status" , "channel" , "product" , "os_ver" ,"os_arch"]
-                    for (i = 0; i < requests_ch.length; i++) { 
-                        if(document.getElementById(requests_ch[i]).checked == true){
-                            document.getElementById('release-'+requests_ch[i]).style.display = "inline-flex";
-                        }else{
-                            document.getElementById('release-'+requests_ch[i]).style.display = "none";
-                        }
-                    }
-    </script>
+            var requests_ch = ["os" , "status" , "channel" , "product" , "os_ver" ,"os_arch"]
+            for (i = 0; i < requests_ch.length; i++) {
+                if(document.getElementById(requests_ch[i]).checked == true){
+                    document.getElementById('request-'+requests_ch[i]).style.display = "inline-flex";
+                }else{
+                    document.getElementById('request-'+requests_ch[i]).style.display = "none";
+                }
+            }
+        </script>
     </body>
 </html>
