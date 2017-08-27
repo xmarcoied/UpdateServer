@@ -15,8 +15,14 @@ func GetRequests(c *gin.Context) {
 	var (
 		query   string
 		request struct {
-			Channel string `form:"channel"`
-			Product string `form:"product"`
+			Channel        string `form:"channel"`
+			OS             string `form:"os"`
+			OsVer          string `form:"os_ver"`
+			OsArch         string `form:"os_arch"`
+			ProductVersion string `form:"product_ver"`
+			IP             string `form:"ip"`
+			Status         string `form:"status"`
+			Product        string `form:"product"`
 		}
 	)
 	c.Bind(&request)
@@ -30,12 +36,34 @@ func GetRequests(c *gin.Context) {
 		query = database.QueryAppend(query, newquery)
 	}
 
-	requests := core.GetRequests(query)
+	if request.Status != "" {
+		newquery := fmt.Sprintf("status = '%s'", request.Status)
+		query = database.QueryAppend(query, newquery)
+	}
+
+	if request.OS != "" {
+		newquery := fmt.Sprintf("os = '%s'", request.OS)
+		query = database.QueryAppend(query, newquery)
+	}
+
+	if request.OsVer != "" {
+		newquery := fmt.Sprintf("os_ver = '%s'", request.OsVer)
+		query = database.QueryAppend(query, newquery)
+	}
+
+	if request.OsArch != "" {
+		newquery := fmt.Sprintf("os_arch = '%s'", request.OsArch)
+		query = database.QueryAppend(query, newquery)
+	}
+
+	fmt.Println("Hola", query)
+	requests, count := core.GetRequests(query)
 	channels := core.GetChannels()
 	c.HTML(http.StatusOK, "requests.html", gin.H{
-		"requests": requests,
-		"channels": channels,
-		"request":  request,
+		"requests":       requests,
+		"channels":       channels,
+		"request":        request,
+		"requests_count": count,
 	})
 }
 

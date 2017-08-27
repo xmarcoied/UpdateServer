@@ -16,34 +16,78 @@
     <body>
             {{ template "head.html" . }}
             <hr>
-            <table>
+            <table style="width: 50%;">
                 <tr>
-                    <th colspan="10"><h2>Update Requests</h2></th>
-                </tr>
-                <tr>
-                    <td colspan="10"><a href="/u/act">Act like a client</a></td>
-                </tr>
-                <tr>
-                    <td colspan="10"><a href="#" onClick="window.location.reload();return false;">Refresh</a></td>
+                    <th colspan="10"><h2>Update Requests ({{.requests_count}})</h2></th>
                 </tr>
                 <tr>
                     <td colspan="10">
-                        <form style=" margin: 0;" action="/u/requests" method="get">
-                                <label>Product:</label>
-                                <input style="width: 100" type=text name=product value="{{.request.Product}}">
-                                <label>Channel:</label>
-                                <select name="channel">
+                        <button onClick="location.href='/u/act';return false;">Act like a client</button>
+                        |
+                        <button onClick="window.location.reload();return false;">Refresh</button>
+                    </td>
+                </tr>
+                <tr>
+                    
+                </tr>
+                <tr>
+                    <td colspan="10">
+                        <form style=" margin: auto;" action="/u/requests" method="get">
+                                <label><input checked type='checkbox' id = "product" onclick='handleClick(this);'>Product</label>
+                                <label><input checked type='checkbox' id = "channel" onclick='handleClick(this);'>Channel</label>
+                                <label>
+                                    <input {{if ne $.request.Status ""}}checked{{end}} type='checkbox' id = "status" onclick='handleClick(this);'>Status
+                                </label>
+                                <label>
+                                    <input {{if ne $.request.OS ""}}checked{{end}} type='checkbox' id = "os" onclick='handleClick(this);' >OS
+                                </label>
+                                <label>
+                                    <input {{if ne $.request.OsVer ""}}checked{{end}} type='checkbox' id = "os_ver" onclick='handleClick(this);'>OS Ver
+                                </label>
+                                <label>
+                                    <input {{if ne $.request.OsArch ""}}checked{{end}} type='checkbox' id = "os_arch" onclick='handleClick(this);'>OS Arch
+                                </label>
+                                <br>
+                                <div id = "release-product" style="margin:1;display: inline-flex;">
+                                    <label>Product:</label>
+                                    <input style="width: 100" type=text name=product value="{{.request.Product}}">
+                                </div>
+                                <div id = "release-channel" style="margin:1;display: inline-flex;">
+                                    <label>Channel:</label>
+                                    <select name="channel">
+                                            <option value="">All</option>
+                                            {{range .channels}}
+                                            {{if eq .Name $.request.Channel}}
+                                                <option selected="selected" value="{{.Name}}">{{.Name}}</option>
+                                                {{end}}
+                                                {{if ne .Name $.request.Channel}}
+                                                    <option value="{{.Name}}">{{.Name}}</option>
+                                                {{end}}
+                                            {{end}}
+                                    </select>
+                                </div>
+                                <div id = "release-status" style="margin:1;display: none;">
+                                    <label>Status:</label>
+                                    <select name="status">
                                         <option value=""></option>
-                                        {{range .channels}}
-                                        {{if eq .Name $.request.Channel}}
-                                            <option selected="selected" value="{{.Name}}">{{.Name}}</option>
-                                            {{end}}
-                                            {{if ne .Name $.request.Channel}}
-                                                <option value="{{.Name}}">{{.Name}}</option>
-                                            {{end}}
-                                        {{end}}
-                                </select>
-                                <input type="submit" value="view">
+                                        <option {{if eq $.request.Status "true"}}selected{{end}} value="true">Accepted</option>
+                                        <option {{if eq $.request.Status "false"}}selected{{end}} value="false">Refused</option>
+                                    </select>
+                                </div>
+                                <div id = "release-os" style="margin:1;display: none;">
+                                    <label>OS:</label>
+                                    <input style="width: 100" type=text name=os value="{{.request.OS}}">
+                                </div>
+                                <div id = "release-os_ver" style="margin:1;display: none;">
+                                    <label>OS Ver:</label>
+                                    <input style="width: 100" type=text name=os_ver value="{{.request.OsVer}}">
+                                </div>
+                                <div id = "release-os_arch" style="margin:1;display: none;">
+                                    <label>OS Arch:</label>
+                                    <input style="width: 100" type=text name=os_arch value="{{.request.OsArch}}">
+                                </div>
+                                <br>
+                                <input style="margin: 5;" type="submit" value="view">
                         </form>
                     </td>
                 </tr>
@@ -93,5 +137,23 @@
                 {{ end }}
             </table>
         <hr>
+        <script type="text/javascript">
+        function handleClick(cb) {
+            console.log('release-' + cb.id , cb.checked)
+            if (cb.checked){
+                document.getElementById('release-' + cb.id).style.display = "inline-flex";
+            }else{
+                document.getElementById('release-' + cb.id).style.display = "none";
+            }
+        }
+        var requests_ch = ["os" , "status" , "channel" , "product" , "os_ver" ,"os_arch"]
+                    for (i = 0; i < requests_ch.length; i++) { 
+                        if(document.getElementById(requests_ch[i]).checked == true){
+                            document.getElementById('release-'+requests_ch[i]).style.display = "inline-flex";
+                        }else{
+                            document.getElementById('release-'+requests_ch[i]).style.display = "none";
+                        }
+                    }
+    </script>
     </body>
 </html>

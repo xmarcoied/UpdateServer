@@ -7,11 +7,12 @@ import (
 )
 
 // GetRequests return all requests recorded at the database associated with a channel and product
-func GetRequests(query string) []database.UpdateRequest {
+func GetRequests(query string) ([]database.UpdateRequest, int) {
 	var requests []database.UpdateRequest
-	db.DB.Where(query).Order("created_at desc").Find(&requests)
+	var count int
+	db.DB.Where(query).Order("created_at desc").Find(&requests).Count(&count)
 	ProcessCreatedSince(&requests)
-	return requests
+	return requests, count
 }
 
 func NewRequest(request database.UpdateRequest) {
