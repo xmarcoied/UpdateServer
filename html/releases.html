@@ -27,15 +27,15 @@
                 <td colspan="10">
                     <form style=" margin: 0;" action="/admin/dashboard/releases" method="get">
                             <label>Status:</label>
-                            <select name="status">
+                            <select id = "status" name="status">
                                     <option value=""></option>
                                     <option {{if eq $.release.Status "true"}}selected{{end}} value="true">Active</option>
                                     <option {{if eq $.release.Status "false"}}selected{{end}} value="false">Inactive</option>
                             </select>
                             <label>Product:</label>
-                            <input style="width: 100" type=text name=product value="{{.release.Product}}">
+                            <input id = "product" style="width: 100" type=text name=product value="{{.release.Product}}">
                             <label>Channel:</label>
-                            <select name="channel">
+                            <select id = "channel" name="channel">
                                     <option value=""></option>
                                     {{range .allchannels}}
                                         {{if eq .Name $.release.Channel}}
@@ -47,7 +47,7 @@
                                     {{end}}
                             </select>
                             | <input type="submit" value="view"> | 
-                            <input type="reset" value="reset">
+                            <input type="button" onclick="ResetHandler()" value="reset">
                     </form>
                 </td>
             </tr>
@@ -78,5 +78,13 @@
             {{ end }}
         </table>
         <hr>
+        <script type="text/javascript">
+                        function ResetHandler(){
+                            var releases_ch = ["status" , "channel" , "product"];
+                            for (i = 0; i < releases_ch.length; i++) {
+                                document.getElementById(releases_ch[i]).value = "";
+                            }
+                        }
+        </script>
     </body>
 </html>

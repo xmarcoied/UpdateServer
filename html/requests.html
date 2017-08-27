@@ -88,7 +88,7 @@
                                 </div>
                                 <br>
                                 <input style="margin: 5;" type="submit" value="view"> | 
-                                <input style="margin: 5;" type="reset" value="reset">
+                                <input onclick="ResetHandler()" type="button" value="reset">
                         </form>
                     </td>
                 </tr>
@@ -139,6 +139,14 @@
             </table>
         <hr>
         <script type="text/javascript">
+            var requests_ch = ["os" , "status" , "channel" , "product" , "os_ver" ,"os_arch"]
+            for (i = 0; i < requests_ch.length; i++) {
+                if(document.getElementById(requests_ch[i]).checked == true){
+                    document.getElementById('request-'+requests_ch[i]).style.display = "inline-flex";
+                }else{
+                    document.getElementById('request-'+requests_ch[i]).style.display = "none";
+                }
+            }
             function handleClick(cb) {
                 if (cb.checked){
                     document.getElementById('request-' + cb.id).style.display = "inline-flex";
@@ -146,12 +154,16 @@
                     document.getElementById('request-' + cb.id).style.display = "none";
                 }
             }
-            var requests_ch = ["os" , "status" , "channel" , "product" , "os_ver" ,"os_arch"]
-            for (i = 0; i < requests_ch.length; i++) {
-                if(document.getElementById(requests_ch[i]).checked == true){
-                    document.getElementById('request-'+requests_ch[i]).style.display = "inline-flex";
-                }else{
-                    document.getElementById('request-'+requests_ch[i]).style.display = "none";
+            function ResetHandler(){
+                for (i = 0; i < requests_ch.length; i++) {
+
+                    if(document.getElementById('request-' +requests_ch[i]).querySelector('input') != null){
+                        document.getElementById('request-' +requests_ch[i]).querySelector('input').value = "";
+                    }
+                    if(document.getElementById('request-' +requests_ch[i]).querySelector('select') != null){
+                            document.getElementById('request-' +requests_ch[i]).querySelector('select').value = "";
+                    }
+
                 }
             }
         </script>
