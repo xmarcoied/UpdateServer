@@ -1,22 +1,4 @@
-<html> 
-    <head>
-        <title>UpdateServer</title>
-        <style>
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                margin: auto;
-            }
-            th, td ,h1 , h3{
-                padding: 5px;
-                text-align: center;    
-            }
-        </style>
-    </head>
-    
-    <body>
-        {{ template "head.html" . }}
-        <hr>
+{{ template "head.html" . }}
         <table style="margin: auto;">
             <tr>
                 <td colspan="2">
@@ -109,8 +91,7 @@
                     </tr>  
                 </form>
             </tbody>
-        </table>
-        <hr>
+        </table><hr>
             <script type="text/javascript">
                 function ShowRule(){
                     var selectedrule = document.getElementById('rules').options[document.getElementById('rules').selectedIndex].value

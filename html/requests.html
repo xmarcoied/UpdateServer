@@ -1,22 +1,4 @@
-<html>
-    <head>
-        <title>UpdateServer ({{.requests_count}})</title>
-        <style>
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                margin: auto;
-
-            }
-            th, td{
-                padding: 5px;
-                text-align: center;    
-            }
-        </style>
-    </head>
-    <body>
-            {{ template "head.html" . }}
-            <hr>
+{{ template "head.html" . }}
             <table style="width: 50%;">
                 <tr>
                     <th colspan="10"><h2>Update Requests ({{.requests_count}})</h2></th>
@@ -58,12 +40,7 @@
                                     <select name="channel">
                                             <option value="">All</option>
                                             {{range .channels}}
-                                            {{if eq .Name $.request.Channel}}
-                                                <option selected="selected" value="{{.Name}}">{{.Name}}</option>
-                                                {{end}}
-                                                {{if ne .Name $.request.Channel}}
-                                                    <option value="{{.Name}}">{{.Name}}</option>
-                                                {{end}}
+                                                    {{if eq .Name $.request.Channel}} <option selected="selected" value="{{.Name}}">{{.Name}}</option> {{else}} <option value="{{.Name}}">{{.Name}}</option> {{end}}
                                             {{end}}
                                     </select>
                                 </div>

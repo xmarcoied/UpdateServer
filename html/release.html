@@ -1,45 +1,15 @@
-<html>
-    <head>
-        <title>UpdateServer</title>
-        <style>
-            table, th, td   {
-                border: 1px solid black;
-                border-collapse: collapse;
-                margin: auto;
-            }
-            th, td ,h1 , h3 {
-                padding: 5px;
-                text-align: center;    
-            }
-            hr{
-                width: 30%;
-            }
-            
-        </style>
-    </head>
-        {{ template "head.html" . }}
-            <hr>
+{{ template "head.html" . }}
             <table style="width: 50%">
                 <tr>
                     <th colspan="4">
                         <div>
                             <h2 style="display: inline;"> Release # {{.release.ID}} | </h2>
-                            {{if eq .release.Active false}}
-                                    <h2 style="display: inline;color: red;">inactive</h2>
-                            {{end}}
-                            {{if eq .release.Active true}}
-                                    <h2 style="display: inline;color: blue;">active</h2>
-                            {{end}}
+                            {{if eq .release.Active false}} <h2 style="display: inline;color: red;">inactive</h2> {{else}} <h2 style="display: inline;color: blue;">active</h2> {{end}}
                         </div>
                         <hr>
                         <div>
                             <form style="display: inline; margin: 0;" action="/admin/dashboard/release/{{.release.ID}}/active" onsubmit ="return ActivateHandler()" method="post">
-                            {{if eq .release.Active false}}
-                                <input type="submit" value="Activate">
-                            {{end}}
-                            {{if eq .release.Active true}}
-                                <input type="submit" value="Deactivate">
-                            {{end}}
+                            {{if eq .release.Active false}} <input type="submit" value="Activate"> {{else}} <input type="submit" value="Deactivate"> {{end}}
                             </form>
                             <button style="display: inline;" onclick="DuplicateHandler()">Duplicate</button>
                             <button style="display: inline;" onclick="Delete_ReleaseHandler()">Delete</button>
@@ -113,12 +83,7 @@
                     <th>
                         <select name="channel" style="width:170px;">
                             {{range .channels}}
-                                    {{if eq .Name $.release.Channel}}
-                                        <option selected="selected" value="{{.Name}}">{{.Name}}</option>
-                                    {{end}}
-                                    {{if ne .Name $.release.Channel}}
-                                        <option value="{{.Name}}">{{.Name}}</option>
-                                    {{end}}
+                                    {{if eq .Name $.release.Channel}} <option selected="selected" value="{{.Name}}">{{.Name}}</option> {{else}} <option value="{{.Name}}">{{.Name}}</option> {{end}}
                             {{end}}
                         </select>
                     </tr>
@@ -194,7 +159,6 @@
                         document.location.href = '/admin/dashboard/release/{{.release.ID}}/duplicate';
                     }
                 }
-
                 function Delete_ReleaseHandler() {
                     if (confirm("You're going to delete the release #{{.release.ID}}") == true) {
                         var xhr = new XMLHttpRequest();
