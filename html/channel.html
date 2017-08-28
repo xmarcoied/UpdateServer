@@ -59,7 +59,7 @@
         <hr>
         <script type="text/javascript">
             function DeleteChannel() {
-                if (confirm("You're going to delete the {{.channel.Name}} channel ") == true) {
+                if (confirm("You're going to delete the {{.channel.Name}} channel {{if ne (len .releases) 0}}\n and the {{range .releases}} #{{.ID}} {{end}} releases as well .{{end}}") == true) {
                     var xhr = new XMLHttpRequest();
                     xhr.open('DELETE', '/admin/dashboard/channel/{{.channel.Name}}/delete');
                     xhr.send(null);

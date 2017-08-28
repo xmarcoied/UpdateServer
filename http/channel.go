@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -25,10 +26,14 @@ func GetChannel(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 	}
+
+	query := fmt.Sprintf("channel = '%s'", channel.Name)
+	releases := core.GetReleases(query)
 	c.HTML(http.StatusOK, "channel.html", gin.H{
 		"title":       "view channel",
 		"channel":     channel,
 		"fingerprint": fingerprint,
+		"releases":    releases,
 	})
 }
 
