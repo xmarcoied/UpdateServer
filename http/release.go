@@ -123,7 +123,7 @@ func NewRelease(c *gin.Context) {
 
 			} else {
 				log.Println(err)
-				c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
+				c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/new")
 			}
 		}
 	}
@@ -182,7 +182,7 @@ func EditRelease(c *gin.Context) {
 
 		} else {
 			log.Println(err)
-			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
+			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/new")
 		}
 	}
 }
@@ -250,7 +250,12 @@ func VerifySignature(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
 
 	} else {
-		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/newrelease")
+		if c.Param("reference") == "new" {
+			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/new")
+		}
+		if c.Param("reference") == "edit" {
+			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
+		}
 	}
 }
 
