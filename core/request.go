@@ -57,31 +57,29 @@ func ReleaseMap(request database.UpdateRequest) (database.Release, bool) {
 		for _, release := range releases {
 			rules := GetRules(release)
 			if len(rules) == 0 {
-				return releases[0], true
+				return release, true
 			}
 			if CheckTimeRule(release) == false {
-				return emptyrelease, false
+				continue
 			}
 			if CheckOsRule(release, request) == false {
-				return emptyrelease, false
+				continue
 			}
 			if CheckVersionRule(release, request) == false {
-				return emptyrelease, false
+				continue
 			}
 			if CheckRollRule(release) == false {
-				return emptyrelease, false
+				continue
 			}
 			found, check := CheckIPRule(release, request)
 
 			if found == true && check == true {
 				return release, true
 			} else if found == true && check == false {
-				return emptyrelease, false
+				continue
 			}
-
 			return releases[0], true
 		}
-
-		return emptyrelease, false
 	}
+	return emptyrelease, false
 }
