@@ -1,6 +1,7 @@
 package database
 
 import (
+	"strconv"
 	"time"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/config"
@@ -80,4 +81,8 @@ func QueryAppend(parent, sub string) string {
 		ret := parent + " AND " + sub
 		return ret
 	}
+}
+
+func (r *Release) IdToString() string {
+	return strconv.Itoa(int(r.ID))
 }

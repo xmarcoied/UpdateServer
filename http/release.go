@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/core"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
@@ -119,7 +118,7 @@ func NewRelease(c *gin.Context) {
 			if isvalid == true && err == nil {
 				release.Signature = signature
 				core.NewRelease(&release)
-				c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
+				c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+release.IdToString())
 
 			} else {
 				log.Println(err)
@@ -247,14 +246,14 @@ func VerifySignature(c *gin.Context) {
 		if c.Param("reference") == "edit" {
 			core.EditRelease(&release, c.Query("id"), binding.Signature, binding.Content)
 		}
-		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
+		c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+release.IdToString())
 
 	} else {
 		if c.Param("reference") == "new" {
 			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/releases/new")
 		}
 		if c.Param("reference") == "edit" {
-			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
+			c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+release.IdToString())
 		}
 	}
 }
@@ -266,5 +265,5 @@ func DuplicateRelease(c *gin.Context) {
 	// set the release_status to inactive
 	release.Active = false
 	core.NewRelease(&release)
-	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+strconv.Itoa(int(release.ID)))
+	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/release/"+release.IdToString())
 }

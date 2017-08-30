@@ -2,7 +2,6 @@ package core
 
 import (
 	"fmt"
-	"strconv"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/utils"
@@ -33,7 +32,7 @@ func DeleteChannel(channelName string) {
 	releases := GetReleases(query)
 
 	for _, release := range releases {
-		DeleteRelease(strconv.Itoa(int(release.ID)))
+		DeleteRelease(release.IdToString())
 	}
 	// Then delete the channel
 	db.DB.Where("name = ?", channelName).Delete(&database.Channel{})

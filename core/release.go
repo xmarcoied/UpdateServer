@@ -2,7 +2,6 @@ package core
 
 import (
 	"encoding/json"
-	"strconv"
 
 	"code.videolan.org/GSoC2017/Marco/UpdateServer/database"
 )
@@ -35,9 +34,7 @@ func NewRelease(release *database.Release) {
 
 // EditRelease
 func EditRelease(release *database.Release, id string, bindingSignature string, bindingRelease string) {
-	id_buf, _ := strconv.Atoi(id)
-	release.ID = uint(id_buf)
-	db.DB.First(&release)
+	db.DB.First(&release, "id = ", id)
 	// This looks super ugly, I must improve it.
 	var buf struct {
 		Channel        string `json:"channel"`
