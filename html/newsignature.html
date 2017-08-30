@@ -1,35 +1,17 @@
-<html>
-    <head>
-        <style>
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                margin: auto;
-            }
-            th, td ,h1 ,h3{
-                padding: 5px;
-                text-align: center;    
-            }
-        </style>
-    </head>
-
-    <body>
+{{ template "head.html" . }}
         <h1>Signature</h1>
-            <form action="/admin/dashboard/verifysignature/{{.ref}}?id={{.query}}" method="post">
-                <table style="width:60%">
-                    <tr>
-                        <th>GPG Commond:</th>
-                        <th> <textarea rows="10" cols="50" name="content">{{.status}}</textarea></th>
-                    </tr>
-                    <tr>
-                        <th>Generated Signature :</th>
-                        <th> <textarea rows="10" cols="50" name="signature"></textarea></th>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="submit" value="Add"></td>
-                    </tr>    
-                </table>
-            </form>
+        <form action="/admin/dashboard/verifysignature/{{.ref}}?id={{.query}}" method="post">
+            <table style="width:60%">
+                <tr>
+                    <th>GPG Commond:</th>
+                    <th> <textarea rows="10" cols="50" name="content">{{.status}}</textarea></th>
+                </tr>
+                <tr>
+                    <th>Generated Signature :</th>
+                    <th> <textarea rows="10" cols="50" name="signature"></textarea></th>
+                </tr>
+                <tr> <td colspan="2"><input type="submit" value="Add"></td> </tr>
+            </table>
+        </form>
     </body>
-
 </html>

@@ -1,6 +1,5 @@
 # dependencies files
 vendor/*/
-static/
 # Binaries for programs and plugins
 *.exe
 *.dll

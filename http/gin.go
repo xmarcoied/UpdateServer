@@ -13,6 +13,7 @@ func RouterInit() *gin.Engine {
 	router := gin.Default()
 
 	auth := router.Group("/", Auth)
+	router.StaticFile("/favicon.ico", "./static/favicon.ico")
 	admin := auth.Group("/admin/dashboard")
 	{
 		admin.GET("/releases", GetReleases)

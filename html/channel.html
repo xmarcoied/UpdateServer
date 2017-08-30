@@ -1,20 +1,4 @@
-<html>
-    <head>
-        <style>
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                margin: auto;
-            }
-            th, td ,h1 ,h3{
-                padding: 5px;
-                text-align: center;    
-            }
-        </style>
-    </head>
-    <body>
-        {{ template "head.html" . }}
-        <hr>
+{{ template "head.html" . }}
         {{if eq .title "new channel"}}
             <form action="/admin/dashboard/new_channel" method="post" onsubmit="return ValidatePubKey(this)">
                 <table style="width:50%">
@@ -75,7 +59,7 @@
         <hr>
         <script type="text/javascript">
             function DeleteChannel() {
-                if (confirm("You're going to delete the {{.channel.Name}} channel ") == true) {
+                if (confirm("You're going to delete the {{.channel.Name}} channel {{if ne (len .releases) 0}}\n and the {{range .releases}} #{{.ID}} {{end}} releases as well .{{end}}") == true) {
                     var xhr = new XMLHttpRequest();
                     xhr.open('DELETE', '/admin/dashboard/channel/{{.channel.Name}}/delete');
                     xhr.send(null);

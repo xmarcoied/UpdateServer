@@ -1,91 +1,72 @@
-<html>
-    <head>
-    <title>Admin Dashboard</title>
-    <head>
-        <style>
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                margin: auto;
-            }
-            th, td ,h1 , h3{
-                padding: 5px;
-                text-align: center;    
-            }
-        </style>
-    </head>    
-    <body>
-            {{ template "head.html" . }}
-            <hr>
-            <form action="/admin/dashboard/releases/new" method="post">
-            <table style="margin: auto;">
-                <tr>
-                    <th colspan="2">
-                        <h1>New Release</h1>    
-                    </th>
-                </tr>
-                <tr>
-                    <th>Product </th>
-                    <th> <input name="product" style="height: 30px;" required> </th>
-                </tr>
-                <tr>
-                    <th>Channel </th>
-                    <th>
-                        <select name="channel" style="width:170px;">
-                            {{range .channels}}
-                            <option value="{{.Name}}">{{.Name}}</option>
-                            {{end}}
-                        </select>
-                    </th>
-                </tr>
-                <tr>
-                    <th>OS : </th>
-                    <th> 
-                        <input name="os" type=text list=oses style="height: 30px;" required>
-                        <datalist id=oses >
-                            <option value ="Linux"> Linux </option>  
-                            <option value = "Windows"> Windows </option>
-                            <option value = "Mac"> Mac </option>
-                        </datalist>
-                    </th>
-                </tr>
-                <tr>
-                    <th>OS Architecture : </th>
-                    <th>
-                        <input name="os_arch" type=text list=oses_arch style="height: 30px;" required>
-                        <datalist id=oses_arch >
-                            <option value = "32"> 32 bits </option>
-                            <option value ="64"> 64 bits </option>  
-                        </datalist>
-                    </th>
-                </tr>
-                <tr>
-                    <th>OS Version : </th>
-                    <th> <input name="os_ver" style="height: 30px;"> </th>
-                </tr>
-                <tr>
-                    <th>Product Version : </th>
-                    <th> <input name="product_ver" style="height: 30px;" required> </th>
-                </tr>
-                <tr>
-                    <th>Title : </th>
-                    <th> <input name="title" style="height: 30px;" required> </th>
-                </tr>
-                <tr>
-                    <th>URL : </th>
-                    <th> <input name="url" style="width:450px;height:30px" required> </th>
-                </tr>
-                <tr>
-                    <th>Description : </th>
-                    <th> <textarea name="desc" style="width:450px;height:100px" required> </textarea> </th>
-                </tr>
-                <tr>
-                    <td><input type="reset"></td>
-                    <td><input type="submit" value="Add"></td>
-                </tr>  
-            </table>
-        </form>
-        <hr>
+{{ template "head.html" . }}
+        <form action="/admin/dashboard/releases/new" method="post">
+        <table style="margin: auto;">
+            <tr>
+                <th colspan="2">
+                    <h1>New Release</h1>    
+                </th>
+            </tr>
+            <tr>
+                <th>Product </th>
+                <th> <input name="product" style="height: 30px;" required> </th>
+            </tr>
+            <tr>
+                <th>Channel </th>
+                <th>
+                    <select name="channel" style="width:170px;">
+                        {{range .channels}} <option value="{{.Name}}">{{.Name}}</option> {{end}}
+                    </select>
+                </th>
+            </tr>
+            <tr>
+                <th>OS : </th>
+                <th> 
+                    <input name="os" type=text list=oses style="height: 30px;" required>
+                    <datalist id=oses >
+                        <option value ="Linux"> Linux </option>  
+                        <option value = "Windows"> Windows </option>
+                        <option value = "Mac"> Mac </option>
+                    </datalist>
+                </th>
+            </tr>
+            <tr>
+                <th>OS Architecture : </th>
+                <th>
+                    <input name="os_arch" type=text list=oses_arch style="height: 30px;" required>
+                    <datalist id=oses_arch >
+                        <option value = "32"> 32 bits </option>
+                        <option value ="64"> 64 bits </option>  
+                    </datalist>
+                </th>
+            </tr>
+            <tr>
+                <th>OS Version : </th>
+                <td>
+                    <input name="os_ver" style="height: 30px;"><br>
+                    <small>(*) make the os version empty for Linux OSes</small>
+                </td>
+            </tr>
+            <tr>
+                <th>Product Version : </th>
+                <th> <input name="product_ver" style="height: 30px;" required> </th>
+            </tr>
+            <tr>
+                <th>Title : </th>
+                <th> <input name="title" style="height: 30px;" required> </th>
+            </tr>
+            <tr>
+                <th>URL : </th>
+                <th> <input name="url" style="width:450px;height:30px" required> </th>
+            </tr>
+            <tr>
+                <th>Description : </th>
+                <th> <textarea name="desc" style="width:450px;height:100px" required> </textarea> </th>
+            </tr>
+            <tr>
+                <td><input type="reset"></td>
+                <td><input type="submit" value="Add"></td>
+            </tr>  
+        </table>
+        </form><hr>
     </body>
 </html>
-

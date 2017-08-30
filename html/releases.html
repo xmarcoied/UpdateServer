@@ -1,82 +1,59 @@
-<html>
-    <head>
-        <style>
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                margin: auto;
-            }
-            th, td ,h1 , h3{
-                padding: 5px;
-                text-align: center;    
-            }
-        </style>
-    </head>
-
-    <body>
-        {{ template "head.html" . }}
+{{ template "head.html" . }}
+    <table style="width:50%">
+        <tr> <th colspan="6"><h2>Update Releases</h2></th> </tr>
+        <tr> <td colspan="6"><a href="/admin/dashboard/releases/new">Add new release</a></td> </tr>
+        <tr>
+            <td colspan="6">
+                <form style=" margin: 0;" action="/admin/dashboard/releases" method="get">
+                        <label>Status:</label>
+                        <select id = "status" name="status">
+                                <option value="">All</option>
+                                <option {{if eq $.release.Status "true"}}selected{{end}} value="true">Active</option>
+                                <option {{if eq $.release.Status "false"}}selected{{end}} value="false">Inactive</option>
+                        </select>
+                        <label>Product:</label>
+                        <input id = "product" style="width: 100" type=text name=product value="{{.release.Product}}">
+                        <label>Channel:</label>
+                        <select id = "channel" name="channel">
+                                <option value="">All</option>
+                                {{range .allchannels}}
+                                    {{if eq .Name $.release.Channel}} <option selected="selected" value={{.Name}}>{{.Name}}</option> {{else}} <option value={{.Name}}>{{.Name}}</option> {{end}}
+                                {{end}}
+                        </select>
+                        <span>|</span>
+                        <input type="submit" value="view">
+                        <span>|</span>
+                        <input type="button" onclick="ResetHandler()" value="reset">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Title</th>
+            <th>Product</th>
+            <th>Channel</th>
+            <th>OS</th>
+        </tr>
+        {{ range .releases }}
+        <tr onclick="location.href = '/admin/dashboard/release/{{ .ID }}'" style="cursor: pointer;">
+            <td> <a href="/admin/dashboard/release/{{.ID}}"> {{.ID}} </a></td>
+            <td> {{if eq .Active true}} <span>Active</span> {{else}} <span>Inactive</span> {{end}} </td>
+            <td>{{.Title}}</td>
+            <td>{{.Product}}</td>
+            <td>{{.Channel}}</td>
+            <td>{{.OS}}-{{.OsVer}}/{{.OsArch}}bit</td>
+        </tr>
+        {{ end }}
+    </table>
         <hr>
-        <table style="width:50%">
-            <tr>
-                <th colspan="6"><h2>Update Releases</h2></th>
-            </tr>
-            <tr>
-                <td colspan="6"><a href="/admin/dashboard/releases/new">Add new release</a></td>
-            </tr>
-            <tr>
-                <td colspan="10">
-                    <form style=" margin: 0;" action="/admin/dashboard/releases" method="get">
-                            <label>Status:</label>
-                            <select name="status">
-                                    <option value=""></option>
-                                    <option {{if eq $.release.Status "true"}}selected{{end}} value="true">Active</option>
-                                    <option {{if eq $.release.Status "false"}}selected{{end}} value="false">Inactive</option>
-                            </select>
-                            <label>Product:</label>
-                            <input style="width: 100" type=text name=product value="{{.release.Product}}">
-                            <label>Channel:</label>
-                            <select name="channel">
-                                    <option value=""></option>
-                                    {{range .allchannels}}
-                                        {{if eq .Name $.release.Channel}}
-                                        <option selected="selected" value={{.Name}}>{{.Name}}</option>
-                                        {{end}}
-                                        {{if ne .Name $.release.Channel}}
-                                        <option value={{.Name}}>{{.Name}}</option>
-                                        {{end}}
-                                    {{end}}
-                            </select>
-                            | <input type="submit" value="view"> | 
-                            <input type="reset" value="reset">
-                    </form>
-                </td>
-            </tr>
-            <tr>
-                <th>ID</th>
-                <th>Status</th>
-                <th>Title</th>
-                <th>Product</th>
-                <th>Channel</th>
-                <th>OS</th>
-            </tr>
-            {{ range .releases }}
-            <tr onclick="location.href = '/admin/dashboard/release/{{ .ID }}'" style="cursor: pointer;">
-                <td> <a href="/admin/dashboard/release/{{.ID}}"> {{.ID}} </a></td>
-                <td>
-                    {{if eq .Active true}}
-                        Active
-                    {{end}}
-                    {{if eq .Active false}}
-                        Inactive
-                    {{end}}
-                </td>
-                <td>{{.Title}}</td>
-                <td>{{.Product}}</td>
-                <td>{{.Channel}}</td>
-                <td>{{.OS}}-{{.OsVer}}/{{.OsArch}}bit</td>
-            </tr>
-            {{ end }}
-        </table>
-        <hr>
+    <script type="text/javascript">
+                    function ResetHandler(){
+                        var releases_ch = ["status" , "channel" , "product"];
+                        for (i = 0; i < releases_ch.length; i++) {
+                            document.getElementById(releases_ch[i]).value = "";
+                        }
+                    }
+    </script>
     </body>
 </html>
