@@ -33,8 +33,8 @@ func NewRelease(release *database.Release) {
 }
 
 // EditRelease
-func EditRelease(release *database.Release, id string, bindingSignature string, bindingRelease string) {
-	db.DB.First(&release, "id = ", id)
+func EditRelease(release *database.Release, release_id string, bindingSignature string, bindingRelease string) {
+	db.DB.Find(&release, "id = ?", release_id)
 	// This looks super ugly, I must improve it.
 	var buf struct {
 		Channel        string `json:"channel"`
