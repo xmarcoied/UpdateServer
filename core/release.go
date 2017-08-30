@@ -30,8 +30,7 @@ func ToggleReleaseActivtion(release *database.Release) {
 // NewRelease
 func NewRelease(release *database.Release) {
 	db.DB.Create(&release)
-	channel := GetChannel(release.Channel)
-	db.DB.Model(&database.Channel{}).Update("releases_count", channel.ReleasesCount+1)
+	db.DB.Model(GetChannel(release.Channel)).Update("releases_count", GetChannel(release.Channel).ReleasesCount+1)
 }
 
 // EditRelease
@@ -52,6 +51,12 @@ func EditRelease(release *database.Release, id string, bindingSignature string, 
 		Product        string `json:"product"`
 	}
 	json.Unmarshal([]byte(bindingRelease), &buf)
+	// decrease the old release channel , and increase the new release channel
+	if buf.Channel != release.Channel {
+		db.DB.Model(GetChannel(buf.Channel)).Update("releases_count", GetChannel(buf.Channel).ReleasesCount+1)
+		db.DB.Model(GetChannel(release.Channel)).Update("releases_count", GetChannel(release.Channel).ReleasesCount-1)
+	}
+
 	release.Channel = buf.Channel
 	release.OS = buf.OS
 	release.OsVer = buf.OsVer
@@ -69,8 +74,6 @@ func EditRelease(release *database.Release, id string, bindingSignature string, 
 func DeleteRelease(release_id string) {
 	var release database.Release
 	release = GetRelease(release_id)
-	channel := GetChannel(release.Channel)
 	db.DB.Where("id = ?", release_id).Delete(&release)
-	db.DB.Model(&database.Channel{}).Update("releases_count", channel.ReleasesCount-1)
-
+	db.DB.Model(GetChannel(release.Channel)).Update("releases_count", GetChannel(release.Channel).ReleasesCount-1)
 }
