@@ -15,6 +15,7 @@ func GetRequests(query string) ([]database.UpdateRequest, int) {
 	return requests, count
 }
 
+// NewRequest
 func NewRequest(request database.UpdateRequest) {
 	db.DB.Create(&request)
 }
