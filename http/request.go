@@ -15,14 +15,14 @@ func GetRequests(c *gin.Context) {
 	var (
 		query   string
 		request struct {
-			Channel        string `form:"channel"`
-			OS             string `form:"os"`
-			OsVer          string `form:"os_ver"`
-			OsArch         string `form:"os_arch"`
-			ProductVersion string `form:"product_ver"`
-			IP             string `form:"ip"`
-			Status         string `form:"status"`
-			Product        string `form:"product"`
+			Channel  string `form:"channel"`
+			OS       string `form:"os"`
+			OsVer    string `form:"os_ver"`
+			OsArch   string `form:"os_arch"`
+			Status   string `form:"status"`
+			Product  string `form:"product"`
+			TimeFrom string `form:"start_time"`
+			TimeTo   string `form:"end_time"`
 		}
 	)
 	c.Bind(&request)
@@ -56,7 +56,11 @@ func GetRequests(c *gin.Context) {
 		query = database.QueryAppend(query, newquery)
 	}
 
-	fmt.Println("Hola", query)
+	if request.TimeFrom != "" && request.TimeTo != "" {
+		newquery := fmt.Sprintf("created_at BETWEEN '%s' AND '%s' ", request.TimeFrom, request.TimeTo)
+		query = database.QueryAppend(query, newquery)
+	}
+
 	requests, count := core.GetRequests(query)
 	channels := core.GetChannels()
 	c.HTML(http.StatusOK, "requests.html", gin.H{

@@ -11,13 +11,15 @@
                     </td>
                 </tr>
                 <tr>
-                    
                 </tr>
                 <tr>
                     <td colspan="10">
                         <form style=" margin: auto;" action="/u/requests" method="get">
                                 <label><input checked type='checkbox' id = "product" onclick='handleClick(this);'>Product</label>
                                 <label><input checked type='checkbox' id = "channel" onclick='handleClick(this);'>Channel</label>
+                                <label>
+                                    <input {{if ne $.request.TimeFrom $.request.TimeTo}}checked{{end}} type='checkbox' id = "time" onclick='handleClick(this);'>Time
+                                </label>
                                 <label>
                                     <input {{if ne $.request.Status ""}}checked{{end}} type='checkbox' id = "status" onclick='handleClick(this);'>Status
                                 </label>
@@ -63,6 +65,12 @@
                                 <div id = "request-os_arch" style="margin:1;display: none;">
                                     <label>OS Arch:</label>
                                     <input style="width: 100" type=text name=os_arch value="{{.request.OsArch}}">
+                                </div>
+                                <div id = "request-time" style="margin:1;display: none;">
+                                    <label>from:</label>
+                                    <input  type=date name=start_time value="{{.request.TimeFrom}}">
+                                    <label>to:</label>
+                                    <input  type=date name=end_time value="{{.request.TimeTo}}">
                                 </div>
                                 <br>
                                 <input style="margin: 5;" type="submit" value="view"> | 
@@ -117,7 +125,7 @@
             </table>
         <hr>
         <script type="text/javascript">
-            var requests_ch = ["os" , "status" , "channel" , "product" , "os_ver" ,"os_arch"]
+            var requests_ch = ["os" , "status" , "channel" , "product" , "os_ver" ,"os_arch" , "time"]
             for (i = 0; i < requests_ch.length; i++) {
                 if(document.getElementById(requests_ch[i]).checked == true){
                     document.getElementById('request-'+requests_ch[i]).style.display = "inline-flex";
@@ -134,14 +142,16 @@
             }
             function ResetHandler(){
                 for (i = 0; i < requests_ch.length; i++) {
-
                     if(document.getElementById('request-' +requests_ch[i]).querySelector('input') != null){
                         document.getElementById('request-' +requests_ch[i]).querySelector('input').value = "";
                     }
                     if(document.getElementById('request-' +requests_ch[i]).querySelector('select') != null){
                             document.getElementById('request-' +requests_ch[i]).querySelector('select').value = "";
                     }
-
+                }
+                var timediv = document.getElementById('request-time').getElementsByTagName('input');
+                for (var i = 0; i < timediv.length; i++) {
+                    timediv[i].value = ""
                 }
             }
         </script>
