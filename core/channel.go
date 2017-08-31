@@ -14,6 +14,7 @@ func GetChannels() []database.Channel {
 	return channels
 }
 
+// GetChannel return the channel database struct
 func GetChannel(name string) database.Channel {
 	var channel database.Channel
 	db.DB.First(&channel, "name = ?", name)
@@ -25,7 +26,7 @@ func NewChannel(channel *database.Channel) {
 	db.DB.Table("channels").Create(&channel)
 }
 
-// DeleteChannel
+// DeleteChannel delete the channel given by its name
 func DeleteChannel(channelName string) {
 	// First delete all the releases releases with the 'channelName' channel
 	query := fmt.Sprintf("channel = '%s'", channelName)
@@ -38,7 +39,7 @@ func DeleteChannel(channelName string) {
 	db.DB.Where("name = ?", channelName).Delete(&database.Channel{})
 }
 
-// CheckChannel
+// CheckChannel Check the channel validity in terms of gpg and uniqueness of its name
 func CheckChannel(channel database.Channel) (bool, error) {
 	var count int
 	db.DB.Model(&database.Channel{}).Where("name = ?", channel.Name).Count(&count)

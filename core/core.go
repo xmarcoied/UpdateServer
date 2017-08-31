@@ -1,3 +1,4 @@
+// Core package provides the main functionalities for the update server
 package core
 
 import "code.videolan.org/GSoC2017/Marco/UpdateServer/database"

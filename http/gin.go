@@ -1,3 +1,4 @@
+// http package is where the main gin handlers exist.
 package http
 
 import (

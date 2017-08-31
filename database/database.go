@@ -11,7 +11,6 @@ import (
 
 // UpdateRequest database model
 type UpdateRequest struct {
-	//gorm.Model
 	CreatedAt      time.Time
 	ID             uint   `gorm:"primary_key"`
 	Channel        string `form:"channel"`
@@ -63,7 +62,7 @@ type Impl struct {
 	DB *gorm.DB
 }
 
-// ConnectDB initiate the database
+// ConnectDB initiate the database with configurations given
 func (i *Impl) ConnectDB(c *config.Configuration) error {
 	var err error
 	psqlInfo := "host=" + c.Database.Host + " dbname=" + c.Database.Name + " user=" + c.Database.User + " password=" + c.Database.Password + " port=" + c.Database.Port + " sslmode=disable"
@@ -74,6 +73,7 @@ func (i *Impl) ConnectDB(c *config.Configuration) error {
 	return err
 }
 
+// QueryAppend merge two database query statement in terms of psql
 func QueryAppend(parent, sub string) string {
 	if parent == "" {
 		return sub
@@ -83,6 +83,7 @@ func QueryAppend(parent, sub string) string {
 	}
 }
 
+// IdToString convert the ID field to string
 func (r *Release) IdToString() string {
 	return strconv.Itoa(int(r.ID))
 }

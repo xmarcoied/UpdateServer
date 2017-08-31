@@ -1,3 +1,4 @@
+// Config package provides basic commands to handle configurations
 package config
 
 import (
