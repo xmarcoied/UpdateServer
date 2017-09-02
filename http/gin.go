@@ -58,6 +58,7 @@ func Run(addr string) {
 	RouterInit().Run(":" + addr)
 }
 
+// Auth handler manage basic authenticate header
 func Auth(c *gin.Context) {
 	if checkAuth(c) {
 		c.Next()

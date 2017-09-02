@@ -71,7 +71,7 @@ func GetRequests(c *gin.Context) {
 	})
 }
 
-// GetSignature
+// GetSignature http handler call get-signature function
 // Expecting requests like "x.asc" format
 func GetSignature(c *gin.Context) {
 	var release_id int
@@ -81,6 +81,7 @@ func GetSignature(c *gin.Context) {
 
 }
 
+// Update http handler calls the release-matching function
 func Update(c *gin.Context) {
 	// Request params are now getting in GET params
 	var request database.UpdateRequest
@@ -152,6 +153,7 @@ func Update(c *gin.Context) {
 	core.NewRequest(request)
 }
 
+// GetAct http handler calls the "Act like a client" option
 func GetAct(c *gin.Context) {
 	var request database.UpdateRequest
 	c.Bind(&request)

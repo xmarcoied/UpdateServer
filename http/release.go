@@ -258,6 +258,7 @@ func VerifySignature(c *gin.Context) {
 	}
 }
 
+// DuplicateRelease http hanlder applies the duplicate-release functionality
 func DuplicateRelease(c *gin.Context) {
 	release := core.GetRelease(c.Param("id"))
 	// setting the release_id to zero to avoid violating releases_pkey

@@ -52,12 +52,12 @@ func NewChannel(c *gin.Context) {
 	c.Redirect(http.StatusMovedPermanently, "/admin/dashboard/channel/"+channel.Name)
 }
 
-// DeleteChannel
+// DeleteChannel is http handler for calling the delete-channel  functionality
 func DeleteChannel(c *gin.Context) {
 	core.DeleteChannel(c.Param("name"))
 }
 
-// CheckChannel
+// CheckChannel is http handler for calling check-channel functionality
 func CheckChannel(c *gin.Context) {
 	var channel database.Channel
 	c.Bind(&channel)
